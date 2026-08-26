@@ -245,10 +245,10 @@ export default function HomePage(): React.JSX.Element {
             <h2 className="text-balance text-[28px] font-semibold md:text-[42px]">
               从顺德出发，为海外与国内合作客户提供更高完成度的家电方案。
             </h2>
-            <p className="max-w-2xl text-sm leading-7 text-[color:var(--color-foreground-soft)]">
+            {/* <p className="max-w-2xl text-sm leading-7 text-[color:var(--color-foreground-soft)]">
               现有资料明确提到业务已覆盖美国与加拿大。官网首版以“制造基地 +
               产品矩阵 + 定制能力”来建立跨区域合作的信任基础。
-            </p>
+            </p> */}
             <Link
               href="/contact"
               className={buttonVariants({ variant: "secondary" })}

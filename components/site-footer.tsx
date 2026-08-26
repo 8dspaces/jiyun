@@ -21,7 +21,6 @@ export function SiteFooter(): React.JSX.Element {
           </p>
           <div className="space-y-2 text-[12px] leading-6 text-[#8faecc]">
             <p>广东顺德积云家居科技有限公司</p>
-            <p>品牌官网持续建设中，产品资料与商务信息将逐步完善。</p>
           </div>
         </div>
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
