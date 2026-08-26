@@ -42,7 +42,6 @@ export default function RootLayout({
     >
       <body className="min-h-full bg-[color:var(--color-background)] text-[color:var(--color-foreground)]">
         <div className="relative flex min-h-screen flex-col overflow-x-hidden">
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[radial-gradient(circle_at_top,rgba(168,214,245,0.42),transparent_58%)]" />
           <SiteHeader />
           <main className="relative flex-1">{children}</main>
           <SiteFooter />

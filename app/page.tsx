@@ -124,9 +124,8 @@ export default function HomePage(): React.JSX.Element {
           </div>
         </div>
         <div className="relative">
-          <div className="absolute inset-0 rounded-[1.25rem] bg-[radial-gradient(circle_at_top,rgba(167,215,245,0.26),transparent_56%)] blur-3xl" />
-          <div className="relative overflow-hidden rounded-[1.1rem] border border-[color:var(--color-border)] bg-[linear-gradient(180deg,#ffffff,#eef6ff)] shadow-[0_20px_50px_rgba(117,154,194,0.12)]">
-            <div className="relative aspect-[9/10]">
+          <div className="relative overflow-hidden rounded-[1.1rem] border border-[color:var(--color-border)] bg-white shadow-[0_20px_50px_rgba(117,154,194,0.12)]">
+            <div className="relative aspect-[9/10] bg-white">
               <Image
                 src={getAssetPath("/images/products/fan-flagship.png")}
                 alt="积云家居旗舰风扇"
