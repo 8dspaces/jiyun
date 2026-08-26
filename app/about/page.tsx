@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { SectionHeading } from "@/components/section-heading";
 import { capabilities, companyProfile, statistics } from "@/data/site";
+import { getAssetPath } from "@/lib/asset-path";
 
 /**
  * 渲染关于我们页面，重点承接企业背景与能力说明。
@@ -21,7 +22,7 @@ export default function AboutPage(): React.JSX.Element {
         <div className="overflow-hidden rounded-[1rem] border border-[color:var(--color-border)] bg-white">
           <div className="relative aspect-[16/10]">
             <Image
-              src="/images/brand/campus.jpeg"
+              src={getAssetPath("/images/brand/campus.jpeg")}
               alt="积云家居园区图片"
               fill
               className="object-cover"

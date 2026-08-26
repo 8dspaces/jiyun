@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ProductItem } from "@/data/site";
+import { getAssetPath } from "@/lib/asset-path";
 
 interface ProductCardProps {
   item: ProductItem;
@@ -18,7 +19,7 @@ export function ProductCard({ item }: ProductCardProps): React.JSX.Element {
     <Card className="overflow-hidden">
       <div className="relative aspect-[1/1] border-b border-[color:var(--color-border)] bg-[radial-gradient(circle_at_top,rgba(173,215,244,0.36),transparent_58%),linear-gradient(180deg,#f8fcff,#eef6ff)]">
         <Image
-          src={item.image}
+          src={getAssetPath(item.image)}
           alt={item.alt}
           fill
           className="object-contain p-4"

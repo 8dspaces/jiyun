@@ -13,6 +13,7 @@ import {
   seriesItems,
   statistics,
 } from "@/data/site";
+import { getAssetPath } from "@/lib/asset-path";
 
 /**
  * 渲染官网首页，集中展示品牌定位、能力与重点产品矩阵。
@@ -26,7 +27,7 @@ export default function HomePage(): React.JSX.Element {
         <div className="relative w-full overflow-hidden bg-[#1f4e73] shadow-[0_22px_60px_rgba(46,100,150,0.2)]">
           <div className="absolute inset-0">
             <Image
-              src="/images/brand/jiyun_01.png"
+              src={getAssetPath("/images/brand/jiyun_01.png")}
               alt="积云家居品牌主视觉"
               fill
               className="object-cover"
@@ -127,7 +128,7 @@ export default function HomePage(): React.JSX.Element {
           <div className="relative overflow-hidden rounded-[1.1rem] border border-[color:var(--color-border)] bg-[linear-gradient(180deg,#ffffff,#eef6ff)] shadow-[0_20px_50px_rgba(117,154,194,0.12)]">
             <div className="relative aspect-[9/10]">
               <Image
-                src="/images/products/fan-flagship.png"
+                src={getAssetPath("/images/products/fan-flagship.png")}
                 alt="积云家居旗舰风扇"
                 fill
                 className="object-contain p-4"
@@ -167,7 +168,7 @@ export default function HomePage(): React.JSX.Element {
           <div className="overflow-hidden rounded-[1rem] border border-[color:var(--color-border)] bg-white">
             <div className="relative aspect-[16/9]">
               <Image
-                src="/images/brand/campus.jpeg"
+                src={getAssetPath("/images/brand/campus.jpeg")}
                 alt="积云家居园区实景"
                 fill
                 className="object-cover"
@@ -257,7 +258,7 @@ export default function HomePage(): React.JSX.Element {
           </div>
           <div className="relative min-h-[18rem] overflow-hidden rounded-[1rem] border border-[color:var(--color-border)] bg-white">
             <Image
-              src="/images/brand/global-map.png"
+              src={getAssetPath("/images/brand/global-map.png")}
               alt="积云家居全球业务覆盖示意图"
               fill
               className="object-cover opacity-78"
