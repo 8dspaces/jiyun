@@ -93,8 +93,8 @@ export const companyProfile = {
 export const statistics: StatisticItem[] = [
   { value: "2000+㎡", label: "制造与协同空间" },
   { value: "150 人", label: "设计、研发与商务团队" },
-  { value: "5 大类产品", label: "五大类核心产品矩阵" },
-  { value: "全球化", label: "业务覆盖美国，欧洲，加拿大" },
+  { value: "5 类产品", label: "五大类核心产品矩阵" },
+  { value: "全球化", label: "业务覆盖美国、欧洲、加拿大" },
 ];
 
 export const capabilities: CapabilityItem[] = [
