@@ -4,16 +4,16 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-[13px] font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-background)]",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-[13px] font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-background)]",
   {
     variants: {
       variant: {
         default:
-          "bg-[color:var(--color-accent)] px-5 py-3 text-white shadow-[0_10px_30px_rgba(113,185,234,0.26)] hover:bg-[color:var(--color-accent-strong)]",
+          "bg-[color:var(--color-accent)] px-5 py-3 text-white shadow-none hover:bg-[color:var(--color-accent-strong)]",
         secondary:
-          "border border-[color:var(--color-border)] bg-white px-5 py-3 text-[color:var(--color-foreground)] hover:bg-[color:var(--color-surface-strong)]",
+          "border border-[color:var(--color-border)] bg-white px-5 py-3 text-[color:var(--color-foreground)] hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]",
         ghost:
-          "px-4 py-2 text-[color:var(--color-foreground)] hover:bg-[color:var(--color-surface-strong)]",
+          "px-4 py-2 text-[color:var(--color-foreground)] hover:text-[color:var(--color-accent)]",
       },
       size: {
         default: "h-10",

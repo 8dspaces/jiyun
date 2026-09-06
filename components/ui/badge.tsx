@@ -16,7 +16,7 @@ export function Badge({
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-lg border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface-strong)] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[color:var(--color-accent-strong)]",
+        "inline-flex items-center rounded-sm border border-[#d7e3ee] bg-[#f5f8fb] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#18476f]",
         className,
       )}
       {...props}

@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "积云家居科技 | 风处理与水处理家电官网",
+  title: "积云家居科技 | 企业官网",
   description:
-    "积云家居科技专注风处理与水处理相关家电设计研发，展示风扇、风幕机、冷风机、扫地机器人等核心产品系列。",
+    "积云家居科技专注风处理与水处理相关家电设计研发，围绕设计研发、制造协同与客户化开发能力构建企业官网展示体系。",
 };
 
 interface RootLayoutProps {

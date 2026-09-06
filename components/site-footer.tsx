@@ -3,7 +3,7 @@ import Link from "next/link";
 import { footerGroups } from "@/data/site";
 
 /**
- * 渲染站点底部信息，承载品牌说明与基础导航。
+ * 渲染站点底部信息，恢复为原先认可的深蓝渐变页脚风格。
  *
  * @returns 返回官网底部组件。
  */

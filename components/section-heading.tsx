@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 interface SectionHeadingProps {
   eyebrow: string;
   title: string;
-  description: string;
+  description?: string;
   align?: "left" | "center";
 }
 
@@ -36,9 +36,11 @@ export function SectionHeading({
       <h2 className="text-balance text-[28px] font-semibold tracking-tight text-[color:var(--color-foreground)] md:text-[42px]">
         {title}
       </h2>
-      <p className="text-sm leading-7 text-[color:var(--color-muted)] md:text-base">
-        {description}
-      </p>
+      {description ? (
+        <p className="text-sm leading-7 text-[color:var(--color-muted)] md:text-base">
+          {description}
+        </p>
+      ) : null}
     </div>
   );
 }
