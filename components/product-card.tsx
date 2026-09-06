@@ -16,8 +16,8 @@ interface ProductCardProps {
  */
 export function ProductCard({ item }: ProductCardProps): React.JSX.Element {
   return (
-    <Card className="overflow-hidden rounded-sm border border-[#ececec] bg-white shadow-none">
-      <div className="relative aspect-[1/1] border-b border-[#ececec] bg-[#f7f7f7]">
+    <Card className="overflow-hidden rounded-sm border border-[#cfe0ee] bg-white shadow-none">
+      <div className="relative aspect-[1/1] border-b border-[#d7e6f2] bg-white">
         <Image
           src={getAssetPath(item.image)}
           alt={item.alt}

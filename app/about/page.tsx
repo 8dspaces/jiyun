@@ -112,7 +112,7 @@ export default function AboutPage(): React.JSX.Element {
             <Link
               href="/contact"
               className={buttonVariants({
-                className: "rounded-md bg-[#123e67] px-6 text-white hover:bg-[#0f3354]",
+                className: "rounded-md bg-[#123e67] px-6 !text-white hover:bg-[#0f3354]",
               })}
             >
               发起合作沟通

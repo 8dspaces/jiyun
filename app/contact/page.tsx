@@ -43,7 +43,7 @@ export default function ContactPage(): React.JSX.Element {
             <Link
               href="/products"
               className={buttonVariants({
-                className: "mt-8 inline-flex rounded-md bg-[#123e67] px-6 text-white hover:bg-[#0f3354]",
+                className: "mt-8 inline-flex rounded-md bg-[#123e67] px-6 !text-white hover:bg-[#0f3354]",
               })}
             >
               查看产品中心

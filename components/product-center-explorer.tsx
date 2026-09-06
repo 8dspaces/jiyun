@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { ProductCard } from "@/components/product-card";
-import type {
-  CatalogSection,
-  ProductItem,
-  ProductLineItem,
+import {
+  homeCustomizationShowcaseImages,
+  type CatalogSection,
+  type ProductItem,
 } from "@/data/site";
 import { getAssetPath } from "@/lib/asset-path";
 
@@ -27,85 +27,267 @@ export function ProductCenterExplorer({
   sections,
   products,
 }: ProductCenterExplorerProps): React.JSX.Element {
-  const [activeSectionId, setActiveSectionId] = useState<string>(sections[0]?.id ?? "");
-  const activeSection =
-    sections.find((section) => section.id === activeSectionId) ?? sections[0];
+  const [activeSectionId, setActiveSectionId] = useState<string>("");
+  const activeSection = sections.find((section) => section.id === activeSectionId);
+  const [activeLineName, setActiveLineName] = useState<string>("");
 
-  const [activeLineName, setActiveLineName] = useState<string>(
-    activeSection?.productLines[0]?.name ?? "",
-  );
+  const productCountByCategory = useMemo(() => {
+    return products.reduce<Record<string, number>>((counts, item) => {
+      counts[item.category] = (counts[item.category] ?? 0) + 1;
+      return counts;
+    }, {});
+  }, [products]);
+
+  const allProductLines = useMemo(() => {
+    return sections.flatMap((section) =>
+      section.productLines.map((line) => ({
+        sectionId: section.id,
+        sectionTitle: section.title,
+        name: line.name,
+        summary: line.summary,
+      })),
+    );
+  }, [sections]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || sections.length === 0) {
+      return;
+    }
+
+    const syncSectionFromHash = (): void => {
+      const hash = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+
+      if (!hash || hash === "all") {
+        setActiveSectionId("");
+        setActiveLineName("");
+        return;
+      }
+
+      const matchedSection = sections.find((section) => section.id === hash);
+
+      if (!matchedSection) {
+        return;
+      }
+
+      setActiveSectionId(matchedSection.id);
+      setActiveLineName((currentLineName) => {
+        const hasMatch = matchedSection.productLines.some(
+          (line) => line.name === currentLineName,
+        );
+
+        return hasMatch
+          ? currentLineName
+          : matchedSection.productLines[0]?.name ?? "";
+      });
+    };
+
+    syncSectionFromHash();
+    window.addEventListener("hashchange", syncSectionFromHash);
+
+    return () => {
+      window.removeEventListener("hashchange", syncSectionFromHash);
+    };
+  }, [sections]);
 
   const normalizedActiveLineName = useMemo(() => {
-    if (!activeSection) {
+    if (!activeLineName) {
       return "";
+    }
+
+    if (!activeSection) {
+      const hasGlobalMatch = allProductLines.some(
+        (line) => line.name === activeLineName,
+      );
+
+      return hasGlobalMatch ? activeLineName : "";
     }
 
     const hasMatch = activeSection.productLines.some(
       (line) => line.name === activeLineName,
     );
 
-    return hasMatch ? activeLineName : activeSection.productLines[0]?.name ?? "";
-  }, [activeLineName, activeSection]);
+    return hasMatch ? activeLineName : "";
+  }, [activeLineName, activeSection, allProductLines]);
 
-  const activeLine: ProductLineItem | undefined = activeSection?.productLines.find(
-    (line) => line.name === normalizedActiveLineName,
-  );
+  const visibleProductLines = activeSection
+    ? activeSection.productLines.map((line) => ({
+        sectionId: activeSection.id,
+        sectionTitle: activeSection.title,
+        name: line.name,
+        summary: line.summary,
+      }))
+    : allProductLines;
 
-  const matchedProducts = products.filter(
-    (item) => item.category === activeSection?.title,
-  );
+  const matchedProducts = products.filter((item) => {
+    const matchesSection = activeSection ? item.category === activeSection.title : true;
+    const matchesLine = normalizedActiveLineName
+      ? item.productLine === normalizedActiveLineName
+      : true;
+
+    return matchesSection && matchesLine;
+  });
+  const isHomeCustomizationSection = activeSection?.id === "home-customization";
+  const activeProductCount = activeSection
+    ? productCountByCategory[activeSection.title] ?? 0
+    : products.length;
+
+  /**
+   * 统一处理品类切换，并同步更新地址 hash，便于刷新后保持当前目录。
+   *
+   * @param section 当前选中的品类对象。
+   */
+  const handleSectionChange = (section: CatalogSection): void => {
+    setActiveSectionId(section.id);
+    setActiveLineName("");
+
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", `#${section.id}`);
+    }
+  };
+
+  /**
+   * 重置系列与产品类别筛选，回到全部展示状态。
+   */
+  const handleResetFilters = (): void => {
+    setActiveSectionId("");
+    setActiveLineName("");
+
+    if (typeof window !== "undefined") {
+      window.history.replaceState(null, "", "#all");
+    }
+  };
 
   return (
-    <div className="space-y-10">
-      <section className="space-y-5">
-        <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-6">
-          {sections.map((section) => {
-            const isActive = section.id === activeSection?.id;
+    <div className="space-y-6">
+      <section className="space-y-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            onClick={handleResetFilters}
+            className={`relative border border-[#ececec] bg-white px-4 py-2 text-sm transition-colors ${
+              activeSectionId === "" && normalizedActiveLineName === ""
+                ? "text-[#c8192e]"
+                : "text-[#333333] hover:bg-[#fafafa] hover:text-[#c8192e]"
+            }`}
+          >
+            全部系列
+            <span
+              className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
+                activeSectionId === "" && normalizedActiveLineName === ""
+                  ? "bg-[#c8192e]"
+                  : "bg-transparent"
+              }`}
+            />
+          </button>
+          {activeSection ? (
+            <p className="text-sm text-[#777777]">
+              当前已筛选：{activeSection.title}
+              {normalizedActiveLineName ? ` / ${normalizedActiveLineName}` : ""}
+            </p>
+          ) : (
+            <p className="text-sm text-[#777777]">
+              默认展示全部系列与全部代表产品
+            </p>
+          )}
+        </div>
+        <div className="border border-[#ececec] bg-white p-3 md:p-4">
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+            {sections.map((section) => {
+              const isActive = section.id === activeSectionId;
+
+              return (
+                <button
+                  key={section.id}
+                  type="button"
+                  onClick={() => handleSectionChange(section)}
+                  className={`group relative w-[10.2rem] overflow-hidden border border-[#ececec] bg-white text-center transition-colors duration-300 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8192e]/20 md:w-[11rem] ${
+                    isActive
+                      ? "z-10 bg-[#fafafa]"
+                      : "hover:bg-[#fafafa]"
+                  }`}
+                  aria-pressed={isActive}
+                >
+                  <div className="flex flex-col">
+                    <div className="relative h-28 w-full md:h-32">
+                      <Image
+                        src={getAssetPath(section.image)}
+                        alt={section.alt}
+                        fill
+                        className={`object-cover transition-transform duration-300 ${
+                          isActive ? "scale-[1.04]" : "group-hover:scale-[1.03]"
+                        }`}
+                        sizes="(max-width: 768px) 164px, 176px"
+                      />
+                    </div>
+                    <p
+                      className={`border-t border-[#ececec] px-3 py-3 text-[14px] font-medium leading-6 transition-colors duration-300 md:text-[15px] ${
+                        isActive ? "text-[#c8192e]" : "text-[#555555] group-hover:text-[#333333]"
+                      }`}
+                    >
+                      {section.title}
+                    </p>
+                    <div
+                      className={`mx-auto mt-4 h-[3px] w-12 transition-all duration-300 ${
+                        isActive ? "bg-[#c8192e]" : "bg-transparent group-hover:bg-[#f1c5cb]"
+                      }`}
+                    />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <div className="flex flex-wrap gap-3">
+          <button
+            type="button"
+            onClick={() => setActiveLineName("")}
+            className={`relative border border-[#ececec] bg-white px-4 py-3 text-sm transition-colors ${
+              normalizedActiveLineName === ""
+                ? "text-[#123e67]"
+                : "text-[#333333] hover:bg-[#fafafa] hover:text-[#123e67]"
+            }`}
+          >
+            全部类别
+            <span
+              className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
+                normalizedActiveLineName === "" ? "bg-[#123e67]" : "bg-transparent"
+              }`}
+            />
+          </button>
+          {visibleProductLines.map((line) => {
+            const isActive = line.name === normalizedActiveLineName;
 
             return (
               <button
-                key={section.id}
+                key={`${line.sectionId}-${line.name}`}
                 type="button"
                 onClick={() => {
-                  setActiveSectionId(section.id);
-                  setActiveLineName(section.productLines[0]?.name ?? "");
+                  if (!activeSection && line.sectionId !== activeSectionId) {
+                    setActiveSectionId(line.sectionId);
+                  }
+
+                  setActiveLineName(line.name);
+
+                  if (typeof window !== "undefined") {
+                    window.history.replaceState(null, "", `#${line.sectionId}`);
+                  }
                 }}
-                onMouseEnter={() => {
-                  setActiveSectionId(section.id);
-                  setActiveLineName(section.productLines[0]?.name ?? "");
-                }}
-                className={`group relative overflow-hidden border text-left transition-all duration-300 ${
+                className={`relative border border-[#ececec] bg-white px-4 py-3 text-sm transition-colors ${
                   isActive
-                    ? "border-[#123e67] shadow-[0_24px_48px_rgba(18,62,103,0.16)] -translate-y-2"
-                    : "border-[#ececec] hover:-translate-y-2 hover:border-[#d4e0eb] hover:shadow-[0_24px_48px_rgba(17,17,17,0.10)]"
+                    ? "text-[#123e67]"
+                    : "text-[#333333] hover:bg-[#fafafa] hover:text-[#123e67]"
                 }`}
               >
-                <div className="relative aspect-[4/5]">
-                  <Image
-                    src={getAssetPath(section.image)}
-                    alt={section.alt}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 16vw"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(20,20,20,0.04)_0%,rgba(20,20,20,0.3)_55%,rgba(20,20,20,0.72)_100%)]" />
-                  <div className="absolute inset-x-0 bottom-0 p-4">
-                    <p className="text-[12px] text-white/72">产品品类</p>
-                    <p className="mt-2 text-[22px] font-semibold leading-tight text-white">
-                      {section.title}
-                    </p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {section.highlights.slice(0, 2).map((highlight) => (
-                        <span
-                          key={`${section.id}-${highlight}`}
-                          className="border border-white/20 bg-white/10 px-2.5 py-1 text-[11px] text-white/88 backdrop-blur-sm"
-                        >
-                          {highlight}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                {!activeSection ? `${line.sectionTitle} / ` : ""}
+                {line.name}
+                <span
+                  className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
+                    isActive ? "bg-[#123e67]" : "bg-transparent"
+                  }`}
+                />
               </button>
             );
           })}
@@ -113,135 +295,163 @@ export function ProductCenterExplorer({
       </section>
 
       {activeSection ? (
-        <div className="space-y-8">
-          <section className="grid gap-0 overflow-hidden border border-[#ececec] bg-white lg:grid-cols-[0.92fr_1.08fr]">
-            <div className="relative min-h-[22rem] bg-[#f7f7f7]">
+        <div id={activeSection.id} className="space-y-6 scroll-mt-28">
+          <section className="relative overflow-hidden border border-[#ececec] bg-[#f7f7f7]">
+            <div className="absolute inset-0">
               <Image
                 src={getAssetPath(activeSection.image)}
                 alt={activeSection.alt}
                 fill
-                className="object-contain p-10"
-                sizes="(max-width: 1024px) 100vw, 46vw"
+                className="object-contain p-8 md:p-12"
+                sizes="100vw"
               />
             </div>
-            <div className="flex items-center px-8 py-10 md:px-10">
+            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,247,247,0.96)_0%,rgba(247,247,247,0.88)_28%,rgba(247,247,247,0.58)_55%,rgba(247,247,247,0.18)_100%)]" />
+            <div className="relative z-10 grid min-h-[24rem] items-end gap-6 px-8 py-8 md:min-h-[28rem] md:px-10 md:py-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8">
               <div className="max-w-xl space-y-5">
-                <p className="text-sm font-medium text-[#123e67]">
-                  当前品类
-                </p>
-                <h2 className="text-[36px] font-semibold text-[#222222]">
+                <p className="text-sm font-medium text-[#123e67]">产品中心</p>
+                <h2 className="text-[34px] font-semibold text-[#222222] md:text-[42px]">
                   {activeSection.title}
                 </h2>
-                <p className="text-[15px] leading-8 text-[#666666]">
+                <p className="max-w-lg text-[15px] leading-8 text-[#666666]">
                   {activeSection.description}
                 </p>
+                <div className="flex flex-wrap gap-3 text-[12px] text-[#666666]">
+                  <span className="border border-[#e3e7eb] bg-[#fafafa] px-3 py-2">
+                    {activeSection.productLines.length} 条产品线
+                  </span>
+                  <span className="border border-[#e3e7eb] bg-[#fafafa] px-3 py-2">
+                    {activeProductCount} 款代表产品
+                  </span>
+                </div>
                 <div className="flex flex-wrap gap-3">
                   {activeSection.highlights.map((highlight) => (
                     <span
                       key={highlight}
-                      className="border border-[#ececec] bg-[#fafafa] px-4 py-2 text-[12px] text-[#333333]"
+                      className="border border-[#e3e7eb] bg-white/90 px-4 py-2 text-[12px] text-[#333333]"
                     >
                       {highlight}
                     </span>
                   ))}
                 </div>
               </div>
-            </div>
-          </section>
-
-          <section className="space-y-4">
-            <div className="flex flex-wrap gap-3">
-              {activeSection.productLines.map((line) => {
-                const isActive = line.name === normalizedActiveLineName;
-
-                return (
-                  <button
-                    key={line.name}
-                    type="button"
-                    onClick={() => setActiveLineName(line.name)}
-                    className={`border px-4 py-3 text-sm transition-colors ${
-                      isActive
-                        ? "border-[#123e67] bg-[#f5f8fb] text-[#123e67]"
-                        : "border-[#ececec] bg-white text-[#333333] hover:border-[#cfdbe6] hover:text-[#123e67]"
-                    }`}
-                  >
-                    {line.name}
-                  </button>
-                );
-              })}
-            </div>
-
-            {activeLine ? (
-              <div className="border border-[#ececec] bg-[#fafafa] px-6 py-6">
-                <p className="text-sm font-medium text-[#123e67]">
-                  产品线
+              <aside className="space-y-3 self-end lg:justify-self-end">
+                <p className="text-[12px] tracking-[0.2em] text-[#123e67]">
+                  产品目录
                 </p>
-                <h3 className="mt-3 text-[28px] font-semibold text-[#222222]">
-                  {activeLine.name}
-                </h3>
-                <p className="mt-3 max-w-3xl text-[15px] leading-8 text-[#666666]">
-                  {activeLine.summary}
-                </p>
-              </div>
-            ) : null}
-          </section>
+                {activeSection.productLines.map((line) => {
+                  const isActiveLine = line.name === normalizedActiveLineName;
 
-          <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {activeSection.productLines.map((line) => {
-              const isActive = line.name === normalizedActiveLineName;
+                  if (normalizedActiveLineName && !isActiveLine) {
+                    return null;
+                  }
 
-              return (
-                <article
-                  key={line.name}
-                  className={`border px-5 py-5 ${
-                    isActive
-                      ? "border-[#123e67] bg-[#f5f8fb]"
-                      : "border-[#ececec] bg-white"
-                  }`}
-                >
-                  <p
-                    className={`text-sm ${
-                      isActive ? "font-medium text-[#123e67]" : "text-[#8f8f8f]"
-                    }`}
-                  >
-                    产品目录
-                  </p>
-                  <p className="mt-3 text-[22px] font-semibold text-[#222222]">
-                    {line.name}
-                  </p>
-                  <p className="mt-3 text-[14px] leading-7 text-[#666666]">
-                    {line.summary}
-                  </p>
-                </article>
-              );
-            })}
-          </section>
-
-          <section className="space-y-4">
-            <div className="flex items-end justify-between gap-4">
-              <div>
-                <p className="text-sm font-medium text-[#123e67]">
-                  代表产品
-                </p>
-                <h3 className="mt-2 text-[32px] font-semibold text-[#222222]">
-                  代表产品
-                </h3>
-              </div>
+                  return (
+                    <article
+                      key={`${activeSection.id}-${line.name}-detail`}
+                      className={`border px-4 py-3 backdrop-blur-[2px] ${
+                        isActiveLine
+                          ? "border-[#123e67]/45 bg-[#123e67]/10"
+                          : "border-[#d6dee6] bg-transparent"
+                      }`}
+                    >
+                      <p
+                        className={`text-[12px] ${
+                          isActiveLine
+                            ? "font-medium text-[#123e67]"
+                            : "text-[#7f8b96]"
+                        }`}
+                      >
+                        {line.name}
+                      </p>
+                      <p className="mt-1 text-[13px] leading-6 text-[#4f5b66]">
+                        {line.summary}
+                      </p>
+                    </article>
+                  );
+                })}
+              </aside>
             </div>
-            {matchedProducts.length > 0 ? (
-              <div className="grid gap-6 lg:grid-cols-3">
-                {matchedProducts.map((item) => (
-                  <ProductCard key={`${activeSection.id}-${item.name}`} item={item} />
-                ))}
-              </div>
-            ) : (
-              <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
-                当前品类展示以产品线与方案信息为主，完整资料可通过商务沟通进一步获取。
-              </div>
-            )}
           </section>
         </div>
       ) : null}
+
+      {normalizedActiveLineName ? (
+        <section className="border border-[#ececec] bg-[#fafafa] px-6 py-6">
+          <p className="text-sm font-medium text-[#123e67]">
+            产品类别
+          </p>
+          <h3 className="mt-3 text-[28px] font-semibold text-[#222222]">
+            {normalizedActiveLineName}
+          </h3>
+          <p className="mt-3 max-w-3xl text-[15px] leading-8 text-[#666666]">
+            {visibleProductLines.find((line) => line.name === normalizedActiveLineName)
+              ?.summary ?? "当前产品类别资料正在整理中。"}
+          </p>
+        </section>
+      ) : null}
+
+      {isHomeCustomizationSection ? (
+        <section className="space-y-4">
+          <div>
+            <p className="text-sm font-medium text-[#123e67]">
+              定制图册
+            </p>
+            <h3 className="mt-2 text-[32px] font-semibold text-[#222222]">
+              家居定制案例展示
+            </h3>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {homeCustomizationShowcaseImages.map((item) => (
+              <article
+                key={item.image}
+                className="overflow-hidden border border-[#e2e8ef] bg-white"
+              >
+                <div className="relative aspect-[4/3] bg-[#f7f7f7]">
+                  <Image
+                    src={getAssetPath(item.image)}
+                    alt={item.alt}
+                    fill
+                    className="object-cover transition-transform duration-500 hover:scale-[1.04]"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                  />
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <section className="space-y-4">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-[#123e67]">
+              代表产品
+            </p>
+            <h3 className="mt-2 text-[32px] font-semibold text-[#222222]">
+              {activeSection || normalizedActiveLineName ? "筛选结果" : "全部代表产品"}
+            </h3>
+          </div>
+        </div>
+        {matchedProducts.length > 0 ? (
+          <div className="grid gap-6 lg:grid-cols-3">
+            {matchedProducts.map((item) => (
+              <ProductCard
+                key={`${item.category}-${item.productLine}-${item.name}`}
+                item={item}
+              />
+            ))}
+          </div>
+        ) : isHomeCustomizationSection ? (
+          <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
+            家居定制系列以空间案例图册展示为主，具体组合方案可通过商务沟通进一步获取。
+          </div>
+        ) : (
+          <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
+            当前筛选条件下暂无代表产品，完整资料可通过商务沟通进一步获取。
+          </div>
+        )}
+      </section>
     </div>
   );
 }
