@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
+import { useLocale } from "@/components/locale-provider";
 import { getAssetPath } from "@/lib/asset-path";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +23,8 @@ export function SiteLogo({
   compact = false,
   className,
 }: SiteLogoProps): React.JSX.Element {
+  const { locale } = useLocale();
+
   return (
     <Link href="/" className={cn("inline-flex items-center gap-3", className)}>
       <div
@@ -30,7 +35,7 @@ export function SiteLogo({
       >
         <Image
           src={getAssetPath("/images/logo.png")}
-          alt="积云家居科技 Logo"
+          alt={locale === "en" ? "CUMULUS logo" : "积云家居科技 Logo"}
           fill
           className="object-contain"
           sizes="48px"
@@ -52,7 +57,7 @@ export function SiteLogo({
             compact ? "text-[10px]" : "text-[12px]",
           )}
         >
-          积云家居科技
+          {locale === "en" ? "SMART HOME APPLIANCE" : "积云家居科技"}
         </div>
       </div>
     </Link>

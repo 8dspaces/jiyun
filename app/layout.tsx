@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Manrope } from "next/font/google";
 
+import { LocaleProvider } from "@/components/locale-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -17,9 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "积云家居科技 | 企业官网",
+  title: "CUMULUS Smart Home | Corporate Website",
   description:
-    "积云家居科技专注风处理与水处理相关家电设计研发，围绕设计研发、制造协同与客户化开发能力构建企业官网展示体系。",
+    "CUMULUS Smart Home focuses on design and development across air treatment and related home appliance solutions, backed by industrial design, manufacturing synergy, and custom development capability.",
 };
 
 interface RootLayoutProps {
@@ -37,15 +38,17 @@ export default function RootLayout({
 }: RootLayoutProps): React.JSX.Element {
   return (
     <html
-      lang="zh-CN"
+      lang="en"
       className={`${manrope.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[color:var(--color-background)] text-[color:var(--color-foreground)]">
-        <div className="relative flex min-h-screen flex-col overflow-x-hidden">
-          <SiteHeader />
-          <main className="relative flex-1">{children}</main>
-          <SiteFooter />
-        </div>
+        <LocaleProvider>
+          <div className="relative flex min-h-screen flex-col overflow-x-hidden">
+            <SiteHeader />
+            <main className="relative flex-1">{children}</main>
+            <SiteFooter />
+          </div>
+        </LocaleProvider>
       </body>
     </html>
   );

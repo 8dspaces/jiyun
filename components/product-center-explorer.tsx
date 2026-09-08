@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
+import { useLocale } from "@/components/locale-provider";
 import { ProductCard } from "@/components/product-card";
 import {
   homeCustomizationShowcaseImages,
@@ -10,6 +11,7 @@ import {
   type ProductItem,
 } from "@/data/site";
 import { getAssetPath } from "@/lib/asset-path";
+import { getLocalizedText } from "@/lib/locale";
 
 interface ProductCenterExplorerProps {
   sections: CatalogSection[];
@@ -27,6 +29,7 @@ export function ProductCenterExplorer({
   sections,
   products,
 }: ProductCenterExplorerProps): React.JSX.Element {
+  const { locale } = useLocale();
   const [activeSectionId, setActiveSectionId] = useState<string>("");
   const activeSection = sections.find((section) => section.id === activeSectionId);
   const [activeLineName, setActiveLineName] = useState<string>("");
@@ -44,6 +47,7 @@ export function ProductCenterExplorer({
         sectionId: section.id,
         sectionTitle: section.title,
         name: line.name,
+        label: line.label,
         summary: line.summary,
       })),
     );
@@ -114,12 +118,13 @@ export function ProductCenterExplorer({
         sectionId: activeSection.id,
         sectionTitle: activeSection.title,
         name: line.name,
+        label: line.label,
         summary: line.summary,
       }))
     : allProductLines;
 
   const matchedProducts = products.filter((item) => {
-    const matchesSection = activeSection ? item.category === activeSection.title : true;
+    const matchesSection = activeSection ? item.category === activeSection.key : true;
     const matchesLine = normalizedActiveLineName
       ? item.productLine === normalizedActiveLineName
       : true;
@@ -128,7 +133,7 @@ export function ProductCenterExplorer({
   });
   const isHomeCustomizationSection = activeSection?.id === "home-customization";
   const activeProductCount = activeSection
-    ? productCountByCategory[activeSection.title] ?? 0
+    ? productCountByCategory[activeSection.key] ?? 0
     : products.length;
 
   /**
@@ -170,7 +175,7 @@ export function ProductCenterExplorer({
                 : "text-[#333333] hover:bg-[#fafafa] hover:text-[#c8192e]"
             }`}
           >
-            全部系列
+            {locale === "en" ? "All Series" : "全部系列"}
             <span
               className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
                 activeSectionId === "" && normalizedActiveLineName === ""
@@ -181,12 +186,27 @@ export function ProductCenterExplorer({
           </button>
           {activeSection ? (
             <p className="text-sm text-[#777777]">
-              当前已筛选：{activeSection.title}
-              {normalizedActiveLineName ? ` / ${normalizedActiveLineName}` : ""}
+              {locale === "en" ? "Current filter: " : "当前已筛选："}
+              {getLocalizedText(activeSection.title, locale)}
+              {normalizedActiveLineName
+                ? ` / ${
+                    getLocalizedText(
+                      visibleProductLines.find(
+                        (line) => line.name === normalizedActiveLineName,
+                      )?.label ?? {
+                        en: normalizedActiveLineName,
+                        zh: normalizedActiveLineName,
+                      },
+                      locale,
+                    )
+                  }`
+                : ""}
             </p>
           ) : (
             <p className="text-sm text-[#777777]">
-              默认展示全部系列与全部代表产品
+              {locale === "en"
+                ? "Showing all series and featured products by default"
+                : "默认展示全部系列与全部代表产品"}
             </p>
           )}
         </div>
@@ -211,7 +231,7 @@ export function ProductCenterExplorer({
                     <div className="relative h-28 w-full md:h-32">
                       <Image
                         src={getAssetPath(section.image)}
-                        alt={section.alt}
+                        alt={getLocalizedText(section.alt, locale)}
                         fill
                         className={`object-cover transition-transform duration-300 ${
                           isActive ? "scale-[1.04]" : "group-hover:scale-[1.03]"
@@ -224,7 +244,7 @@ export function ProductCenterExplorer({
                         isActive ? "text-[#c8192e]" : "text-[#555555] group-hover:text-[#333333]"
                       }`}
                     >
-                      {section.title}
+                      {getLocalizedText(section.title, locale)}
                     </p>
                     <div
                       className={`mx-auto mt-4 h-[3px] w-12 transition-all duration-300 ${
@@ -250,7 +270,7 @@ export function ProductCenterExplorer({
                 : "text-[#333333] hover:bg-[#fafafa] hover:text-[#123e67]"
             }`}
           >
-            全部类别
+            {locale === "en" ? "All Categories" : "全部类别"}
             <span
               className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
                 normalizedActiveLineName === "" ? "bg-[#123e67]" : "bg-transparent"
@@ -281,8 +301,25 @@ export function ProductCenterExplorer({
                     : "text-[#333333] hover:bg-[#fafafa] hover:text-[#123e67]"
                 }`}
               >
-                {!activeSection ? `${line.sectionTitle} / ` : ""}
-                {line.name}
+                {!activeSection
+                  ? `${getLocalizedText(
+                      sections.find((section) => section.id === line.sectionId)?.title ?? {
+                        en: "Unknown Section",
+                        zh: "未知分类",
+                      },
+                      locale,
+                    )} / `
+                  : ""}
+                {getLocalizedText(
+                  activeSection?.productLines.find((item) => item.name === line.name)?.label ??
+                    sections
+                      .find((section) => section.id === line.sectionId)
+                      ?.productLines.find((item) => item.name === line.name)?.label ?? {
+                      en: line.name,
+                      zh: line.name,
+                    },
+                  locale,
+                )}
                 <span
                   className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
                     isActive ? "bg-[#123e67]" : "bg-transparent"
@@ -300,7 +337,7 @@ export function ProductCenterExplorer({
             <div className="absolute inset-0">
               <Image
                 src={getAssetPath(activeSection.image)}
-                alt={activeSection.alt}
+                alt={getLocalizedText(activeSection.alt, locale)}
                 fill
                 className="object-contain p-8 md:p-12"
                 sizes="100vw"
@@ -309,35 +346,39 @@ export function ProductCenterExplorer({
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,247,247,0.96)_0%,rgba(247,247,247,0.88)_28%,rgba(247,247,247,0.58)_55%,rgba(247,247,247,0.18)_100%)]" />
             <div className="relative z-10 grid min-h-[24rem] items-end gap-6 px-8 py-8 md:min-h-[28rem] md:px-10 md:py-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8">
               <div className="max-w-xl space-y-5">
-                <p className="text-sm font-medium text-[#123e67]">产品中心</p>
+                <p className="text-sm font-medium text-[#123e67]">
+                  {locale === "en" ? "Product Center" : "产品中心"}
+                </p>
                 <h2 className="text-[34px] font-semibold text-[#222222] md:text-[42px]">
-                  {activeSection.title}
+                  {getLocalizedText(activeSection.title, locale)}
                 </h2>
                 <p className="max-w-lg text-[15px] leading-8 text-[#666666]">
-                  {activeSection.description}
+                  {getLocalizedText(activeSection.description, locale)}
                 </p>
                 <div className="flex flex-wrap gap-3 text-[12px] text-[#666666]">
                   <span className="border border-[#e3e7eb] bg-[#fafafa] px-3 py-2">
-                    {activeSection.productLines.length} 条产品线
+                    {activeSection.productLines.length}{" "}
+                    {locale === "en" ? "product lines" : "条产品线"}
                   </span>
                   <span className="border border-[#e3e7eb] bg-[#fafafa] px-3 py-2">
-                    {activeProductCount} 款代表产品
+                    {activeProductCount}{" "}
+                    {locale === "en" ? "featured products" : "款代表产品"}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-3">
-                  {activeSection.highlights.map((highlight) => (
+                  {activeSection.highlights.map((highlight, highlightIndex) => (
                     <span
-                      key={highlight}
+                      key={`${activeSection.id}-highlight-${highlightIndex}`}
                       className="border border-[#e3e7eb] bg-white/90 px-4 py-2 text-[12px] text-[#333333]"
                     >
-                      {highlight}
+                      {getLocalizedText(highlight, locale)}
                     </span>
                   ))}
                 </div>
               </div>
               <aside className="space-y-3 self-end lg:justify-self-end">
                 <p className="text-[12px] tracking-[0.2em] text-[#123e67]">
-                  产品目录
+                  {locale === "en" ? "Product Directory" : "产品目录"}
                 </p>
                 {activeSection.productLines.map((line) => {
                   const isActiveLine = line.name === normalizedActiveLineName;
@@ -362,10 +403,10 @@ export function ProductCenterExplorer({
                             : "text-[#7f8b96]"
                         }`}
                       >
-                        {line.name}
+                        {getLocalizedText(line.label, locale)}
                       </p>
                       <p className="mt-1 text-[13px] leading-6 text-[#4f5b66]">
-                        {line.summary}
+                        {getLocalizedText(line.summary, locale)}
                       </p>
                     </article>
                   );
@@ -379,14 +420,28 @@ export function ProductCenterExplorer({
       {normalizedActiveLineName ? (
         <section className="border border-[#ececec] bg-[#fafafa] px-6 py-6">
           <p className="text-sm font-medium text-[#123e67]">
-            产品类别
+            {locale === "en" ? "Product Category" : "产品类别"}
           </p>
           <h3 className="mt-3 text-[28px] font-semibold text-[#222222]">
-            {normalizedActiveLineName}
+            {getLocalizedText(
+              visibleProductLines.find((line) => line.name === normalizedActiveLineName)
+                ?.label ?? {
+                  en: normalizedActiveLineName,
+                  zh: normalizedActiveLineName,
+                },
+              locale,
+            )}
           </h3>
           <p className="mt-3 max-w-3xl text-[15px] leading-8 text-[#666666]">
-            {visibleProductLines.find((line) => line.name === normalizedActiveLineName)
-              ?.summary ?? "当前产品类别资料正在整理中。"}
+            {getLocalizedText(
+              visibleProductLines.find((line) => line.name === normalizedActiveLineName)
+                ?.summary ??
+                {
+                  en: "Detailed material for this category is being organized.",
+                  zh: "当前产品类别资料正在整理中。",
+                },
+              locale,
+            )}
           </p>
         </section>
       ) : null}
@@ -395,10 +450,12 @@ export function ProductCenterExplorer({
         <section className="space-y-4">
           <div>
             <p className="text-sm font-medium text-[#123e67]">
-              定制图册
+              {locale === "en" ? "Customization Gallery" : "定制图册"}
             </p>
             <h3 className="mt-2 text-[32px] font-semibold text-[#222222]">
-              家居定制案例展示
+              {locale === "en"
+                ? "Home Customization Showcase"
+                : "家居定制案例展示"}
             </h3>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -410,7 +467,7 @@ export function ProductCenterExplorer({
                 <div className="relative aspect-[4/3] bg-[#f7f7f7]">
                   <Image
                     src={getAssetPath(item.image)}
-                    alt={item.alt}
+                    alt={getLocalizedText(item.alt, locale)}
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-[1.04]"
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
@@ -426,10 +483,16 @@ export function ProductCenterExplorer({
         <div className="flex items-end justify-between gap-4">
           <div>
             <p className="text-sm font-medium text-[#123e67]">
-              代表产品
+              {locale === "en" ? "Featured Products" : "代表产品"}
             </p>
             <h3 className="mt-2 text-[32px] font-semibold text-[#222222]">
-              {activeSection || normalizedActiveLineName ? "筛选结果" : "全部代表产品"}
+              {activeSection || normalizedActiveLineName
+                ? locale === "en"
+                  ? "Filtered Results"
+                  : "筛选结果"
+                : locale === "en"
+                  ? "All Featured Products"
+                  : "全部代表产品"}
             </h3>
           </div>
         </div>
@@ -437,18 +500,22 @@ export function ProductCenterExplorer({
           <div className="grid gap-6 lg:grid-cols-3">
             {matchedProducts.map((item) => (
               <ProductCard
-                key={`${item.category}-${item.productLine}-${item.name}`}
+                key={`${item.category}-${item.productLine}-${item.model}`}
                 item={item}
               />
             ))}
           </div>
         ) : isHomeCustomizationSection ? (
           <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
-            家居定制系列以空间案例图册展示为主，具体组合方案可通过商务沟通进一步获取。
+            {locale === "en"
+              ? "The home customization series is presented primarily through a project gallery. Specific solution combinations are available through business communication."
+              : "家居定制系列以空间案例图册展示为主，具体组合方案可通过商务沟通进一步获取。"}
           </div>
         ) : (
           <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
-            当前筛选条件下暂无代表产品，完整资料可通过商务沟通进一步获取。
+            {locale === "en"
+              ? "No featured products are currently available under this filter. Full materials can be obtained through business communication."
+              : "当前筛选条件下暂无代表产品，完整资料可通过商务沟通进一步获取。"}
           </div>
         )}
       </section>

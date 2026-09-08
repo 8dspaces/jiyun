@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Bot,
@@ -8,7 +10,9 @@ import {
   Wind,
 } from "lucide-react";
 
+import { useLocale } from "@/components/locale-provider";
 import type { SeriesItem } from "@/data/site";
+import { getLocalizedText } from "@/lib/locale";
 
 interface CategoryStripProps {
   items: SeriesItem[];
@@ -32,6 +36,8 @@ const iconMap = {
 export function CategoryStrip({
   items,
 }: CategoryStripProps): React.JSX.Element {
+  const { locale } = useLocale();
+
   return (
     <div className="overflow-x-auto">
       <div className="grid min-w-[960px] grid-cols-6 border-y border-[#ececec] bg-white">
@@ -49,7 +55,7 @@ export function CategoryStrip({
               </div>
               <div>
                 <p className="text-[18px] text-[#333333] transition-colors group-hover:text-[#123e67]">
-                  {item.title}
+                  {getLocalizedText(item.title, locale)}
                 </p>
               </div>
             </Link>

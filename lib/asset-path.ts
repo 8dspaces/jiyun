@@ -1,6 +1,4 @@
-const repositoryName = process.env.GITHUB_REPOSITORY?.split("/")[1] ?? "";
-const shouldUseBasePath = process.env.GITHUB_ACTIONS === "true" && repositoryName;
-const assetBasePath = shouldUseBasePath ? `/${repositoryName}` : "";
+const assetBasePath = process.env.NEXT_PUBLIC_ASSET_BASE_PATH ?? "";
 
 /**
  * 为静态资源补齐 GitHub Pages 所需的仓库路径前缀。
