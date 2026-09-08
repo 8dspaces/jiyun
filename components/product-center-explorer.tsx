@@ -339,6 +339,7 @@ export function ProductCenterExplorer({
                 src={getAssetPath(activeSection.image)}
                 alt={getLocalizedText(activeSection.alt, locale)}
                 fill
+                priority
                 className="object-contain p-8 md:p-12"
                 sizes="100vw"
               />
