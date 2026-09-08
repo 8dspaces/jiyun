@@ -30,9 +30,11 @@ export function ProductCenterExplorer({
   products,
 }: ProductCenterExplorerProps): React.JSX.Element {
   const { locale } = useLocale();
+  const productsPerPage = 9;
   const [activeSectionId, setActiveSectionId] = useState<string>("");
   const activeSection = sections.find((section) => section.id === activeSectionId);
   const [activeLineName, setActiveLineName] = useState<string>("");
+  const [currentProductPage, setCurrentProductPage] = useState<number>(1);
 
   const productCountByCategory = useMemo(() => {
     return products.reduce<Record<string, number>>((counts, item) => {
@@ -64,6 +66,7 @@ export function ProductCenterExplorer({
       if (!hash || hash === "all") {
         setActiveSectionId("");
         setActiveLineName("");
+        setCurrentProductPage(1);
         return;
       }
 
@@ -74,6 +77,7 @@ export function ProductCenterExplorer({
       }
 
       setActiveSectionId(matchedSection.id);
+      setCurrentProductPage(1);
       setActiveLineName((currentLineName) => {
         const hasMatch = matchedSection.productLines.some(
           (line) => line.name === currentLineName,
@@ -131,6 +135,15 @@ export function ProductCenterExplorer({
 
     return matchesSection && matchesLine;
   });
+  const totalProductPages = Math.max(
+    1,
+    Math.ceil(matchedProducts.length / productsPerPage),
+  );
+  const safeCurrentProductPage = Math.min(currentProductPage, totalProductPages);
+  const paginatedProducts = matchedProducts.slice(
+    (safeCurrentProductPage - 1) * productsPerPage,
+    safeCurrentProductPage * productsPerPage,
+  );
   const isHomeCustomizationSection = activeSection?.id === "home-customization";
   const activeProductCount = activeSection
     ? productCountByCategory[activeSection.key] ?? 0
@@ -144,6 +157,7 @@ export function ProductCenterExplorer({
   const handleSectionChange = (section: CatalogSection): void => {
     setActiveSectionId(section.id);
     setActiveLineName("");
+    setCurrentProductPage(1);
 
     if (typeof window !== "undefined") {
       window.history.replaceState(null, "", `#${section.id}`);
@@ -156,6 +170,7 @@ export function ProductCenterExplorer({
   const handleResetFilters = (): void => {
     setActiveSectionId("");
     setActiveLineName("");
+    setCurrentProductPage(1);
 
     if (typeof window !== "undefined") {
       window.history.replaceState(null, "", "#all");
@@ -263,7 +278,10 @@ export function ProductCenterExplorer({
         <div className="flex flex-wrap gap-3">
           <button
             type="button"
-            onClick={() => setActiveLineName("")}
+            onClick={() => {
+              setActiveLineName("");
+              setCurrentProductPage(1);
+            }}
             className={`relative border border-[#ececec] bg-white px-4 py-3 text-sm transition-colors ${
               normalizedActiveLineName === ""
                 ? "text-[#123e67]"
@@ -290,6 +308,7 @@ export function ProductCenterExplorer({
                   }
 
                   setActiveLineName(line.name);
+                  setCurrentProductPage(1);
 
                   if (typeof window !== "undefined") {
                     window.history.replaceState(null, "", `#${line.sectionId}`);
@@ -499,7 +518,7 @@ export function ProductCenterExplorer({
         </div>
         {matchedProducts.length > 0 ? (
           <div className="grid gap-6 lg:grid-cols-3">
-            {matchedProducts.map((item) => (
+            {paginatedProducts.map((item) => (
               <ProductCard
                 key={`${item.category}-${item.productLine}-${item.model}`}
                 item={item}
@@ -519,6 +538,58 @@ export function ProductCenterExplorer({
               : "当前筛选条件下暂无代表产品，完整资料可通过商务沟通进一步获取。"}
           </div>
         )}
+        {matchedProducts.length > productsPerPage ? (
+          <div className="flex flex-wrap items-center justify-between gap-4 border border-[#ececec] bg-white px-5 py-4">
+            <p className="text-sm text-[#666666]">
+              {locale === "en"
+                ? `Page ${safeCurrentProductPage} of ${totalProductPages}, ${matchedProducts.length} products total`
+                : `第 ${safeCurrentProductPage} / ${totalProductPages} 页，共 ${matchedProducts.length} 款产品`}
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() =>
+                  setCurrentProductPage((page) => Math.max(1, page - 1))
+                }
+                disabled={safeCurrentProductPage === 1}
+                className="border border-[#d7e6f2] bg-white px-3 py-2 text-sm text-[#123e67] transition-colors disabled:cursor-not-allowed disabled:text-[#9aa8b4]"
+              >
+                {locale === "en" ? "Previous" : "上一页"}
+              </button>
+              {Array.from({ length: totalProductPages }, (_, index) => {
+                const pageNumber = index + 1;
+                const isActivePage = pageNumber === safeCurrentProductPage;
+
+                return (
+                  <button
+                    key={`product-page-${pageNumber}`}
+                    type="button"
+                    onClick={() => setCurrentProductPage(pageNumber)}
+                    className={`min-w-9 border px-3 py-2 text-sm transition-colors ${
+                      isActivePage
+                        ? "border-[#123e67] bg-[#123e67] text-white"
+                        : "border-[#d7e6f2] bg-white text-[#123e67] hover:bg-[#f5f9fc]"
+                    }`}
+                  >
+                    {pageNumber}
+                  </button>
+                );
+              })}
+              <button
+                type="button"
+                onClick={() =>
+                  setCurrentProductPage((page) =>
+                    Math.min(totalProductPages, page + 1),
+                  )
+                }
+                disabled={safeCurrentProductPage === totalProductPages}
+                className="border border-[#d7e6f2] bg-white px-3 py-2 text-sm text-[#123e67] transition-colors disabled:cursor-not-allowed disabled:text-[#9aa8b4]"
+              >
+                {locale === "en" ? "Next" : "下一页"}
+              </button>
+            </div>
+          </div>
+        ) : null}
       </section>
     </div>
   );

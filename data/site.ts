@@ -75,6 +75,19 @@ export interface ShowcaseImageItem {
   alt: LocalizedText;
 }
 
+interface CatalogProductBatch {
+  englishBaseName: string;
+  chineseBaseName: string;
+  modelPrefix: string;
+  imageNames: string[];
+  category: string;
+  categoryLabel: LocalizedText;
+  productLine: string;
+  productLineLabel: LocalizedText;
+  summary: LocalizedText;
+  features: Array<{ en: string; zh: string }>;
+}
+
 export const navigationItems: NavigationItem[] = [
   { href: "/", label: t("Home", "首页") },
   { href: "/products", label: t("Products", "产品中心") },
@@ -312,7 +325,38 @@ export const seriesItems: SeriesItem[] = [
   },
 ];
 
-export const featuredProducts: ProductItem[] = [
+/**
+ * 根据扩展产品图批量生成产品卡数据，避免手写大量重复条目。
+ *
+ * @param batch 批量产品配置。
+ * @returns 返回扩展产品卡数据列表。
+ */
+function createCatalogProducts(batch: CatalogProductBatch): ProductItem[] {
+  return batch.imageNames.map((imageName, index) => {
+    const serial = String(index + 1).padStart(2, "0");
+
+    return {
+      name: t(
+        `${batch.englishBaseName} ${serial}`,
+        `${batch.chineseBaseName} ${serial}`,
+      ),
+      model: `${batch.modelPrefix}-${serial}`,
+      image: `/images/products/catalog/${imageName}`,
+      alt: t(
+        `${batch.englishBaseName} ${serial}`,
+        `${batch.chineseBaseName} ${serial}`,
+      ),
+      summary: batch.summary,
+      features: batch.features.map((feature) => t(feature.en, feature.zh)),
+      category: batch.category,
+      categoryLabel: batch.categoryLabel,
+      productLine: batch.productLine,
+      productLineLabel: batch.productLineLabel,
+    };
+  });
+}
+
+const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Flagship Rechargeable Fan", "蓄电旗舰风扇"),
     model: "CHFDS40Y-5DLK01RM",
@@ -674,6 +718,308 @@ export const featuredProducts: ProductItem[] = [
     productLine: "体重秤",
     productLineLabel: t("Scales", "体重秤"),
   },
+];
+
+const additionalCatalogProductBatches: CatalogProductBatch[] = [
+  {
+    englishBaseName: "Air Cooler",
+    chineseBaseName: "冷风机",
+    modelPrefix: "ACC",
+    imageNames: [
+      "air-cooler-visual-01.png",
+      "air-cooler-visual-02.png",
+      "air-cooler-visual-03.png",
+      "air-cooler-visual-04.png",
+      "air-cooler-visual-05.png",
+      "air-cooler-visual-06.png",
+    ],
+    category: "风处理系列",
+    categoryLabel: t("Air Treatment", "风处理系列"),
+    productLine: "冷风机",
+    productLineLabel: t("Air Coolers", "冷风机"),
+    summary: t(
+      "An expanded air cooler selection focused on space cooling and flexible airflow coverage.",
+      "面向场景降温与灵活送风覆盖的冷风机扩展产品图款。",
+    ),
+    features: [
+      { en: "Evaporative cooling", zh: "蒸发降温" },
+      { en: "Large-area airflow", zh: "大范围送风" },
+      { en: "Mobile cooling scenes", zh: "移动降温场景" },
+    ],
+  },
+  {
+    englishBaseName: "Robot Vacuum Mop",
+    chineseBaseName: "扫拖机器人",
+    modelPrefix: "RVE",
+    imageNames: [
+      "robot-vacuum-visual-01.png",
+      "robot-vacuum-visual-02.png",
+    ],
+    category: "智能清洁系列",
+    categoryLabel: t("Smart Cleaning", "智能清洁系列"),
+    productLine: "基础扫拖机器人",
+    productLineLabel: t("Entry Robot Vacuum Mops", "基础扫拖机器人"),
+    summary: t(
+      "Entry robot vacuum and mop visuals for routine home floor cleaning needs.",
+      "面向家庭日常地面清洁需求的基础扫拖机器人扩展图款。",
+    ),
+    features: [
+      { en: "Vacuum and mop in one", zh: "扫拖一体" },
+      { en: "Daily home cleaning", zh: "日常家庭清洁" },
+      { en: "Automatic recharge support", zh: "自动回充支持" },
+    ],
+  },
+  {
+    englishBaseName: "Advanced Robot Vacuum Mop",
+    chineseBaseName: "进阶扫拖机器人",
+    modelPrefix: "RVA",
+    imageNames: [
+      "robot-vacuum-visual-03.png",
+      "robot-vacuum-visual-04.png",
+      "robot-vacuum-visual-05.png",
+    ],
+    category: "智能清洁系列",
+    categoryLabel: t("Smart Cleaning", "智能清洁系列"),
+    productLine: "进阶扫拖机器人",
+    productLineLabel: t("Advanced Robot Vacuum Mops", "进阶扫拖机器人"),
+    summary: t(
+      "Advanced robot vacuum visuals oriented toward stronger suction and higher automation levels.",
+      "面向更强吸力与更高自动化体验的进阶扫拖机器人扩展图款。",
+    ),
+    features: [
+      { en: "Enhanced suction", zh: "强化吸力" },
+      { en: "Smarter route planning", zh: "智能路径规划" },
+      { en: "Integrated dock solutions", zh: "集成基站方案" },
+    ],
+  },
+  {
+    englishBaseName: "Industrial Wall Fan",
+    chineseBaseName: "工业挂壁扇",
+    modelPrefix: "IWF",
+    imageNames: ["wall-fan-visual-01.png"],
+    category: "风处理系列",
+    categoryLabel: t("Air Treatment", "风处理系列"),
+    productLine: "工业挂壁扇",
+    productLineLabel: t("Industrial Wall Fans", "工业挂壁扇"),
+    summary: t(
+      "Wall-mounted airflow equipment suited to industrial and large-space ventilation scenarios.",
+      "适用于工业与大空间通风送风场景的挂壁扇扩展图款。",
+    ),
+    features: [
+      { en: "Wall-mounted structure", zh: "挂壁结构" },
+      { en: "Directional airflow", zh: "定向送风" },
+      { en: "Large-space use", zh: "适配大空间" },
+    ],
+  },
+  {
+    englishBaseName: "Pedestal Fan",
+    chineseBaseName: "落地风扇",
+    modelPrefix: "PFS",
+    imageNames: [
+      "electric-fan-visual-01.png",
+      "pedestal-fan-visual-01.png",
+      "pedestal-fan-visual-02.png",
+      "pedestal-fan-visual-03.png",
+    ],
+    category: "风处理系列",
+    categoryLabel: t("Air Treatment", "风处理系列"),
+    productLine: "落地风扇",
+    productLineLabel: t("Pedestal Fans", "落地风扇"),
+    summary: t(
+      "A broader pedestal fan selection for residential and light commercial airflow scenarios.",
+      "面向家用与轻商用送风场景的落地风扇扩展图款。",
+    ),
+    features: [
+      { en: "Multiple blade options", zh: "多风叶方案" },
+      { en: "Flexible control types", zh: "多控制方式" },
+      { en: "Household cooling scenes", zh: "家用送风场景" },
+    ],
+  },
+  {
+    englishBaseName: "Retro Metal Fan",
+    chineseBaseName: "复古金属风扇",
+    modelPrefix: "RMF",
+    imageNames: [
+      "retro-metal-fan-visual-01.png",
+      "retro-metal-fan-visual-02.png",
+      "retro-metal-fan-visual-03.png",
+    ],
+    category: "风处理系列",
+    categoryLabel: t("Air Treatment", "风处理系列"),
+    productLine: "复古金属风扇",
+    productLineLabel: t("Retro Metal Fans", "复古金属风扇"),
+    summary: t(
+      "Retro metal fan visuals emphasizing appearance, texture, and desktop-to-floor versatility.",
+      "强调外观质感与多场景摆放适配的复古金属风扇扩展图款。",
+    ),
+    features: [
+      { en: "Metal body finish", zh: "金属机身质感" },
+      { en: "Retro styling", zh: "复古外观" },
+      { en: "Decorative airflow solution", zh: "兼顾装饰与送风" },
+    ],
+  },
+  {
+    englishBaseName: "Centrifugal Air Curtain",
+    chineseBaseName: "离心风幕机",
+    modelPrefix: "CAC",
+    imageNames: [
+      "air-curtain-visual-01.png",
+      "air-curtain-visual-02.png",
+    ],
+    category: "风幕系列",
+    categoryLabel: t("Air Curtains", "风幕系列"),
+    productLine: "离心风幕机",
+    productLineLabel: t("Centrifugal Air Curtains", "离心风幕机"),
+    summary: t(
+      "An expanded centrifugal air curtain range for commercial entry and airflow isolation projects.",
+      "面向商用入口与空气隔离项目的离心风幕机扩展图款。",
+    ),
+    features: [
+      { en: "Commercial entrance use", zh: "商用入口应用" },
+      { en: "Stable airflow curtain", zh: "稳定风幕覆盖" },
+      { en: "Multiple installation spans", zh: "多安装跨度" },
+    ],
+  },
+  {
+    englishBaseName: "Crossflow Air Curtain",
+    chineseBaseName: "贯流风幕机",
+    modelPrefix: "XAC",
+    imageNames: [
+      "air-curtain-visual-03.png",
+      "air-curtain-visual-04.png",
+    ],
+    category: "风幕系列",
+    categoryLabel: t("Air Curtains", "风幕系列"),
+    productLine: "贯流风幕机",
+    productLineLabel: t("Crossflow Air Curtains", "贯流风幕机"),
+    summary: t(
+      "Crossflow air curtain visuals balancing quiet operation and continuous doorway coverage.",
+      "兼顾连续入口覆盖与更平稳运行表现的贯流风幕机扩展图款。",
+    ),
+    features: [
+      { en: "Crossflow structure", zh: "贯流结构" },
+      { en: "Continuous doorway coverage", zh: "连续入口覆盖" },
+      { en: "Smooth running noise", zh: "平稳运行噪声" },
+    ],
+  },
+  {
+    englishBaseName: "Air Fryer",
+    chineseBaseName: "空气炸锅",
+    modelPrefix: "AFR",
+    imageNames: [
+      "air-fryer-visual-01.png",
+      "air-fryer-visual-02.png",
+      "air-fryer-visual-03.png",
+      "air-fryer-visual-04.png",
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "空气炸锅",
+    productLineLabel: t("Air Fryers", "空气炸锅"),
+    summary: t(
+      "An expanded air fryer product selection for efficient everyday kitchen use.",
+      "面向高效日常烹饪场景的空气炸锅扩展产品图款。",
+    ),
+    features: [
+      { en: "Compact countertop use", zh: "台面紧凑使用" },
+      { en: "Rapid hot-air cooking", zh: "热风快速烹饪" },
+      { en: "Everyday kitchen scenes", zh: "日常厨房场景" },
+    ],
+  },
+  {
+    englishBaseName: "Home Air Purifier",
+    chineseBaseName: "家居空气净化器",
+    modelPrefix: "HAP",
+    imageNames: [
+      "home-air-purifier-01.png",
+      "home-air-purifier-02.png",
+      "home-air-purifier-03.png",
+      "home-air-purifier-04.png",
+      "home-air-purifier-05.png",
+      "home-air-purifier-06.png",
+      "home-air-purifier-07.png",
+      "home-air-purifier-08.png",
+    ],
+    category: "健康家居系列",
+    categoryLabel: t("Healthy Home", "健康家居系列"),
+    productLine: "空气净化器",
+    productLineLabel: t("Air Purifiers", "空气净化器"),
+    summary: t(
+      "A broader home air purifier range centered on cleaner indoor air and comfort upgrades.",
+      "围绕洁净空气与居家舒适升级的家居空气净化器扩展图款。",
+    ),
+    features: [
+      { en: "Indoor air purification", zh: "室内空气净化" },
+      { en: "Comfortable breathing scenes", zh: "舒适呼吸场景" },
+      { en: "Healthy home support", zh: "健康家居支持" },
+    ],
+  },
+  {
+    englishBaseName: "Built-In Oven",
+    chineseBaseName: "嵌入式烤箱",
+    modelPrefix: "BIO",
+    imageNames: [
+      "built-in-oven-01.png",
+      "built-in-oven-02.png",
+      "built-in-oven-03.png",
+      "built-in-oven-04.png",
+      "built-in-oven-05.png",
+      "built-in-oven-06.png",
+      "built-in-oven-07.png",
+      "built-in-oven-08.png",
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "烤箱",
+    productLineLabel: t("Ovens", "烤箱"),
+    summary: t(
+      "An expanded built-in oven selection for integrated kitchen and baking scenarios.",
+      "面向整体厨房与家庭烘焙场景的嵌入式烤箱扩展图款。",
+    ),
+    features: [
+      { en: "Integrated kitchen fit", zh: "适配整体厨房" },
+      { en: "Baking and roasting scenes", zh: "烘焙与烘烤场景" },
+      { en: "Built-in visual consistency", zh: "嵌入式统一外观" },
+    ],
+  },
+  {
+    englishBaseName: "Capsule Coffee Machine",
+    chineseBaseName: "胶囊咖啡机",
+    modelPrefix: "CCM",
+    imageNames: [
+      "capsule-coffee-machine-01.png",
+      "capsule-coffee-machine-02.png",
+      "capsule-coffee-machine-03.png",
+      "capsule-coffee-machine-04.png",
+      "capsule-coffee-machine-05.png",
+      "capsule-coffee-machine-06.png",
+      "capsule-coffee-machine-07.png",
+      "capsule-coffee-machine-08.png",
+      "capsule-coffee-machine-09.png",
+      "capsule-coffee-machine-10.png",
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "咖啡机",
+    productLineLabel: t("Coffee Machines", "咖啡机"),
+    summary: t(
+      "A broader capsule coffee machine lineup for compact premium beverage experiences.",
+      "面向精品饮品场景的胶囊咖啡机扩展产品图款。",
+    ),
+    features: [
+      { en: "Capsule extraction format", zh: "胶囊萃取形式" },
+      { en: "Compact countertop footprint", zh: "台面紧凑占位" },
+      { en: "Premium beverage scenes", zh: "精品饮品场景" },
+    ],
+  },
+];
+
+const additionalCatalogProducts: ProductItem[] =
+  additionalCatalogProductBatches.flatMap(createCatalogProducts);
+
+export const featuredProducts: ProductItem[] = [
+  ...coreFeaturedProducts,
+  ...additionalCatalogProducts,
 ];
 
 export const catalogSections: CatalogSection[] = [
