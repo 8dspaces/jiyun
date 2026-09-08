@@ -20,9 +20,9 @@ export function SiteHeader(): React.JSX.Element {
 
   return (
     <header className="sticky top-0 z-40 border-b border-[#ececec] bg-white">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-8 px-6 py-5 lg:px-10">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-8 px-6 py-5 lg:px-10">
         <SiteLogo />
-        <nav className="hidden items-center gap-12 md:flex">
+        <nav className="hidden items-center justify-center gap-12 md:flex">
           {navigationItems.map((item) => {
             const isActive =
               item.href === "/"
@@ -44,7 +44,16 @@ export function SiteHeader(): React.JSX.Element {
             );
           })}
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-self-end gap-4">
+          <Link
+            href="/contact"
+            className={buttonVariants({
+              className:
+                "inline-flex min-w-[11.5rem] justify-center rounded-full bg-[#123e67] px-5 !text-white hover:bg-[#0f3354] hover:!text-white",
+            })}
+          >
+            {locale === "en" ? "Business Cooperation" : "商务合作"}
+          </Link>
           <div className="grid h-9 w-[5.5rem] grid-cols-2 rounded-full border border-[#dce4eb] bg-[#f7f9fb] p-1">
             <button
               type="button"
@@ -69,15 +78,6 @@ export function SiteHeader(): React.JSX.Element {
               中
             </button>
           </div>
-          <Link
-            href="/contact"
-            className={buttonVariants({
-              className:
-                "inline-flex min-w-[11.5rem] justify-center rounded-full bg-[#123e67] px-5 !text-white hover:bg-[#0f3354] hover:!text-white",
-            })}
-          >
-            {locale === "en" ? "Business Cooperation" : "商务合作"}
-          </Link>
         </div>
       </div>
     </header>
