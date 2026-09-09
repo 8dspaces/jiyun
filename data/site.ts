@@ -176,7 +176,7 @@ export const companyProfile = {
 
 export const statistics: StatisticItem[] = [
   {
-    value: t("6 Core Series", "6 大主打产品"),
+    value: t("6 Core Products", "6 大主打产品"),
     label: t("Product catalog structure", "官网产品品类目录"),
   },
   {
@@ -184,7 +184,7 @@ export const statistics: StatisticItem[] = [
     label: t("Manufacturing and coordination space", "制造与协同空间"),
   },
   {
-    value: t("150 Team Members", "150 人"),
+    value: t("150+ Employees", "150+ 人"),
     label: t("Design, R&D and business team", "设计、研发与商务团队"),
   },
   {
