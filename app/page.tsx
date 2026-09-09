@@ -2,11 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 
 import { useLocale } from "@/components/locale-provider";
 import { buttonVariants } from "@/components/ui/button";
-import { capabilities, companyProfile, statistics } from "@/data/site";
+import {
+  capabilities,
+  companyProfile,
+  homeSlides,
+  statistics,
+} from "@/data/site";
 import { getAssetPath } from "@/lib/asset-path";
 import { getLocalizedText } from "@/lib/locale";
 
@@ -17,36 +23,61 @@ import { getLocalizedText } from "@/lib/locale";
  */
 export default function HomePage(): React.JSX.Element {
   const { locale } = useLocale();
+  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveSlideIndex((currentIndex) =>
+        (currentIndex + 1) % homeSlides.length,
+      );
+    }, 5000);
+
+    return () => {
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  /**
+   * 按索引切换首页主视觉。
+   *
+   * @param slideIndex 目标轮播索引。
+   */
+  const handleSelectSlide = (slideIndex: number): void => {
+    setActiveSlideIndex(slideIndex);
+  };
 
   return (
     <div className="bg-white">
       <section className="relative overflow-hidden">
-        <div className="relative min-h-[36rem] md:min-h-[42rem]">
-          <Image
-            src={getAssetPath("/images/brand/jiyun_01.png")}
-            alt={
-              locale === "en"
-                ? "CUMULUS brand hero visual"
-                : "积云家居品牌主视觉"
-            }
-            fill
-            className="object-cover"
-            priority
-            sizes="100vw"
-          />
+        <div className="relative min-h-[28rem] md:min-h-[32rem]">
+          {homeSlides.map((slide, index) => (
+            <Image
+              key={slide.image}
+              src={getAssetPath(slide.image)}
+              alt={getLocalizedText(slide.alt, locale)}
+              fill
+              priority={index === 0}
+              sizes="100vw"
+              className={`object-cover transition-opacity duration-700 ${
+                index === activeSlideIndex ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.78)_0%,rgba(20,20,20,0.55)_38%,rgba(20,20,20,0.16)_72%,rgba(20,20,20,0.05)_100%)]" />
-          <div className="container-shell relative flex min-h-[36rem] items-center py-16 md:min-h-[42rem] md:py-24">
-            <div className="max-w-3xl space-y-7 text-white">
+          <div className="container-shell relative flex min-h-[28rem] items-center py-8 md:min-h-[32rem] md:py-10">
+            <div className="max-w-2xl space-y-4 text-white">
               <p className="text-[11px] uppercase tracking-[0.34em] text-white/70">
                 {companyProfile.englishName}
               </p>
-              <h3 className="max-w-5xl text-balance text-[30px] font-semibold leading-[1.04] tracking-tight md:text-[42px]">
+              <h3 className="max-w-4xl text-balance text-[26px] font-semibold leading-[1.08] tracking-tight md:text-[34px]">
                 {getLocalizedText(companyProfile.heroTitle, locale)}
               </h3>
-              <p className="max-w-2xl text-base leading-8 text-white/80 md:text-lg">
-                {getLocalizedText(companyProfile.heroDescription, locale)}
+              <p className="max-w-xl text-[14px] leading-6 text-white/76 md:text-[15px]">
+                {locale === "en"
+                  ? "Focused on design, development, and coordinated delivery for home appliance programs."
+                  : "专注家电产品的设计研发与协同交付。"}
               </p>
-              <div className="flex flex-col gap-4 sm:flex-row">
+              <div className="flex flex-col gap-2.5 sm:flex-row">
                 <Link
                   href="/about"
                   className={buttonVariants({
@@ -72,6 +103,31 @@ export default function HomePage(): React.JSX.Element {
                   {locale === "en" ? "View Product Center" : "查看产品中心"}
                 </Link>
               </div>
+            </div>
+          </div>
+          <div className="container-shell relative pb-4 md:pb-5">
+            <div className="flex items-center justify-center gap-2">
+              {homeSlides.map((slide, index) => {
+                const isActive = index === activeSlideIndex;
+
+                return (
+                  <button
+                    key={`hero-slide-dot-${slide.image}`}
+                    type="button"
+                    onClick={() => handleSelectSlide(index)}
+                    className={`rounded-full transition-all ${
+                      isActive
+                        ? "h-2.5 w-2.5 bg-[#c8192e]"
+                        : "h-2 w-2 bg-white/50 hover:bg-white/75"
+                    }`}
+                    aria-label={
+                      locale === "en"
+                        ? `Switch to slide ${index + 1}`
+                        : `切换到第 ${index + 1} 张轮播图`
+                    }
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

@@ -217,6 +217,29 @@ export const capabilities: CapabilityItem[] = [
   },
 ];
 
+export const homeSlides: ShowcaseImageItem[] = [
+  {
+    image: "/images/slides/001.jfif",
+    alt: t("Cumulus homepage slide visual 01", "积云家居首页轮播图 01"),
+  },
+  {
+    image: "/images/slides/002.jfif",
+    alt: t("Cumulus homepage slide visual 02", "积云家居首页轮播图 02"),
+  },
+  {
+    image: "/images/slides/003.jfif",
+    alt: t("Cumulus homepage slide visual 03", "积云家居首页轮播图 03"),
+  },
+  {
+    image: "/images/slides/004.jfif",
+    alt: t("Cumulus homepage slide visual 04", "积云家居首页轮播图 04"),
+  },
+  {
+    image: "/images/slides/005.jfif",
+    alt: t("Cumulus homepage slide visual 05", "积云家居首页轮播图 05"),
+  },
+];
+
 export const seriesItems: SeriesItem[] = [
   {
     id: "air-treatment",
