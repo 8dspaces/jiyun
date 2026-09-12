@@ -25,11 +25,11 @@ export default function AboutPage(): React.JSX.Element {
             src={getAssetPath("/images/brand/campus.jpeg")}
             alt={locale === "en" ? "CUMULUS campus banner" : "积云家居园区横幅"}
             fill
-            className="object-cover"
+            className="pointer-events-none object-cover"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.76)_0%,rgba(20,20,20,0.38)_54%,rgba(20,20,20,0.12)_100%)]" />
-          <div className="container-shell relative flex min-h-[18rem] items-center md:min-h-[22rem]">
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.76)_0%,rgba(20,20,20,0.38)_54%,rgba(20,20,20,0.12)_100%)]" />
+          <div className="container-shell relative z-10 flex min-h-[18rem] items-center md:min-h-[22rem]">
             <div className="max-w-2xl space-y-4 text-white">
               <p className="text-[11px] uppercase tracking-[0.32em] text-white/72">
                 About Cumulus

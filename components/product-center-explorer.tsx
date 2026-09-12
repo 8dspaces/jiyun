@@ -367,7 +367,7 @@ export function ProductCenterExplorer({
             })}
           </div>
           {shouldCollapseAllCategories ? (
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-end bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.92)_28%,rgba(255,255,255,1)_58%)] pl-10">
+            <div className="pointer-events-none absolute bottom-0 right-0 flex h-[52px] items-end bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.92)_28%,rgba(255,255,255,1)_58%)] pl-6">
               <button
                 type="button"
                 onClick={() => setIsAllCategoriesExpanded(true)}
@@ -392,7 +392,7 @@ export function ProductCenterExplorer({
       {activeSection ? (
         <div id={activeSection.id} className="space-y-6 scroll-mt-28">
           <section className="relative overflow-hidden border border-[#ececec] bg-[#f7f7f7]">
-            <div className="absolute inset-0">
+            <div className="pointer-events-none absolute inset-0">
               <Image
                 src={getAssetPath(activeSection.image)}
                 alt={getLocalizedText(activeSection.alt, locale)}
@@ -402,7 +402,7 @@ export function ProductCenterExplorer({
                 sizes="100vw"
               />
             </div>
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(247,247,247,0.96)_0%,rgba(247,247,247,0.88)_28%,rgba(247,247,247,0.58)_55%,rgba(247,247,247,0.18)_100%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(247,247,247,0.96)_0%,rgba(247,247,247,0.88)_28%,rgba(247,247,247,0.58)_55%,rgba(247,247,247,0.18)_100%)]" />
             <div className="relative z-10 grid min-h-[24rem] items-end gap-6 px-8 py-8 md:min-h-[28rem] md:px-10 md:py-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-8">
               <div className="max-w-xl space-y-5">
                 <p className="text-sm font-medium text-[#123e67]">

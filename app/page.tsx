@@ -58,13 +58,13 @@ export default function HomePage(): React.JSX.Element {
               fill
               priority={index === 0}
               sizes="100vw"
-              className={`object-cover transition-opacity duration-700 ${
+              className={`pointer-events-none object-cover transition-opacity duration-700 ${
                 index === activeSlideIndex ? "opacity-100" : "opacity-0"
               }`}
             />
           ))}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.78)_0%,rgba(20,20,20,0.55)_38%,rgba(20,20,20,0.16)_72%,rgba(20,20,20,0.05)_100%)]" />
-          <div className="container-shell relative flex min-h-[28rem] items-center py-8 md:min-h-[32rem] md:py-10">
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.78)_0%,rgba(20,20,20,0.55)_38%,rgba(20,20,20,0.16)_72%,rgba(20,20,20,0.05)_100%)]" />
+          <div className="container-shell relative z-10 flex min-h-[28rem] items-center py-8 md:min-h-[32rem] md:py-10">
             <div className="max-w-2xl space-y-4 text-white">
               <p className="text-[11px] uppercase tracking-[0.34em] text-white/70">
                 {companyProfile.englishName}
@@ -105,7 +105,7 @@ export default function HomePage(): React.JSX.Element {
               </div>
             </div>
           </div>
-          <div className="container-shell relative pb-4 md:pb-5">
+          <div className="container-shell relative z-10 pb-4 md:pb-5">
             <div className="flex items-center justify-center gap-2">
               {homeSlides.map((slide, index) => {
                 const isActive = index === activeSlideIndex;
