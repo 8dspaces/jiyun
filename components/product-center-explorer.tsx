@@ -35,6 +35,8 @@ export function ProductCenterExplorer({
   const activeSection = sections.find((section) => section.id === activeSectionId);
   const [activeLineName, setActiveLineName] = useState<string>("");
   const [currentProductPage, setCurrentProductPage] = useState<number>(1);
+  const [isAllCategoriesExpanded, setIsAllCategoriesExpanded] =
+    useState<boolean>(false);
 
   const productCountByCategory = useMemo(() => {
     return products.reduce<Record<string, number>>((counts, item) => {
@@ -126,6 +128,10 @@ export function ProductCenterExplorer({
         summary: line.summary,
       }))
     : allProductLines;
+  const shouldShowAllCategoriesToggle =
+    !activeSection && visibleProductLines.length > 6;
+  const shouldCollapseAllCategories =
+    shouldShowAllCategoriesToggle && !isAllCategoriesExpanded;
 
   const matchedProducts = products.filter((item) => {
     const matchesSection = activeSection ? item.category === activeSection.key : true;
@@ -158,6 +164,7 @@ export function ProductCenterExplorer({
     setActiveSectionId(section.id);
     setActiveLineName("");
     setCurrentProductPage(1);
+    setIsAllCategoriesExpanded(false);
 
     if (typeof window !== "undefined") {
       window.history.replaceState(null, "", `#${section.id}`);
@@ -171,6 +178,7 @@ export function ProductCenterExplorer({
     setActiveSectionId("");
     setActiveLineName("");
     setCurrentProductPage(1);
+    setIsAllCategoriesExpanded(false);
 
     if (typeof window !== "undefined") {
       window.history.replaceState(null, "", "#all");
@@ -275,79 +283,110 @@ export function ProductCenterExplorer({
       </section>
 
       <section className="space-y-4">
-        <div className="flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={() => {
-              setActiveLineName("");
-              setCurrentProductPage(1);
-            }}
-            className={`relative border border-[#ececec] bg-white px-4 py-3 text-sm transition-colors ${
-              normalizedActiveLineName === ""
-                ? "text-[#123e67]"
-                : "text-[#333333] hover:bg-[#fafafa] hover:text-[#123e67]"
+        <div className="relative">
+          <div
+            className={`flex flex-wrap gap-3 overflow-hidden ${
+              shouldCollapseAllCategories
+                ? "max-h-[104px] pr-[8.5rem]"
+                : ""
             }`}
           >
-            {locale === "en" ? "All Categories" : "全部类别"}
-            <span
-              className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
-                normalizedActiveLineName === "" ? "bg-[#123e67]" : "bg-transparent"
+            <button
+              type="button"
+              onClick={() => {
+                setActiveLineName("");
+                setCurrentProductPage(1);
+              }}
+              className={`relative border border-[#ececec] bg-white px-4 py-3 text-sm transition-colors ${
+                normalizedActiveLineName === ""
+                  ? "text-[#123e67]"
+                  : "text-[#333333] hover:bg-[#fafafa] hover:text-[#123e67]"
               }`}
-            />
-          </button>
-          {visibleProductLines.map((line) => {
-            const isActive = line.name === normalizedActiveLineName;
-
-            return (
-              <button
-                key={`${line.sectionId}-${line.name}`}
-                type="button"
-                onClick={() => {
-                  if (!activeSection && line.sectionId !== activeSectionId) {
-                    setActiveSectionId(line.sectionId);
-                  }
-
-                  setActiveLineName(line.name);
-                  setCurrentProductPage(1);
-
-                  if (typeof window !== "undefined") {
-                    window.history.replaceState(null, "", `#${line.sectionId}`);
-                  }
-                }}
-                className={`relative border border-[#ececec] bg-white px-4 py-3 text-sm transition-colors ${
-                  isActive
-                    ? "text-[#123e67]"
-                    : "text-[#333333] hover:bg-[#fafafa] hover:text-[#123e67]"
+            >
+              {locale === "en" ? "All Categories" : "全部类别"}
+              <span
+                className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
+                  normalizedActiveLineName === ""
+                    ? "bg-[#123e67]"
+                    : "bg-transparent"
                 }`}
-              >
-                {!activeSection
-                  ? `${getLocalizedText(
-                      sections.find((section) => section.id === line.sectionId)?.title ?? {
-                        en: "Unknown Section",
-                        zh: "未知分类",
-                      },
-                      locale,
-                    )} / `
-                  : ""}
-                {getLocalizedText(
-                  activeSection?.productLines.find((item) => item.name === line.name)?.label ??
-                    sections
-                      .find((section) => section.id === line.sectionId)
-                      ?.productLines.find((item) => item.name === line.name)?.label ?? {
-                      en: line.name,
-                      zh: line.name,
-                    },
-                  locale,
-                )}
-                <span
-                  className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
-                    isActive ? "bg-[#123e67]" : "bg-transparent"
+              />
+            </button>
+            {visibleProductLines.map((line) => {
+              const isActive = line.name === normalizedActiveLineName;
+
+              return (
+                <button
+                  key={`${line.sectionId}-${line.name}`}
+                  type="button"
+                  onClick={() => {
+                    if (!activeSection && line.sectionId !== activeSectionId) {
+                      setActiveSectionId(line.sectionId);
+                    }
+
+                    setActiveLineName(line.name);
+                    setCurrentProductPage(1);
+                    setIsAllCategoriesExpanded(false);
+
+                    if (typeof window !== "undefined") {
+                      window.history.replaceState(null, "", `#${line.sectionId}`);
+                    }
+                  }}
+                  className={`relative border border-[#ececec] bg-white px-4 py-3 text-sm transition-colors ${
+                    isActive
+                      ? "text-[#123e67]"
+                      : "text-[#333333] hover:bg-[#fafafa] hover:text-[#123e67]"
                   }`}
-                />
+                >
+                  {!activeSection
+                    ? `${getLocalizedText(
+                        sections.find((section) => section.id === line.sectionId)?.title ?? {
+                          en: "Unknown Section",
+                          zh: "未知分类",
+                        },
+                        locale,
+                      )} / `
+                    : ""}
+                  {getLocalizedText(
+                    activeSection?.productLines.find((item) => item.name === line.name)?.label ??
+                      sections
+                        .find((section) => section.id === line.sectionId)
+                        ?.productLines.find((item) => item.name === line.name)?.label ?? {
+                        en: line.name,
+                        zh: line.name,
+                      },
+                    locale,
+                  )}
+                  <span
+                    className={`absolute inset-x-0 bottom-0 h-[3px] transition-colors ${
+                      isActive ? "bg-[#123e67]" : "bg-transparent"
+                    }`}
+                  />
+                </button>
+              );
+            })}
+          </div>
+          {shouldCollapseAllCategories ? (
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-end bg-[linear-gradient(90deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.92)_28%,rgba(255,255,255,1)_58%)] pl-10">
+              <button
+                type="button"
+                onClick={() => setIsAllCategoriesExpanded(true)}
+                className="pointer-events-auto inline-flex items-center border border-[#d7e6f2] bg-white px-4 py-3 text-sm font-medium text-[#123e67] transition-colors hover:bg-[#f5f9fc] hover:text-[#0f3354]"
+              >
+                {locale === "en" ? "Show More" : "查看更多"}
               </button>
-            );
-          })}
+            </div>
+          ) : null}
         </div>
+        {!activeSection && shouldShowAllCategoriesToggle && isAllCategoriesExpanded ? (
+          <button
+            type="button"
+            onClick={() => setIsAllCategoriesExpanded(false)}
+            className="inline-flex items-center border border-[#d7e6f2] bg-white px-4 py-3 text-sm font-medium text-[#123e67] transition-colors hover:bg-[#f5f9fc] hover:text-[#0f3354]"
+          >
+            {locale === "en" ? "Collapse" : "收起"}
+          </button>
+        ) : null}
       </section>
 
       {activeSection ? (
@@ -475,7 +514,7 @@ export function ProductCenterExplorer({
             <h3 className="mt-2 text-[32px] font-semibold text-[#222222]">
               {locale === "en"
                 ? "Home Customization Showcase"
-                : "家居定制案例展示"}
+                : "家居定制用品展示"}
             </h3>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
