@@ -20,6 +20,17 @@ export function SiteHeader(): React.JSX.Element {
   const pathname = usePathname();
   const { locale, setLocale } = useLocale();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const mobileNavigationItems = navigationItems.map((item) =>
+    item.href === "/contact"
+      ? {
+          ...item,
+          label: {
+            en: "Business Cooperation",
+            zh: "商务合作",
+          },
+        }
+      : item,
+  );
 
   return (
     <header className="sticky top-0 z-[70] isolate border-b border-[#ececec] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
@@ -55,15 +66,17 @@ export function SiteHeader(): React.JSX.Element {
           })}
         </nav>
         <div className="flex items-center justify-self-end gap-2 md:gap-4">
-          <Link
-            href="/contact"
-            className={buttonVariants({
-              className:
-                "hidden min-w-[11.5rem] justify-center rounded-full bg-[#123e67] px-5 !text-white hover:bg-[#0f3354] hover:!text-white md:inline-flex",
-            })}
-          >
-            {locale === "en" ? "Business Cooperation" : "商务合作"}
-          </Link>
+          <div className="hidden md:block">
+            <Link
+              href="/contact"
+              className={buttonVariants({
+                className:
+                  "min-w-[11.5rem] justify-center rounded-full bg-[#123e67] px-5 !text-white hover:bg-[#0f3354] hover:!text-white",
+              })}
+            >
+              {locale === "en" ? "Business Cooperation" : "商务合作"}
+            </Link>
+          </div>
           <div className="grid h-9 w-[5.25rem] grid-cols-2 rounded-full border border-[#dce4eb] bg-[#f7f9fb] p-1 md:w-[5.5rem]">
             <button
               type="button"
@@ -106,7 +119,7 @@ export function SiteHeader(): React.JSX.Element {
       {isMobileMenuOpen ? (
         <div className="border-t border-[#ececec] bg-white shadow-[0_18px_40px_rgba(15,51,84,0.08)] md:hidden">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-4 py-4 sm:px-6">
-            {navigationItems.map((item) => {
+            {mobileNavigationItems.map((item) => {
               const isActive =
                 item.href === "/"
                   ? pathname === item.href
@@ -119,7 +132,7 @@ export function SiteHeader(): React.JSX.Element {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`rounded-xl border px-4 py-3 text-[14px] font-medium transition-colors ${
                     isActive
-                      ? "border-[#123e67] bg-[#123e67] text-white"
+                      ? "border-[#123e67] bg-[#123e67] !text-white"
                       : "border-[#e6ecf1] bg-[#fafbfd] text-[#3f4d5b]"
                   }`}
                 >
@@ -127,16 +140,6 @@ export function SiteHeader(): React.JSX.Element {
                 </Link>
               );
             })}
-            <Link
-              href="/contact"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className={buttonVariants({
-                className:
-                  "mt-2 inline-flex w-full justify-center rounded-full bg-[#123e67] !text-white hover:bg-[#0f3354] hover:!text-white",
-              })}
-            >
-              {locale === "en" ? "Business Cooperation" : "商务合作"}
-            </Link>
           </div>
         </div>
       ) : null}

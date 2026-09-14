@@ -265,7 +265,7 @@ export function ProductCenterExplorer({
           }
         </div>
         <div className="border border-[#ececec] bg-white p-3 md:p-4">
-          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+          <div className="grid grid-cols-2 gap-3 md:flex md:flex-wrap md:justify-center md:gap-4">
             {sections.map((section) => {
               const isActive = section.id === activeSectionId;
 
@@ -274,7 +274,7 @@ export function ProductCenterExplorer({
                   key={section.id}
                   type="button"
                   onClick={() => handleSectionChange(section)}
-                  className={`group relative w-[10.2rem] overflow-hidden border border-[#ececec] bg-white text-center transition-colors duration-300 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8192e]/20 md:w-[11rem] ${
+                  className={`group relative w-full overflow-hidden border border-[#ececec] bg-white text-center transition-colors duration-300 focus-visible:z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c8192e]/20 md:w-[11rem] ${
                     isActive
                       ? "z-10 bg-[#fafafa]"
                       : "hover:bg-[#fafafa]"
