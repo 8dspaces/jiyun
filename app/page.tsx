@@ -155,7 +155,7 @@ export default function HomePage(): React.JSX.Element {
         <div className="container-shell grid gap-0 py-16 md:py-20 lg:grid-cols-[1.02fr_0.98fr]">
           <div className="relative min-h-[24rem] overflow-hidden">
             <Image
-              src={getAssetPath("/images/brand/campus.jpeg")}
+              src={getAssetPath("/images/brand/campus.jpg")}
               alt={
                 locale === "en"
                   ? "CUMULUS campus view"
@@ -227,7 +227,7 @@ export default function HomePage(): React.JSX.Element {
           </div>
           <div className="relative min-h-[24rem] overflow-hidden">
             <Image
-              src={getAssetPath("/images/brand/global-map.png")}
+              src={getAssetPath("/images/brand/global-map.jpg")}
               alt={
                 locale === "en"
                   ? "CUMULUS global market coverage"
