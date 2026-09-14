@@ -227,11 +227,13 @@ export function ProductCenterExplorer({
             </p>
           ) : (
             <p className="text-sm text-[#777777]">
-              {locale === "en"
+              {/* {locale === "en"
                 ? "Showing all series and featured products by default"
-                : "默认展示全部系列与全部代表产品"}
+                : "默认展示全部系列与全部代表产品"} */}
             </p>
-          )}
+          
+          )
+          }
         </div>
         <div className="border border-[#ececec] bg-white p-3 md:p-4">
           <div className="flex flex-wrap justify-center gap-3 md:gap-4">
