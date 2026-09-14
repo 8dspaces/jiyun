@@ -73,6 +73,7 @@ export interface ProductLineItem {
 export interface ShowcaseImageItem {
   image: string;
   alt: LocalizedText;
+  productLine?: string;
 }
 
 interface CatalogProductBatch {
@@ -1317,8 +1318,8 @@ export const catalogSections: CatalogSection[] = [
     key: "家居定制系列",
     title: t("Home Customization", "家居定制系列"),
     description: t(
-      "Customization solutions for integrated spaces and client-specific development.",
-      "面向空间配套与客户化开发需求的定制方案系列。",
+      "A household goods lineup covering storage, cleaning, hanging, and daily organization needs.",
+      "围绕收纳、清洁、悬挂与日常整理场景的家居用品系列。",
     ),
     image: "/images/series/006.jfif",
     alt: t(
@@ -1326,33 +1327,73 @@ export const catalogSections: CatalogSection[] = [
       "积云家居家居定制目录图",
     ),
     highlights: [
-      t("Integrated spaces", "空间配套"),
-      t("Product integration", "产品整合"),
-      t("Custom development", "定制开发"),
+      t("Storage organization", "收纳整理"),
+      t("Daily household items", "日用家居"),
+      t("Lightweight plastic goods", "轻量塑胶用品"),
     ],
     productLines: [
       {
-        name: "全屋家居配套",
-        label: t("Whole-Home Packages", "全屋家居配套"),
+        name: "储存箱",
+        label: t("Storage Boxes", "储存箱"),
         summary: t(
-          "For space-level furniture combinations and overall solution presentation.",
-          "承接空间级家居组合与方案展示。",
+          "Storage box products for household sorting and organized placement.",
+          "用于家庭分类收纳与整齐摆放的储存箱产品。",
         ),
       },
       {
-        name: "定制化产品整合",
-        label: t("Customized Product Integration", "定制化产品整合"),
+        name: "储物架",
+        label: t("Storage Racks", "储物架"),
         summary: t(
-          "Organizes more complete product combinations around customer needs.",
-          "围绕客户需求组织更完整的产品组合。",
+          "Rack solutions for everyday storage and space organization.",
+          "面向日常置物与空间整理场景的储物架产品。",
         ),
       },
       {
-        name: "合作项目开发",
-        label: t("Project-Based Development", "合作项目开发"),
+        name: "垃圾桶",
+        label: t("Trash Bins", "垃圾桶"),
         summary: t(
-          "Suitable for project collaboration and ongoing iterative development.",
-          "适用于项目型合作与持续迭代开发场景。",
+          "Trash bin products for home cleanup and neat waste management.",
+          "面向家庭清洁与垃圾整理场景的垃圾桶产品。",
+        ),
+      },
+      {
+        name: "塑料刷",
+        label: t("Plastic Brushes", "塑料刷"),
+        summary: t(
+          "Lightweight plastic brush items for daily cleaning needs.",
+          "面向日常清洁需求的轻量塑料刷类用品。",
+        ),
+      },
+      {
+        name: "塑料夹",
+        label: t("Plastic Clips", "塑料夹"),
+        summary: t(
+          "Plastic clip products for fastening, sorting, and daily household use.",
+          "适用于固定、整理与日常居家使用的塑料夹类产品。",
+        ),
+      },
+      {
+        name: "塑料挂钩",
+        label: t("Plastic Hooks", "塑料挂钩"),
+        summary: t(
+          "Hook products for hanging and easy-access daily storage.",
+          "面向悬挂收纳与便捷取用场景的塑料挂钩产品。",
+        ),
+      },
+      {
+        name: "塑料衣架",
+        label: t("Plastic Hangers", "塑料衣架"),
+        summary: t(
+          "Plastic hanger products for clothing display and everyday organization.",
+          "用于衣物悬挂与日常整理的塑料衣架产品。",
+        ),
+      },
+      {
+        name: "纸巾盒",
+        label: t("Tissue Boxes", "纸巾盒"),
+        summary: t(
+          "Tissue box products for tabletop organization and convenient access.",
+          "面向台面整理与便捷取纸场景的纸巾盒产品。",
         ),
       },
     ],
@@ -1361,158 +1402,69 @@ export const catalogSections: CatalogSection[] = [
 
 export const homeCustomizationShowcaseImages: ShowcaseImageItem[] = [
   {
-    image: "/images/customization/home-customization-gallery-01.jpg",
-    alt: t(
-      "Cumulus home customization gallery 01",
-      "积云家居家居定制案例图 01",
-    ),
+    image: "/images/customization/storage-box-01.png",
+    alt: t("Cumulus storage box product", "积云家居储存箱产品图"),
+    productLine: "储存箱",
   },
   {
-    image: "/images/customization/home-customization-gallery-02.jpg",
-    alt: t(
-      "Cumulus home customization gallery 02",
-      "积云家居家居定制案例图 02",
-    ),
+    image: "/images/customization/storage-rack-01.png",
+    alt: t("Cumulus storage rack product", "积云家居储物架产品图"),
+    productLine: "储物架",
   },
   {
-    image: "/images/customization/home-customization-gallery-03.jpg",
-    alt: t(
-      "Cumulus home customization gallery 03",
-      "积云家居家居定制案例图 03",
-    ),
+    image: "/images/customization/trash-bin-01.png",
+    alt: t("Cumulus trash bin product 01", "积云家居垃圾桶产品图 01"),
+    productLine: "垃圾桶",
   },
   {
-    image: "/images/customization/home-customization-gallery-04.jpg",
-    alt: t(
-      "Cumulus home customization gallery 04",
-      "积云家居家居定制案例图 04",
-    ),
+    image: "/images/customization/trash-bin-02.png",
+    alt: t("Cumulus trash bin product 02", "积云家居垃圾桶产品图 02"),
+    productLine: "垃圾桶",
   },
   {
-    image: "/images/customization/home-customization-gallery-05.jpg",
-    alt: t(
-      "Cumulus home customization gallery 05",
-      "积云家居家居定制案例图 05",
-    ),
+    image: "/images/customization/plastic-brush-01.png",
+    alt: t("Cumulus plastic brush product 01", "积云家居塑料刷产品图 01"),
+    productLine: "塑料刷",
   },
   {
-    image: "/images/customization/home-customization-gallery-06.jpg",
-    alt: t(
-      "Cumulus home customization gallery 06",
-      "积云家居家居定制案例图 06",
-    ),
+    image: "/images/customization/plastic-brush-02.png",
+    alt: t("Cumulus plastic brush product 02", "积云家居塑料刷产品图 02"),
+    productLine: "塑料刷",
   },
   {
-    image: "/images/customization/home-customization-gallery-07.jpg",
-    alt: t(
-      "Cumulus home customization gallery 07",
-      "积云家居家居定制案例图 07",
-    ),
+    image: "/images/customization/plastic-clip-01.png",
+    alt: t("Cumulus plastic clip product 01", "积云家居塑料夹产品图 01"),
+    productLine: "塑料夹",
   },
   {
-    image: "/images/customization/home-customization-gallery-08.jpg",
-    alt: t(
-      "Cumulus home customization gallery 08",
-      "积云家居家居定制案例图 08",
-    ),
+    image: "/images/customization/plastic-clip-02.png",
+    alt: t("Cumulus plastic clip product 02", "积云家居塑料夹产品图 02"),
+    productLine: "塑料夹",
   },
   {
-    image: "/images/customization/home-customization-gallery-09.jpg",
-    alt: t(
-      "Cumulus home customization gallery 09",
-      "积云家居家居定制案例图 09",
-    ),
+    image: "/images/customization/plastic-hook-01.png",
+    alt: t("Cumulus plastic hook product", "积云家居塑料挂钩产品图"),
+    productLine: "塑料挂钩",
   },
   {
-    image: "/images/customization/home-customization-gallery-10.jpg",
-    alt: t(
-      "Cumulus home customization gallery 10",
-      "积云家居家居定制案例图 10",
-    ),
+    image: "/images/customization/plastic-hanger-01.png",
+    alt: t("Cumulus plastic hanger product 01", "积云家居塑料衣架产品图 01"),
+    productLine: "塑料衣架",
   },
   {
-    image: "/images/customization/home-customization-gallery-11.jpg",
-    alt: t(
-      "Cumulus home customization gallery 11",
-      "积云家居家居定制案例图 11",
-    ),
+    image: "/images/customization/plastic-hanger-02.png",
+    alt: t("Cumulus plastic hanger product 02", "积云家居塑料衣架产品图 02"),
+    productLine: "塑料衣架",
   },
   {
-    image: "/images/customization/home-customization-gallery-12.jpg",
-    alt: t(
-      "Cumulus home customization gallery 12",
-      "积云家居家居定制案例图 12",
-    ),
+    image: "/images/customization/tissue-box-01.png",
+    alt: t("Cumulus tissue box product 01", "积云家居纸巾盒产品图 01"),
+    productLine: "纸巾盒",
   },
   {
-    image: "/images/customization/home-customization-gallery-13.jpg",
-    alt: t(
-      "Cumulus home customization gallery 13",
-      "积云家居家居定制案例图 13",
-    ),
-  },
-  {
-    image: "/images/customization/home-customization-gallery-14.jpg",
-    alt: t(
-      "Cumulus home customization gallery 14",
-      "积云家居家居定制案例图 14",
-    ),
-  },
-  {
-    image: "/images/customization/home-customization-gallery-15.jpg",
-    alt: t(
-      "Cumulus home customization gallery 15",
-      "积云家居家居定制案例图 15",
-    ),
-  },
-  {
-    image: "/images/customization/home-customization-gallery-16.jpg",
-    alt: t(
-      "Cumulus home customization gallery 16",
-      "积云家居家居定制案例图 16",
-    ),
-  },
-  {
-    image: "/images/customization/home-customization-gallery-17.png",
-    alt: t(
-      "Cumulus home customization gallery 17",
-      "积云家居家居定制案例图 17",
-    ),
-  },
-  {
-    image: "/images/customization/home-customization-gallery-18.jpg",
-    alt: t(
-      "Cumulus home customization gallery 18",
-      "积云家居家居定制案例图 18",
-    ),
-  },
-  {
-    image: "/images/customization/home-customization-gallery-19.jpg",
-    alt: t(
-      "Cumulus home customization gallery 19",
-      "积云家居家居定制案例图 19",
-    ),
-  },
-  {
-    image: "/images/customization/home-customization-gallery-20.jpg",
-    alt: t(
-      "Cumulus home customization gallery 20",
-      "积云家居家居定制案例图 20",
-    ),
-  },
-  {
-    image: "/images/customization/home-customization-gallery-21.jpg",
-    alt: t(
-      "Cumulus home customization gallery 21",
-      "积云家居家居定制案例图 21",
-    ),
-  },
-  {
-    image: "/images/customization/home-customization-gallery-22.jpg",
-    alt: t(
-      "Cumulus home customization gallery 22",
-      "积云家居家居定制案例图 22",
-    ),
+    image: "/images/customization/tissue-box-02.png",
+    alt: t("Cumulus tissue box product 02", "积云家居纸巾盒产品图 02"),
+    productLine: "纸巾盒",
   },
 ];
 

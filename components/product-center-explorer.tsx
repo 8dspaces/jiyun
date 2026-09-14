@@ -151,6 +151,35 @@ export function ProductCenterExplorer({
     safeCurrentProductPage * productsPerPage,
   );
   const isHomeCustomizationSection = activeSection?.id === "home-customization";
+  const filteredHomeCustomizationShowcaseImages = useMemo(() => {
+    if (!isHomeCustomizationSection) {
+      return homeCustomizationShowcaseImages;
+    }
+
+    if (!normalizedActiveLineName) {
+      return homeCustomizationShowcaseImages;
+    }
+
+    return homeCustomizationShowcaseImages.filter(
+      (item) => item.productLine === normalizedActiveLineName,
+    );
+  }, [isHomeCustomizationSection, normalizedActiveLineName]);
+  const displayedActiveSectionLines = useMemo(() => {
+    if (!activeSection) {
+      return [];
+    }
+
+    if (normalizedActiveLineName) {
+      return activeSection.productLines.filter(
+        (line) => line.name === normalizedActiveLineName,
+      );
+    }
+
+    return activeSection.productLines.slice(0, 3);
+  }, [activeSection, normalizedActiveLineName]);
+  const hiddenActiveSectionLineCount = activeSection
+    ? Math.max(0, activeSection.productLines.length - displayedActiveSectionLines.length)
+    : 0;
   const activeProductCount = activeSection
     ? productCountByCategory[activeSection.key] ?? 0
     : products.length;
@@ -441,12 +470,8 @@ export function ProductCenterExplorer({
                 <p className="text-[12px] tracking-[0.2em] text-[#123e67]">
                   {locale === "en" ? "Product Directory" : "产品目录"}
                 </p>
-                {activeSection.productLines.map((line) => {
+                {displayedActiveSectionLines.map((line) => {
                   const isActiveLine = line.name === normalizedActiveLineName;
-
-                  if (normalizedActiveLineName && !isActiveLine) {
-                    return null;
-                  }
 
                   return (
                     <article
@@ -472,6 +497,19 @@ export function ProductCenterExplorer({
                     </article>
                   );
                 })}
+                {!normalizedActiveLineName && hiddenActiveSectionLineCount > 0 ? (
+                  <div className="border border-dashed border-[#d6dee6] px-4 py-3 text-[12px] text-[#7f8b96]">
+                    {locale === "en"
+                      ? `And ${hiddenActiveSectionLineCount} more ${getLocalizedText(
+                          activeSection.title,
+                          locale,
+                        )} products`
+                      : `及其余 ${hiddenActiveSectionLineCount} 项${getLocalizedText(
+                          activeSection.title,
+                          locale,
+                        )}产品`}
+                  </div>
+                ) : null}
               </aside>
             </div>
           </section>
@@ -511,16 +549,16 @@ export function ProductCenterExplorer({
         <section className="space-y-4">
           <div>
             <p className="text-sm font-medium text-[#123e67]">
-              {locale === "en" ? "Customization Gallery" : "定制图册"}
+              {locale === "en" ? "Household Goods Gallery" : "家居用品图册"}
             </p>
             <h3 className="mt-2 text-[32px] font-semibold text-[#222222]">
               {locale === "en"
-                ? "Home Customization Showcase"
+                ? "Home Household Goods Showcase"
                 : "家居定制用品展示"}
             </h3>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {homeCustomizationShowcaseImages.map((item) => (
+            {filteredHomeCustomizationShowcaseImages.map((item) => (
               <article
                 key={item.image}
                 className="overflow-hidden border border-[#e2e8ef] bg-white"
@@ -569,8 +607,8 @@ export function ProductCenterExplorer({
         ) : isHomeCustomizationSection ? (
           <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
             {locale === "en"
-              ? "The home customization series is presented primarily through a project gallery. Specific solution combinations are available through business communication."
-              : "家居定制系列以空间案例图册展示为主，具体组合方案可通过商务沟通进一步获取。"}
+              ? "The home customization series is currently presented through a household goods gallery. Additional product combinations can be aligned through business communication."
+              : "家居定制系列当前以家居用品图册展示为主，更多产品组合可通过商务沟通进一步对接。"}
           </div>
         ) : (
           <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
