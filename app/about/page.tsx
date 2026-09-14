@@ -22,7 +22,7 @@ export default function AboutPage(): React.JSX.Element {
       <section className="relative overflow-hidden">
         <div className="relative min-h-[18rem] md:min-h-[22rem]">
           <Image
-            src={getAssetPath("/images/brand/campus.jpeg")}
+            src={getAssetPath("/images/brand/campus.jpg")}
             alt={locale === "en" ? "CUMULUS campus banner" : "积云家居园区横幅"}
             fill
             className="pointer-events-none object-cover"
@@ -53,7 +53,7 @@ export default function AboutPage(): React.JSX.Element {
         <div className="container-shell grid gap-0 py-16 md:py-20 lg:grid-cols-[1.02fr_0.98fr]">
           <div className="relative min-h-[24rem] overflow-hidden">
             <Image
-              src={getAssetPath("/images/brand/campus.jpeg")}
+              src={getAssetPath("/images/brand/campus.jpg")}
               alt={locale === "en" ? "CUMULUS campus" : "积云家居园区图片"}
               fill
               className="object-cover"

@@ -45,7 +45,7 @@ export default function RootLayout({
         <LocaleProvider>
           <div className="relative flex min-h-screen flex-col overflow-x-hidden">
             <SiteHeader />
-            <main className="relative flex-1">{children}</main>
+            <main className="relative z-0 flex-1">{children}</main>
             <SiteFooter />
           </div>
         </LocaleProvider>

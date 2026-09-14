@@ -220,23 +220,23 @@ export const capabilities: CapabilityItem[] = [
 
 export const homeSlides: ShowcaseImageItem[] = [
   {
-    image: "/images/slides/001.jfif",
+    image: "/images/slides/001.jpg",
     alt: t("Cumulus homepage slide visual 01", "积云家居首页轮播图 01"),
   },
   {
-    image: "/images/slides/002.jfif",
+    image: "/images/slides/002.jpg",
     alt: t("Cumulus homepage slide visual 02", "积云家居首页轮播图 02"),
   },
   {
-    image: "/images/slides/003.jfif",
+    image: "/images/slides/003.jpg",
     alt: t("Cumulus homepage slide visual 03", "积云家居首页轮播图 03"),
   },
   {
-    image: "/images/slides/004.jfif",
+    image: "/images/slides/004.jpg",
     alt: t("Cumulus homepage slide visual 04", "积云家居首页轮播图 04"),
   },
   {
-    image: "/images/slides/005.jfif",
+    image: "/images/slides/005.jpg",
     alt: t("Cumulus homepage slide visual 05", "积云家居首页轮播图 05"),
   },
 ];
@@ -251,7 +251,7 @@ export const seriesItems: SeriesItem[] = [
       t("Air Circulation", "循环送风"),
       t("Air Coolers", "冷风机"),
     ],
-    image: "/images/series/001.jfif",
+    image: "/images/series/001.jpg",
     alt: t("Cumulus air treatment category image", "积云家居风处理系列品类图"),
     icon: "wind",
   },
@@ -267,7 +267,7 @@ export const seriesItems: SeriesItem[] = [
       t("Commercial Entrances", "商用入口"),
       t("High-Efficiency Motors", "高效电机"),
     ],
-    image: "/images/series/002.jfif",
+    image: "/images/series/002.jpg",
     alt: t("Cumulus air curtain category image", "积云家居风幕系列品类图"),
     icon: "building",
   },
@@ -283,7 +283,7 @@ export const seriesItems: SeriesItem[] = [
       t("AI Voice", "AI 语音"),
       t("Auto Water Supply", "自动上下水"),
     ],
-    image: "/images/series/003.jfif",
+    image: "/images/series/003.jpg",
     alt: t(
       "Cumulus smart cleaning category image",
       "积云家居智能清洁系列品类图",
@@ -302,7 +302,7 @@ export const seriesItems: SeriesItem[] = [
       t("Ovens", "烤箱"),
       t("Coffee Machines", "咖啡机"),
     ],
-    image: "/images/series/004.jfif",
+    image: "/images/series/004.jpg",
     alt: t(
       "Cumulus kitchen appliance category image",
       "积云家居厨房家电系列品类图",
@@ -321,7 +321,7 @@ export const seriesItems: SeriesItem[] = [
       t("Health Monitoring", "健康监测"),
       t("Comfort Living", "舒适生活"),
     ],
-    image: "/images/series/005.jfif",
+    image: "/images/series/005.jpg",
     alt: t(
       "Cumulus healthy home category image",
       "积云家居健康家居系列品类图",
@@ -340,7 +340,7 @@ export const seriesItems: SeriesItem[] = [
       t("Product Integration", "产品整合"),
       t("Custom Development", "客户化开发"),
     ],
-    image: "/images/series/006.jfif",
+    image: "/images/series/006.jpg",
     alt: t(
       "Cumulus home customization category image",
       "积云家居家居定制系列品类图",
@@ -384,7 +384,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Flagship Rechargeable Fan", "蓄电旗舰风扇"),
     model: "CHFDS40Y-5DLK01RM",
-    image: "/images/products/fan-flagship.png",
+    image: "/images/products/fan-flagship.jpg",
     alt: t("Cumulus flagship rechargeable fan", "积云家居旗舰蓄电风扇"),
     summary: t(
       "Built around strong airflow, battery backup, and modular quick-connect expansion for flexible home applications.",
@@ -426,7 +426,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Classic Pedestal Fan", "经典落地风扇"),
     model: "CHFS40-4ADC0301",
-    image: "/images/products/fan-standard-a.png",
+    image: "/images/products/fan-standard-a.jpg",
     alt: t("Cumulus classic pedestal fan", "积云家居经典落地风扇"),
     summary: t(
       "Covers standard residential airflow needs with optional battery and inverter configurations in 16-inch and 18-inch sizes.",
@@ -446,7 +446,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Multi-Size Pedestal Fan", "多规格落地风扇"),
     model: "CHFS45-4D0201",
-    image: "/images/products/fan-standard-b.png",
+    image: "/images/products/fan-standard-b.jpg",
     alt: t("Cumulus multi-size pedestal fan", "积云家居多规格落地风扇"),
     summary: t(
       "Supports multiple sizes, control modes, and blade configurations for everyday cooling across different spaces.",
@@ -506,7 +506,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Commercial Air Curtain", "商用风幕机"),
     model: "CHFM-3515LY-K1",
-    image: "/images/products/air-curtain.jpeg",
+    image: "/images/products/air-curtain.jpg",
     alt: t("Cumulus commercial air curtain", "积云家居风幕机产品图"),
     summary: t(
       "Designed for commercial entrances with a focus on high-efficiency motors, low-noise operation, and stable air coverage.",
@@ -545,7 +545,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Advanced Robot Vacuum Mop", "扫地机器人进阶款"),
     model: "JY-RD300M",
-    image: "/images/products/robot-pro.png",
+    image: "/images/products/robot-pro.jpg",
     alt: t("Cumulus advanced robot vacuum", "积云家居进阶扫地机器人"),
     summary: t(
       "Enhances automated cleaning with rotating mops, auto water supply and drainage, and stronger suction performance.",
@@ -584,7 +584,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("85L Air Cooler", "85L 冷风机"),
     model: "CHL6.0-ZM13YB05",
-    image: "/images/products/air-cooler-85l.png",
+    image: "/images/products/air-cooler-85l.jpg",
     alt: t("Cumulus 85L air cooler", "积云家居 85L 冷风机"),
     summary: t(
       "Built for large-space cooling and circulation with evaporative cooling media and a dynamic LCD display.",
@@ -604,7 +604,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("30L Air Cooler", "30L 冷风机"),
     model: "CHL2.5-ZM13YB03",
-    image: "/images/products/air-cooler-30l.png",
+    image: "/images/products/air-cooler-30l.jpg",
     alt: t("Cumulus 30L air cooler", "积云家居 30L 冷风机"),
     summary: t(
       "Suitable for small to medium spaces with dynamic LCD display, remote control, and ion-based air care support.",
@@ -624,7 +624,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("60L Air Cooler", "60L 冷风机"),
     model: "CHL4.0-ZM13YB04",
-    image: "/images/products/air-cooler-60l.png",
+    image: "/images/products/air-cooler-60l.jpg",
     alt: t("Cumulus 60L air cooler", "积云家居 60L 冷风机"),
     summary: t(
       "Upgrades airflow, water tank capacity, and long-duration timer support for extended cooling sessions.",
@@ -644,7 +644,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Air Fryer", "空气炸锅"),
     model: "COC1.0-DD16C01",
-    image: "/images/products/air-fryer.jpeg",
+    image: "/images/products/air-fryer.jpg",
     alt: t("Cumulus air fryer", "积云家居空气炸锅"),
     summary: t(
       "A compact kitchen appliance with a clean look, adding everyday cooking functionality to the product portfolio.",
@@ -683,7 +683,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Built-In Oven", "嵌入式烤箱"),
     model: "VOV-KX05G03",
-    image: "/images/products/oven-built-in.png",
+    image: "/images/products/oven-built-in.jpg",
     alt: t("Cumulus built-in oven", "积云家居嵌入式烤箱"),
     summary: t(
       "Uses triple insulation and electronic temperature control for home baking and integrated kitchen applications.",
@@ -703,7 +703,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Air Purifier", "空气净化器"),
     model: "DOD-CC10D01Y22",
-    image: "/images/products/air-purifier.jpeg",
+    image: "/images/products/air-purifier.jpg",
     alt: t("Cumulus air purifier", "积云家居空气净化器"),
     summary: t(
       "Focused on particulate and formaldehyde purification to support healthy home living scenarios.",
@@ -750,12 +750,12 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "冷风机",
     modelPrefix: "ACC",
     imageNames: [
-      "air-cooler-visual-01.png",
-      "air-cooler-visual-02.png",
-      "air-cooler-visual-03.png",
-      "air-cooler-visual-04.png",
-      "air-cooler-visual-05.png",
-      "air-cooler-visual-06.png",
+      "air-cooler-visual-01.jpg",
+      "air-cooler-visual-02.jpg",
+      "air-cooler-visual-03.jpg",
+      "air-cooler-visual-04.jpg",
+      "air-cooler-visual-05.jpg",
+      "air-cooler-visual-06.jpg",
     ],
     category: "风处理系列",
     categoryLabel: t("Air Treatment", "风处理系列"),
@@ -776,8 +776,8 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "扫拖机器人",
     modelPrefix: "RVE",
     imageNames: [
-      "robot-vacuum-visual-01.png",
-      "robot-vacuum-visual-02.png",
+      "robot-vacuum-visual-01.jpg",
+      "robot-vacuum-visual-02.jpg",
     ],
     category: "智能清洁系列",
     categoryLabel: t("Smart Cleaning", "智能清洁系列"),
@@ -798,9 +798,9 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "进阶扫拖机器人",
     modelPrefix: "RVA",
     imageNames: [
-      "robot-vacuum-visual-03.png",
-      "robot-vacuum-visual-04.png",
-      "robot-vacuum-visual-05.png",
+      "robot-vacuum-visual-03.jpg",
+      "robot-vacuum-visual-04.jpg",
+      "robot-vacuum-visual-05.jpg",
     ],
     category: "智能清洁系列",
     categoryLabel: t("Smart Cleaning", "智能清洁系列"),
@@ -820,7 +820,7 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     englishBaseName: "Industrial Wall Fan",
     chineseBaseName: "工业挂壁扇",
     modelPrefix: "IWF",
-    imageNames: ["wall-fan-visual-01.png"],
+    imageNames: ["wall-fan-visual-01.jpg"],
     category: "风处理系列",
     categoryLabel: t("Air Treatment", "风处理系列"),
     productLine: "工业挂壁扇",
@@ -840,10 +840,10 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "落地风扇",
     modelPrefix: "PFS",
     imageNames: [
-      "electric-fan-visual-01.png",
-      "pedestal-fan-visual-01.png",
-      "pedestal-fan-visual-02.png",
-      "pedestal-fan-visual-03.png",
+      "electric-fan-visual-01.jpg",
+      "pedestal-fan-visual-01.jpg",
+      "pedestal-fan-visual-02.jpg",
+      "pedestal-fan-visual-03.jpg",
     ],
     category: "风处理系列",
     categoryLabel: t("Air Treatment", "风处理系列"),
@@ -864,9 +864,9 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "复古金属风扇",
     modelPrefix: "RMF",
     imageNames: [
-      "retro-metal-fan-visual-01.png",
-      "retro-metal-fan-visual-02.png",
-      "retro-metal-fan-visual-03.png",
+      "retro-metal-fan-visual-01.jpg",
+      "retro-metal-fan-visual-02.jpg",
+      "retro-metal-fan-visual-03.jpg",
     ],
     category: "风处理系列",
     categoryLabel: t("Air Treatment", "风处理系列"),
@@ -887,8 +887,8 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "离心风幕机",
     modelPrefix: "CAC",
     imageNames: [
-      "air-curtain-visual-01.png",
-      "air-curtain-visual-02.png",
+      "air-curtain-visual-01.jpg",
+      "air-curtain-visual-02.jpg",
     ],
     category: "风幕系列",
     categoryLabel: t("Air Curtains", "风幕系列"),
@@ -909,8 +909,8 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "贯流风幕机",
     modelPrefix: "XAC",
     imageNames: [
-      "air-curtain-visual-03.png",
-      "air-curtain-visual-04.png",
+      "air-curtain-visual-03.jpg",
+      "air-curtain-visual-04.jpg",
     ],
     category: "风幕系列",
     categoryLabel: t("Air Curtains", "风幕系列"),
@@ -931,10 +931,10 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "空气炸锅",
     modelPrefix: "AFR",
     imageNames: [
-      // "air-fryer-visual-01.png",
-      "air-fryer-visual-02.png",
-      "air-fryer-visual-03.png",
-      // "air-fryer-visual-04.png",
+      // "air-fryer-visual-01.jpg",
+      "air-fryer-visual-02.jpg",
+      "air-fryer-visual-03.jpg",
+      // "air-fryer-visual-04.jpg",
     ],
     category: "厨房家电系列",
     categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
@@ -955,14 +955,14 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "家居空气净化器",
     modelPrefix: "HAP",
     imageNames: [
-      // "home-air-purifier-01.png",
-      // "home-air-purifier-02.png",
-      "home-air-purifier-03.png",
-      // "home-air-purifier-04.png",
-      "home-air-purifier-05.png",
-      "home-air-purifier-06.png",
-      "home-air-purifier-07.png",
-      // "home-air-purifier-08.png",
+      // "home-air-purifier-01.jpg",
+      // "home-air-purifier-02.jpg",
+      "home-air-purifier-03.jpg",
+      // "home-air-purifier-04.jpg",
+      "home-air-purifier-05.jpg",
+      "home-air-purifier-06.jpg",
+      "home-air-purifier-07.jpg",
+      // "home-air-purifier-08.jpg",
     ],
     category: "健康家居系列",
     categoryLabel: t("Healthy Home", "健康家居系列"),
@@ -983,9 +983,9 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "体脂秤",
     modelPrefix: "BCS",
     imageNames: [
-      "body-scale-02.png",
-      "body-scale-03.png",
-      "body-scale-04.png",
+      "body-scale-02.jpg",
+      "body-scale-03.jpg",
+      "body-scale-04.jpg",
     ],
     category: "健康家居系列",
     categoryLabel: t("Healthy Home", "健康家居系列"),
@@ -1006,14 +1006,14 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "嵌入式烤箱",
     modelPrefix: "BIO",
     imageNames: [
-      "built-in-oven-01.png",
-      "built-in-oven-02.png",
-      "built-in-oven-03.png",
-      "built-in-oven-04.png",
-      "built-in-oven-05.png",
-      "built-in-oven-06.png",
-      "built-in-oven-07.png",
-      "built-in-oven-08.png",
+      "built-in-oven-01.jpg",
+      "built-in-oven-02.jpg",
+      "built-in-oven-03.jpg",
+      "built-in-oven-04.jpg",
+      "built-in-oven-05.jpg",
+      "built-in-oven-06.jpg",
+      "built-in-oven-07.jpg",
+      "built-in-oven-08.jpg",
     ],
     category: "厨房家电系列",
     categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
@@ -1034,16 +1034,16 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "胶囊咖啡机",
     modelPrefix: "CCM",
     imageNames: [
-      "capsule-coffee-machine-01.png",
-      "capsule-coffee-machine-02.png",
-      "capsule-coffee-machine-03.png",
-      // "capsule-coffee-machine-04.png",
-      "capsule-coffee-machine-05.png",
-      // "capsule-coffee-machine-06.png",
-      "capsule-coffee-machine-07.png",
-      "capsule-coffee-machine-08.png",
-      // "capsule-coffee-machine-09.png",
-      // "capsule-coffee-machine-10.png",
+      "capsule-coffee-machine-01.jpg",
+      "capsule-coffee-machine-02.jpg",
+      "capsule-coffee-machine-03.jpg",
+      // "capsule-coffee-machine-04.jpg",
+      "capsule-coffee-machine-05.jpg",
+      // "capsule-coffee-machine-06.jpg",
+      "capsule-coffee-machine-07.jpg",
+      "capsule-coffee-machine-08.jpg",
+      // "capsule-coffee-machine-09.jpg",
+      // "capsule-coffee-machine-10.jpg",
     ],
     category: "厨房家电系列",
     categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
@@ -1078,7 +1078,7 @@ export const catalogSections: CatalogSection[] = [
       "A product range built around airflow, circulation, and space cooling needs.",
       "围绕送风、循环送风与场景降温需求打造的产品系列。",
     ),
-    image: "/images/series/001.jfif",
+    image: "/images/series/001.jpg",
     alt: t("Cumulus air treatment catalog image", "积云家居风处理系列目录图"),
     highlights: [
       t("Air circulation", "循环送风"),
@@ -1136,7 +1136,7 @@ export const catalogSections: CatalogSection[] = [
       "A product range for commercial spaces and public-area airflow control.",
       "面向商用空间与公共区域空气流动需求的产品系列。",
     ),
-    image: "/images/series/002.jfif",
+    image: "/images/series/002.jpg",
     alt: t("Cumulus air curtain catalog image", "积云家居风幕系列目录图"),
     highlights: [
       t("Commercial spaces", "商用空间"),
@@ -1186,7 +1186,7 @@ export const catalogSections: CatalogSection[] = [
       "A product range focused on home cleaning and smart automation.",
       "面向家庭清洁与智能联动需求的产品系列。",
     ),
-    image: "/images/series/003.jfif",
+    image: "/images/series/003.jpg",
     alt: t(
       "Cumulus smart cleaning catalog image",
       "积云家居智能清洁目录图",
@@ -1231,7 +1231,7 @@ export const catalogSections: CatalogSection[] = [
       "A kitchen appliance range for modern home cooking scenarios.",
       "面向家庭烹饪场景的厨房电器产品系列。",
     ),
-    image: "/images/series/004.jfif",
+    image: "/images/series/004.jpg",
     alt: t(
       "Cumulus kitchen appliance catalog image",
       "积云家居厨房家电目录图",
@@ -1276,7 +1276,7 @@ export const catalogSections: CatalogSection[] = [
       "A product range focused on air purification and healthier living.",
       "围绕空气净化与健康生活需求打造的产品系列。",
     ),
-    image: "/images/series/005.jfif",
+    image: "/images/series/005.jpg",
     alt: t(
       "Cumulus healthy home catalog image",
       "积云家居健康家居目录图",
@@ -1321,7 +1321,7 @@ export const catalogSections: CatalogSection[] = [
       "A household goods lineup covering storage, cleaning, hanging, and daily organization needs.",
       "围绕收纳、清洁、悬挂与日常整理场景的家居用品系列。",
     ),
-    image: "/images/series/006.jfif",
+    image: "/images/series/006.jpg",
     alt: t(
       "Cumulus home customization catalog image",
       "积云家居家居定制目录图",
@@ -1402,67 +1402,67 @@ export const catalogSections: CatalogSection[] = [
 
 export const homeCustomizationShowcaseImages: ShowcaseImageItem[] = [
   {
-    image: "/images/customization/storage-box-01.png",
+    image: "/images/customization/storage-box-01.jpg",
     alt: t("Cumulus storage box product", "积云家居储存箱产品图"),
     productLine: "储存箱",
   },
   {
-    image: "/images/customization/storage-rack-01.png",
+    image: "/images/customization/storage-rack-01.jpg",
     alt: t("Cumulus storage rack product", "积云家居储物架产品图"),
     productLine: "储物架",
   },
   {
-    image: "/images/customization/trash-bin-01.png",
+    image: "/images/customization/trash-bin-01.jpg",
     alt: t("Cumulus trash bin product 01", "积云家居垃圾桶产品图 01"),
     productLine: "垃圾桶",
   },
   {
-    image: "/images/customization/trash-bin-02.png",
+    image: "/images/customization/trash-bin-02.jpg",
     alt: t("Cumulus trash bin product 02", "积云家居垃圾桶产品图 02"),
     productLine: "垃圾桶",
   },
   {
-    image: "/images/customization/plastic-brush-01.png",
+    image: "/images/customization/plastic-brush-01.jpg",
     alt: t("Cumulus plastic brush product 01", "积云家居塑料刷产品图 01"),
     productLine: "塑料刷",
   },
   {
-    image: "/images/customization/plastic-brush-02.png",
+    image: "/images/customization/plastic-brush-02.jpg",
     alt: t("Cumulus plastic brush product 02", "积云家居塑料刷产品图 02"),
     productLine: "塑料刷",
   },
   {
-    image: "/images/customization/plastic-clip-01.png",
+    image: "/images/customization/plastic-clip-01.jpg",
     alt: t("Cumulus plastic clip product 01", "积云家居塑料夹产品图 01"),
     productLine: "塑料夹",
   },
   {
-    image: "/images/customization/plastic-clip-02.png",
+    image: "/images/customization/plastic-clip-02.jpg",
     alt: t("Cumulus plastic clip product 02", "积云家居塑料夹产品图 02"),
     productLine: "塑料夹",
   },
   {
-    image: "/images/customization/plastic-hook-01.png",
+    image: "/images/customization/plastic-hook-01.jpg",
     alt: t("Cumulus plastic hook product", "积云家居塑料挂钩产品图"),
     productLine: "塑料挂钩",
   },
   {
-    image: "/images/customization/plastic-hanger-01.png",
+    image: "/images/customization/plastic-hanger-01.jpg",
     alt: t("Cumulus plastic hanger product 01", "积云家居塑料衣架产品图 01"),
     productLine: "塑料衣架",
   },
   {
-    image: "/images/customization/plastic-hanger-02.png",
+    image: "/images/customization/plastic-hanger-02.jpg",
     alt: t("Cumulus plastic hanger product 02", "积云家居塑料衣架产品图 02"),
     productLine: "塑料衣架",
   },
   {
-    image: "/images/customization/tissue-box-01.png",
+    image: "/images/customization/tissue-box-01.jpg",
     alt: t("Cumulus tissue box product 01", "积云家居纸巾盒产品图 01"),
     productLine: "纸巾盒",
   },
   {
-    image: "/images/customization/tissue-box-02.png",
+    image: "/images/customization/tissue-box-02.jpg",
     alt: t("Cumulus tissue box product 02", "积云家居纸巾盒产品图 02"),
     productLine: "纸巾盒",
   },
