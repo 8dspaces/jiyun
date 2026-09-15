@@ -683,29 +683,29 @@ const coreFeaturedProducts: ProductItem[] = [
     productLine: "空气净化器",
     productLineLabel: t("Air Purifiers", "空气净化器"),
   },
-  {
-    name: t("Smart Body Composition Scale", "智能体脂秤"),
-    model: "JOJ-TZ11A01",
-    image: "/images/products/body-scale.jpg",
-    alt: t(
-      "Cumulus smart body composition scale",
-      "积云家居智能体脂秤",
-    ),
-    summary: t(
-      "Designed for home wellness monitoring with multi-metric body data, LED display, and USB charging.",
-      "聚焦家庭基础健康监测，支持多项身体数据识别、LED 显示与 USB 充电使用。",
-    ),
-    features: [
-      t("32 body data metrics", "32 项数据监测"),
-      t("180-day battery life", "180 天续航"),
-      t("0.2-150KG weighing range", "0.2-150KG 称重范围"),
-      t("LED display", "LED 显示"),
-    ],
-    category: "健康家居系列",
-    categoryLabel: t("Healthy Home", "健康家居系列"),
-    productLine: "体重秤",
-    productLineLabel: t("Scales", "体重秤"),
-  },
+  // {
+  //   name: t("Smart Body Composition Scale", "智能体脂秤"),
+  //   model: "JOJ-TZ11A01",
+  //   image: "/images/products/body-scale.jpg",
+  //   alt: t(
+  //     "Cumulus smart body composition scale",
+  //     "积云家居智能体脂秤",
+  //   ),
+  //   summary: t(
+  //     "Designed for home wellness monitoring with multi-metric body data, LED display, and USB charging.",
+  //     "聚焦家庭基础健康监测，支持多项身体数据识别、LED 显示与 USB 充电使用。",
+  //   ),
+  //   features: [
+  //     t("32 body data metrics", "32 项数据监测"),
+  //     t("180-day battery life", "180 天续航"),
+  //     t("0.2-150KG weighing range", "0.2-150KG 称重范围"),
+  //     t("LED display", "LED 显示"),
+  //   ],
+  //   category: "健康家居系列",
+  //   categoryLabel: t("Healthy Home", "健康家居系列"),
+  //   productLine: "体重秤",
+  //   productLineLabel: t("Scales", "体重秤"),
+  // },
 ];
 
 const additionalCatalogProductBatches: CatalogProductBatch[] = [
@@ -947,6 +947,7 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "体脂秤",
     modelPrefix: "BCS",
     imageNames: [
+      "body-scale-01.jpg",
       "body-scale-02.jpg",
       "body-scale-03.jpg",
       "body-scale-04.jpg",
