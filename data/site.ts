@@ -93,6 +93,18 @@ interface CatalogProductBatch {
   features: Array<{ en: string; zh: string }>;
 }
 
+interface DetailedCatalogProduct {
+  imageName: string;
+  name: { en: string; zh: string };
+  model: string;
+  summary: { en: string; zh: string };
+  features: Array<{ en: string; zh: string }>;
+  category: string;
+  categoryLabel: LocalizedText;
+  productLine: string;
+  productLineLabel: LocalizedText;
+}
+
 export const navigationItems: NavigationItem[] = [
   { href: "/", label: t("Home", "首页") },
   { href: "/products", label: t("Products", "产品中心") },
@@ -362,6 +374,29 @@ function createCatalogProducts(batch: CatalogProductBatch): ProductItem[] {
       productLineLabel: batch.productLineLabel,
     };
   });
+}
+
+/**
+ * 根据逐图配置生成产品卡数据，适用于每张图片拥有独立名称、型号与卖点的场景。
+ *
+ * @param items 逐图产品配置列表。
+ * @returns 返回逐图生成后的产品卡数据。
+ */
+function createDetailedCatalogProducts(
+  items: DetailedCatalogProduct[],
+): ProductItem[] {
+  return items.map((item) => ({
+    name: t(item.name.en, item.name.zh),
+    model: item.model,
+    image: `/images/products/catalog/${item.imageName}`,
+    alt: t(item.name.en, item.name.zh),
+    summary: t(item.summary.en, item.summary.zh),
+    features: item.features.map((feature) => t(feature.en, feature.zh)),
+    category: item.category,
+    categoryLabel: item.categoryLabel,
+    productLine: item.productLine,
+    productLineLabel: item.productLineLabel,
+  }));
 }
 
 const coreFeaturedProducts: ProductItem[] = [
@@ -665,7 +700,7 @@ const coreFeaturedProducts: ProductItem[] = [
     productLineLabel: t("Ovens", "烤箱"),
   },
   {
-    name: t("Air Purifier", "空气净化器"),
+    name: t("Air Purifier", "经典空气净化器"),
     model: "DOD-CC10D01Y22",
     image: "/images/products/air-purifier.jpg",
     alt: t("Cumulus air purifier", "积云家居空气净化器"),
@@ -890,144 +925,545 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
   //     { en: "Smooth running noise", zh: "平稳运行噪声" },
   //   ],
   // },
+];
+
+const detailedCatalogProducts: ProductItem[] = createDetailedCatalogProducts([
   {
-    englishBaseName: "Air Fryer",
-    chineseBaseName: "空气炸锅",
-    modelPrefix: "AFR",
-    imageNames: [
-      // "air-fryer-visual-01.jpg",
-      "air-fryer-visual-02.jpg",
-      "air-fryer-visual-03.jpg",
-      // "air-fryer-visual-04.jpg",
+    imageName: "air-fryer-visual-01.jpg",
+    name: {
+      en: "Knob Touch Air Fryer",
+      zh: "触控空气炸锅",
+    },
+    model: "AFR-KT01",
+    summary: {
+      en: "An air fryer that combines knob control and a touch panel for fast, flexible everyday cooking.",
+      zh: "结合旋钮控制与触控面板的空气炸锅，适合高效灵活的日常烹饪场景。",
+    },
+    features: [
+      { en: "Knob control and touch panel", zh: "旋钮控制与触控面板" },
+      { en: "360-degree rapid hot air circulation", zh: "360 度高速热风循环" },
+      { en: "Non-stick removable basket", zh: "可拆卸不粘炸篮" },
+      { en: "Multiple frying presets", zh: "多种烹饪预设程序" },
     ],
     category: "厨房家电系列",
     categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
     productLine: "空气炸锅",
     productLineLabel: t("Air Fryers", "空气炸锅"),
-    summary: t(
-      "An expanded air fryer product selection for efficient everyday kitchen use.",
-      "面向高效日常烹饪场景的空气炸锅扩展产品图款。",
-    ),
-    features: [
-      { en: "Compact countertop use", zh: "台面紧凑使用" },
-      { en: "Rapid hot-air cooking", zh: "热风快速烹饪" },
-      { en: "Everyday kitchen scenes", zh: "日常厨房场景" },
-    ],
   },
   {
-    englishBaseName: "Home Air Purifier",
-    chineseBaseName: "家居空气净化器",
-    modelPrefix: "HAP",
-    imageNames: [
-      // "home-air-purifier-01.jpg",
-      // "home-air-purifier-02.jpg",
-      "home-air-purifier-03.jpg",
-      // "home-air-purifier-04.jpg",
-      "home-air-purifier-05.jpg",
-      "home-air-purifier-06.jpg",
-      "home-air-purifier-07.jpg",
-      // "home-air-purifier-08.jpg",
-    ],
-    category: "健康家居系列",
-    categoryLabel: t("Healthy Home", "健康家居系列"),
-    productLine: "空气净化器",
-    productLineLabel: t("Air Purifiers", "空气净化器"),
-    summary: t(
-      "A broader home air purifier range centered on cleaner indoor air and comfort upgrades.",
-      "围绕洁净空气与居家舒适升级的家居空气净化器扩展图款。",
-    ),
+    imageName: "air-fryer-visual-02.jpg",
+    name: {
+      en: "Drawer Basket Air Fryer",
+      zh: "带抽屉空气炸锅",
+    },
+    model: "AFR-DB02",
+    summary: {
+      en: "A cream-and-black countertop air fryer with front knob control, top touch icons, and a pull-out non-stick basket.",
+      zh: "奶白黑配色台式空气炸锅，前置旋钮与顶部触控结合，搭配抽拉式不粘炸篮。",
+    },
     features: [
-      { en: "Indoor air purification", zh: "室内空气净化" },
-      { en: "Comfortable breathing scenes", zh: "舒适呼吸场景" },
-      { en: "Healthy home support", zh: "健康家居支持" },
+      { en: "Front rotary knob", zh: "前置旋钮调节" },
+      { en: "Top touch control panel", zh: "顶部触控面板" },
+      { en: "Pull-out non-stick basket", zh: "抽拉式不粘炸篮" },
+      { en: "Compact countertop form", zh: "紧凑台面机身" },
     ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "空气炸锅",
+    productLineLabel: t("Air Fryers", "空气炸锅"),
   },
   {
-    englishBaseName: "Body Composition Scale",
-    chineseBaseName: "体脂秤",
-    modelPrefix: "BCS",
-    imageNames: [
-      "body-scale-01.jpg",
-      "body-scale-02.jpg",
-      "body-scale-03.jpg",
-      "body-scale-04.jpg",
-    ],
-    category: "健康家居系列",
-    categoryLabel: t("Healthy Home", "健康家居系列"),
-    productLine: "体重秤",
-    productLineLabel: t("Scales", "体重秤"),
-    summary: t(
-      "An expanded body composition scale lineup for home wellness measurement and daily health tracking.",
-      "面向家庭健康测量与日常数据追踪场景的体脂秤扩展图款。",
-    ),
+    imageName: "air-fryer-visual-03.jpg",
+    name: {
+      en: "Dual Window Air Fryer",
+      zh: "双视窗空气炸锅",
+    },
+    model: "AFR-DW03",
+    summary: {
+      en: "A dual-window air fryer designed for visible cooking, large-capacity frying, and fast hot-air circulation.",
+      zh: "具备双可视窗口的大容量空气炸锅，兼顾可视化烹饪与高速热风循环表现。",
+    },
     features: [
-      { en: "Body composition tracking", zh: "体脂数据追踪" },
-      { en: "Daily home measurement", zh: "家庭日常测量" },
-      { en: "Compact digital display", zh: "紧凑数显方案" },
+      { en: "Dual viewing windows", zh: "双可视窗口" },
+      { en: "360-degree rapid hot air circulation", zh: "360 度高速热风循环" },
+      { en: "Large non-stick removable basket", zh: "大容量可拆卸不粘炸篮" },
+      { en: "Multiple cooking presets", zh: "多烹饪预设程序" },
     ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "空气炸锅",
+    productLineLabel: t("Air Fryers", "空气炸锅"),
   },
   {
-    englishBaseName: "Built-In Oven",
-    chineseBaseName: "嵌入式烤箱",
-    modelPrefix: "BIO",
-    imageNames: [
-      "built-in-oven-01.jpg",
-      "built-in-oven-02.jpg",
-      "built-in-oven-03.jpg",
-      "built-in-oven-04.jpg",
-      "built-in-oven-05.jpg",
-      "built-in-oven-06.jpg",
-      "built-in-oven-07.jpg",
-      "built-in-oven-08.jpg",
+    imageName: "built-in-oven-01.jpg",
+    name: {
+      en: "French Double-Door Built-In Oven",
+      zh: "对开门嵌入式烤箱",
+    },
+    model: "BIO-FD01",
+    summary: {
+      en: "A built-in oven with French double doors, seamless cabinet integration, and a large illuminated cavity.",
+      zh: "采用法式对开门设计的嵌入式烤箱，可无缝融入现代橱柜，并配备大容量照明炉腔。",
+    },
+    features: [
+      { en: "French double-door design", zh: "法式对开门设计" },
+      { en: "Seamless built-in integration", zh: "无缝嵌入式安装" },
+      { en: "Large cavity with interior light", zh: "大容量炉腔与内置照明" },
     ],
     category: "厨房家电系列",
     categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
     productLine: "烤箱",
     productLineLabel: t("Ovens", "烤箱"),
-    summary: t(
-      "An expanded built-in oven selection for integrated kitchen and baking scenarios.",
-      "面向整体厨房与家庭烘焙场景的嵌入式烤箱扩展图款。",
-    ),
-    features: [
-      { en: "Integrated kitchen fit", zh: "适配整体厨房" },
-      { en: "Baking and roasting scenes", zh: "烘焙与烘烤场景" },
-      { en: "Built-in visual consistency", zh: "嵌入式统一外观" },
-    ],
   },
   {
-    englishBaseName: "Capsule Coffee Machine",
-    chineseBaseName: "胶囊咖啡机",
-    modelPrefix: "CCM",
-    imageNames: [
-      "capsule-coffee-machine-01.jpg",
-      "capsule-coffee-machine-02.jpg",
-      "capsule-coffee-machine-03.jpg",
-      // "capsule-coffee-machine-04.jpg",
-      "capsule-coffee-machine-05.jpg",
-      // "capsule-coffee-machine-06.jpg",
-      "capsule-coffee-machine-07.jpg",
-      "capsule-coffee-machine-08.jpg",
-      // "capsule-coffee-machine-09.jpg",
-      // "capsule-coffee-machine-10.jpg",
+    imageName: "built-in-oven-02.jpg",
+    name: {
+      en: "Retro Countertop Convection Oven",
+      zh: "复古台式烤箱",
+    },
+    model: "BIO-RT02",
+    summary: {
+      en: "A retro cream-style countertop convection oven with golden trim and multiple modes for baking, roasting, air frying, and fermenting.",
+      zh: "复古奶油风台式热风烤箱，搭配金色饰边，支持烘焙、烘烤、空气炸与发酵等多种模式。",
+    },
+    features: [
+      { en: "Retro cream body with gold trim", zh: "复古奶油风机身与金边装饰" },
+      { en: "Built-in convection fan", zh: "内置热风循环风扇" },
+      { en: "Even heating performance", zh: "均匀受热表现" },
+      { en: "Multiple cooking modes", zh: "多种烹饪模式" },
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "烤箱",
+    productLineLabel: t("Ovens", "烤箱"),
+  },
+  {
+    imageName: "built-in-oven-03.jpg",
+    name: {
+      en: "Stainless Built-In Convection Oven",
+      zh: "不锈钢嵌入式烤箱",
+    },
+    model: "BIO-SC03",
+    summary: {
+      en: "A built-in convection oven with a stainless steel frame, tinted glass door, and 360-degree hot air for even multi-rack baking.",
+      zh: "不锈钢边框搭配黑玻门的嵌入式热风烤箱，支持 360 度热风循环与多层同烤均匀受热。",
+    },
+    features: [
+      { en: "Stainless steel frame", zh: "不锈钢边框" },
+      { en: "Tinted glass door", zh: "黑玻门设计" },
+      { en: "360-degree convection airflow", zh: "360 度热风循环" },
+      { en: "Even multi-rack baking", zh: "多层同烤受热均匀" },
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "烤箱",
+    productLineLabel: t("Ovens", "烤箱"),
+  },
+  {
+    imageName: "built-in-oven-04.jpg",
+    name: {
+      en: "Cream French Double-Door Oven",
+      zh: "法式对开门烤箱",
+    },
+    model: "BIO-CF04",
+    summary: {
+      en: "An elegant cream oven featuring French double doors, gold trim, a built-in oven light, and wide viewing windows.",
+      zh: "优雅奶油风烤箱，采用法式对开门与金色饰条，配备内置炉灯和大面积可视窗。",
+    },
+    features: [
+      { en: "French double-door layout", zh: "法式对开门布局" },
+      { en: "Cream body with gold trim", zh: "奶白机身搭配金色饰条" },
+      { en: "Built-in oven light", zh: "内置炉灯" },
+      { en: "Large viewing windows", zh: "大面积可视窗" },
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "烤箱",
+    productLineLabel: t("Ovens", "烤箱"),
+  },
+  {
+    imageName: "built-in-oven-08.jpg",
+    name: {
+      en: "Digital Built-In Convection Oven",
+      zh: "数显嵌入式烤箱",
+    },
+    model: "BIO-DT08",
+    summary: {
+      en: "A modern built-in convection oven with a black glass door, digital touch controls, and an internal light for real-time cooking observation.",
+      zh: "现代简约嵌入式热风烤箱，配备黑玻门、数字触控面板与内置炉灯，便于实时观察烹饪状态。",
+    },
+    features: [
+      { en: "Modern built-in design", zh: "现代嵌入式设计" },
+      { en: "Black glass door", zh: "黑玻门外观" },
+      { en: "Digital touch control panel", zh: "数字触控面板" },
+      { en: "Built-in observation light", zh: "内置观察炉灯" },
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "烤箱",
+    productLineLabel: t("Ovens", "烤箱"),
+  },
+  {
+    imageName: "capsule-coffee-machine-01.jpg",
+    name: {
+      en: "Compact Cream Capsule Coffee Machine",
+      zh: "紧凑胶囊咖啡机",
+    },
+    model: "CCM-CC01",
+    summary: {
+      en: "A compact cream-white capsule coffee machine with instant heating and a detachable drip tray for quick countertop use.",
+      zh: "奶白小巧胶囊咖啡机，支持即热出水，并配备可拆卸接水盘，适合紧凑台面场景。",
+    },
+    features: [
+      { en: "Minimalist cream-white design", zh: "极简奶白小巧造型" },
+      { en: "Instant heating system", zh: "即热技术" },
+      { en: "Hot water ready in seconds", zh: "秒速出热水" },
+      { en: "Detachable drip tray", zh: "可拆卸接水盘" },
     ],
     category: "厨房家电系列",
     categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
     productLine: "咖啡机",
     productLineLabel: t("Coffee Machines", "咖啡机"),
-    summary: t(
-      "A broader capsule coffee machine lineup for compact premium beverage experiences.",
-      "面向精品饮品场景的胶囊咖啡机扩展产品图款。",
-    ),
-    features: [
-      { en: "Capsule extraction format", zh: "胶囊萃取形式" },
-      { en: "Compact countertop footprint", zh: "台面紧凑占位" },
-      { en: "Premium beverage scenes", zh: "精品饮品场景" },
-    ],
   },
-];
+  {
+    imageName: "capsule-coffee-machine-02.jpg",
+    name: {
+      en: "One-Touch Espresso Capsule Machine",
+      zh: "一键胶囊咖啡机",
+    },
+    model: "CCM-OE02",
+    summary: {
+      en: "A one-touch capsule coffee machine designed for rich crema espresso, with capsule compatibility and removable water components.",
+      zh: "一键操作的胶囊咖啡机，可萃取带绵密油脂的意式咖啡，并支持胶囊适配与可拆卸水箱结构。",
+    },
+    features: [
+      { en: "One-touch brewing", zh: "一键萃取" },
+      { en: "Rich espresso with crema", zh: "浓郁意式咖啡油脂" },
+      { en: "Compatible with coffee capsules", zh: "适配咖啡胶囊" },
+      { en: "Removable water tank and drip tray", zh: "可拆卸水箱与接水盘" },
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "咖啡机",
+    productLineLabel: t("Coffee Machines", "咖啡机"),
+  },
+  {
+    imageName: "capsule-coffee-machine-03.jpg",
+    name: {
+      en: "Matte Black Slim Capsule Coffee Machine",
+      zh: "哑光黑纤薄胶囊咖啡机",
+    },
+    model: "CCM-MB03",
+    summary: {
+      en: "A slim vertical capsule coffee machine in matte black with rose-gold accents and high-pressure extraction for rich crema.",
+      zh: "纤薄立式哑光黑胶囊咖啡机，搭配玫瑰金饰条，支持高压萃取与绵密咖啡油脂表现。",
+    },
+    features: [
+      { en: "Slim vertical matte black body", zh: "纤薄立式哑光黑机身" },
+      { en: "Rose-gold accent details", zh: "玫瑰金轻奢饰条" },
+      { en: "One-touch operation", zh: "一键操作" },
+      { en: "High-pressure crema extraction", zh: "高压萃取油脂" },
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "咖啡机",
+    productLineLabel: t("Coffee Machines", "咖啡机"),
+  },
+  {
+    imageName: "capsule-coffee-machine-05.jpg",
+    name: {
+      en: "Cream Minimalist Capsule Coffee Machine",
+      zh: "极简胶囊咖啡机",
+    },
+    model: "CCM-CM05",
+    summary: {
+      en: "A cream minimalist capsule coffee machine with orange accents, a flip-top loading lid, and a removable drip tray for easy maintenance.",
+      zh: "奶白极简胶囊咖啡机，点缀橙色细节，采用翻盖式装仓设计，并配备可拆卸接水盘。",
+    },
+    features: [
+      { en: "Cream minimalist appearance", zh: "奶白极简外观" },
+      { en: "Orange accent details", zh: "橙色细节点缀" },
+      { en: "Flip-top capsule lid", zh: "翻盖式胶囊仓盖" },
+      { en: "Easy-clean drip tray", zh: "易清洗接水盘" },
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "咖啡机",
+    productLineLabel: t("Coffee Machines", "咖啡机"),
+  },
+  {
+    imageName: "capsule-coffee-machine-07.jpg",
+    name: {
+      en: "Dual Group Capsule Coffee Machine",
+      zh: "复古胶囊咖啡机",
+    },
+    model: "CCM-DG07",
+    summary: {
+      en: "A retro cream capsule coffee machine with dual independent group heads for simultaneous brewing and professional crema extraction.",
+      zh: "奶白复古胶囊咖啡机，配备双独立冲煮头，可同时萃取两杯咖啡并呈现专业油脂表现。",
+    },
+    features: [
+      { en: "Dual independent group heads", zh: "双独立冲煮头" },
+      { en: "Simultaneous dual-cup brewing", zh: "支持双杯同时萃取" },
+      { en: "Retro cream styling", zh: "奶白复古造型" },
+      { en: "Professional high-pressure extraction", zh: "专业高压萃取" },
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "咖啡机",
+    productLineLabel: t("Coffee Machines", "咖啡机"),
+  },
+  {
+    imageName: "capsule-coffee-machine-08.jpg",
+    name: {
+      en: "Drawer Storage Capsule Coffee Machine",
+      zh: "抽屉收纳胶囊咖啡机",
+    },
+    model: "CCM-DS08",
+    summary: {
+      en: "A compact capsule coffee machine with built-in drawer storage, one-touch brewing, and high-pressure extraction in a space-saving form.",
+      zh: "内置抽拉式胶囊收纳抽屉的紧凑型咖啡机，支持一键萃取与高压出脂，兼顾台面节省。",
+    },
+    features: [
+      { en: "Built-in pull-out capsule drawer", zh: "内置抽拉式胶囊抽屉" },
+      { en: "One-touch brewing", zh: "一键萃取" },
+      { en: "High-pressure crema extraction", zh: "高压油脂萃取" },
+      { en: "Compact countertop footprint", zh: "紧凑台面占位" },
+    ],
+    category: "厨房家电系列",
+    categoryLabel: t("Kitchen Appliances", "厨房家电系列"),
+    productLine: "咖啡机",
+    productLineLabel: t("Coffee Machines", "咖啡机"),
+  },
+  {
+    imageName: "home-air-purifier-03.jpg",
+    name: {
+      en: "Smart Display Air Purifier",
+      zh: "智能显示空气净化器",
+    },
+    model: "HAP-SD03",
+    summary: {
+      en: "A low-noise home air purifier that helps remove PM2.5, dust, pollen, smoke, and pet odors for bedrooms and living rooms.",
+      zh: "低噪运行的家用空气净化器，可有效滤除 PM2.5、粉尘、花粉、烟雾与宠物异味，适合卧室与客厅。",
+    },
+    features: [
+      {
+        en: "Captures PM2.5, dust, pollen, smoke and pet odors effectively",
+        zh: "有效滤除 PM2.5、粉尘、花粉、烟雾和宠物异味",
+      },
+      {
+        en: "Low noise, ideal for bedrooms and living rooms",
+        zh: "低噪工作，适合卧室、客厅",
+      },
+      {
+        en: "Simple single button for easy use",
+        zh: "单键操作，简单易用",
+      },
+    ],
+    category: "健康家居系列",
+    categoryLabel: t("Healthy Home", "健康家居系列"),
+    productLine: "空气净化器",
+    productLineLabel: t("Air Purifiers", "空气净化器"),
+  },
+  {
+    imageName: "home-air-purifier-05.jpg",
+    name: {
+      en: "Compact Rounded Air Purifier",
+      zh: "轻巧圆角空气净化器",
+    },
+    model: "HAP-CR05",
+    summary: {
+      en: "A compact rounded air purifier with front intake mesh, top controls, and a soft illuminated trim for personal clean-air spaces.",
+      zh: "轻巧圆角空气净化器，采用前置进风网面与顶部控制设计，并以柔和灯带强化个人净化空间氛围。",
+    },
+    features: [
+      { en: "Rounded compact body", zh: "圆角紧凑机身" },
+      { en: "Front intake mesh", zh: "前置进风网面" },
+      { en: "Top control interface", zh: "顶部控制界面" },
+      { en: "Soft ambient light trim", zh: "柔和氛围灯带" },
+    ],
+    category: "健康家居系列",
+    categoryLabel: t("Healthy Home", "健康家居系列"),
+    productLine: "空气净化器",
+    productLineLabel: t("Air Purifiers", "空气净化器"),
+  },
+  {
+    imageName: "home-air-purifier-06.jpg",
+    name: {
+      en: "Low-Profile Desktop Air Purifier",
+      zh: "长条台式空气净化器",
+    },
+    model: "HAP-LD06",
+    summary: {
+      en: "A compact elongated air purifier that efficiently removes PM2.5, dust, and odors while refreshing surrounding air without taking up much desk space.",
+      zh: "长条小巧空气净化器，可高效滤除 PM2.5、粉尘与异味，并快速净化周边空气，节省桌面空间。",
+    },
+    features: [
+      {
+        en: "Captures PM2.5, dust and unwanted odors efficiently",
+        zh: "高效滤除 PM2.5、粉尘与异味",
+      },
+      {
+        en: "Compact long shape, saves your desk space",
+        zh: "长条小巧机身，节省桌面空间",
+      },
+      {
+        en: "Refresh surrounding air quickly",
+        zh: "快速净化周边空气",
+      },
+    ],
+    category: "健康家居系列",
+    categoryLabel: t("Healthy Home", "健康家居系列"),
+    productLine: "空气净化器",
+    productLineLabel: t("Air Purifiers", "空气净化器"),
+  },
+  {
+    imageName: "home-air-purifier-07.jpg",
+    name: {
+      en: "Slim Tower Air Purifier",
+      zh: "塔式空气净化器",
+    },
+    model: "HAP-ST07",
+    summary: {
+      en: "A slim space-saving air purifier that circulates fresh air quickly while matching a wide range of home interiors with low power consumption.",
+      zh: "纤薄节省空间的空气净化器，可快速循环净化空气，适配多种家装风格，并具备低功耗表现。",
+    },
+    features: [
+      {
+        en: "Circulates fresh air quickly",
+        zh: "快速循环净化空气",
+      },
+      {
+        en: "Space-saving, matches home decor",
+        zh: "节省空间，适配各类家装",
+      },
+      {
+        en: "Energy-saving, low power consumption",
+        zh: "节能省电，低功耗",
+      },
+    ],
+    category: "健康家居系列",
+    categoryLabel: t("Healthy Home", "健康家居系列"),
+    productLine: "空气净化器",
+    productLineLabel: t("Air Purifiers", "空气净化器"),
+  },
+  {
+    imageName: "body-scale-01.jpg",
+    name: {
+      en: "Round Black Glass Scale",
+      zh: "圆形体脂秤",
+    },
+    model: "BCS-RG01",
+    summary: {
+      en: "A round black glass body scale with a compact digital display for simple daily weight measurement.",
+      zh: "圆形黑玻机身搭配紧凑数显窗口，适合日常体重测量的家用体脂秤。",
+    },
+    features: [
+      { en: "Round glass platform", zh: "圆形玻璃秤面" },
+      { en: "Compact digital display", zh: "紧凑数字显示" },
+      { en: "Daily weight tracking", zh: "日常体重记录" },
+    ],
+    category: "健康家居系列",
+    categoryLabel: t("Healthy Home", "健康家居系列"),
+    productLine: "体重秤",
+    productLineLabel: t("Scales", "体重秤"),
+  },
+  {
+    imageName: "body-scale-02.jpg",
+    name: {
+      en: "Black Square Body Composition Scale",
+      zh: "体脂秤",
+    },
+    model: "BCS-BS02",
+    summary: {
+      en: "A body composition scale that measures weight, body fat, and other indicators with accurate sensors and a sturdy anti-slip surface.",
+      zh: "可测量体重、体脂等多项身体指标的体脂秤，搭配灵敏传感器与坚固防滑表面，适合日常家庭健康测量。",
+    },
+    features: [
+      {
+        en: "Measures weight, body fat and other body indicators",
+        zh: "测量体重、体脂等多项身体指标",
+      },
+      {
+        en: "Sensitive sensors deliver accurate readings",
+        zh: "灵敏传感器，测量数据精准",
+      },
+      {
+        en: "Sturdy and anti-slip surface, safe to stand",
+        zh: "坚固防滑钢化玻璃，站立安全",
+      },
+    ],
+    category: "健康家居系列",
+    categoryLabel: t("Healthy Home", "健康家居系列"),
+    productLine: "体脂秤",
+    productLineLabel: t("Scales", "体重秤"),
+  },
+  {
+    imageName: "body-scale-03.jpg",
+    name: {
+      en: "White Body Composition Scale",
+      zh: "方形体脂秤",
+    },
+    model: "BCS-WS03",
+    summary: {
+      en: "A minimalist body composition scale that syncs data to a mobile app automatically and delivers stable, accurate readings with a clear hidden LED display.",
+      zh: "简约体脂秤支持蓝牙连接 APP 自动记录健康数据，并提供稳定精准的测量表现与清晰隐藏式 LED 读数。",
+    },
+    features: [
+      {
+        en: "Auto-sync data to mobile app for health record",
+        zh: "蓝牙连接 APP，自动记录健康数据",
+      },
+      {
+        en: "Delivers stable and accurate measurements",
+        zh: "精准传感，测量稳定",
+      },
+      {
+        en: "Clear reading, elegant minimalist look",
+        zh: "隐藏 LED 屏，读数清晰，外观简约",
+      },
+    ],
+    category: "健康家居系列",
+    categoryLabel: t("Healthy Home", "健康家居系列"),
+    productLine: "体重秤",
+    productLineLabel: t("Scales", "体重秤"),
+  },
+  {
+    imageName: "body-scale-04.jpg",
+    name: {
+      en: "Slim Glass Body Composition Scale",
+      zh: "轻薄玻璃体脂秤",
+    },
+    model: "BCS-SG04",
+    summary: {
+      en: "A slim body composition scale that powers on when stepped on, supports multiple body metrics, and provides stable, accurate readings with automatic power saving.",
+      zh: "轻薄体脂秤支持上秤即开机与自动关机省电，可测量体重、体脂、BMI 等多项数据，并提供稳定精准读数。",
+    },
+    features: [
+      {
+        en: "Step to power on, auto-off for power saving",
+        zh: "上秤即开机，自动关机省电",
+      },
+      {
+        en: "Measure weight, body fat, BMI and more",
+        zh: "测量体重、体脂、BMI 等多项数据",
+      },
+      {
+        en: "Ensure accurate and stable reading",
+        zh: "高精度传感，读数稳定精准",
+      },
+    ],
+    category: "健康家居系列",
+    categoryLabel: t("Healthy Home", "健康家居系列"),
+    productLine: "体重秤",
+    productLineLabel: t("Scales", "体重秤"),
+  },
+]);
 
 const additionalCatalogProducts: ProductItem[] =
-  additionalCatalogProductBatches.flatMap(createCatalogProducts);
+  additionalCatalogProductBatches
+    .flatMap(createCatalogProducts)
+    .concat(detailedCatalogProducts);
 
 export const catalogSections: CatalogSection[] = [
   {
