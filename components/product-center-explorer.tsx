@@ -30,7 +30,7 @@ export function ProductCenterExplorer({
   products,
 }: ProductCenterExplorerProps): React.JSX.Element {
   const { locale } = useLocale();
-  const productsPerPage = 9;
+  const productsPerPage = 6;
   const [activeSectionId, setActiveSectionId] = useState<string>("");
   const activeSection = sections.find((section) => section.id === activeSectionId);
   const [activeLineName, setActiveLineName] = useState<string>("");
@@ -596,7 +596,7 @@ export function ProductCenterExplorer({
           </div>
         </div>
         {matchedProducts.length > 0 ? (
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-3">
             {paginatedProducts.map((item) => (
               <ProductCard
                 key={`${item.category}-${item.productLine}-${item.model}`}
