@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "@/components/locale-provider";
 import { ProductCard } from "@/components/product-card";
 import {
-  homeCustomizationShowcaseImages,
   type CatalogSection,
   type ProductItem,
 } from "@/data/site";
@@ -64,15 +63,19 @@ export function ProductCenterExplorer({
 
     const syncSectionFromHash = (): void => {
       const hash = decodeURIComponent(window.location.hash.replace(/^#/, ""));
+      const normalizedHash =
+        hash === "commercial-airflow" ? "air-treatment" : hash;
 
-      if (!hash || hash === "all") {
+      if (!normalizedHash || normalizedHash === "all") {
         setActiveSectionId("");
         setActiveLineName("");
         setCurrentProductPage(1);
         return;
       }
 
-      const matchedSection = sections.find((section) => section.id === hash);
+      const matchedSection = sections.find(
+        (section) => section.id === normalizedHash,
+      );
 
       if (!matchedSection) {
         return;
@@ -141,29 +144,6 @@ export function ProductCenterExplorer({
 
     return matchesSection && matchesLine;
   });
-  const totalProductPages = Math.max(
-    1,
-    Math.ceil(matchedProducts.length / productsPerPage),
-  );
-  const safeCurrentProductPage = Math.min(currentProductPage, totalProductPages);
-  const paginatedProducts = matchedProducts.slice(
-    (safeCurrentProductPage - 1) * productsPerPage,
-    safeCurrentProductPage * productsPerPage,
-  );
-  const isHomeCustomizationSection = activeSection?.id === "home-customization";
-  const filteredHomeCustomizationShowcaseImages = useMemo(() => {
-    if (!isHomeCustomizationSection) {
-      return homeCustomizationShowcaseImages;
-    }
-
-    if (!normalizedActiveLineName) {
-      return homeCustomizationShowcaseImages;
-    }
-
-    return homeCustomizationShowcaseImages.filter(
-      (item) => item.productLine === normalizedActiveLineName,
-    );
-  }, [isHomeCustomizationSection, normalizedActiveLineName]);
   const displayedActiveSectionLines = useMemo(() => {
     if (!activeSection) {
       return [];
@@ -180,6 +160,15 @@ export function ProductCenterExplorer({
   const hiddenActiveSectionLineCount = activeSection
     ? Math.max(0, activeSection.productLines.length - displayedActiveSectionLines.length)
     : 0;
+  const totalProductPages = Math.max(
+    1,
+    Math.ceil(matchedProducts.length / productsPerPage),
+  );
+  const safeCurrentProductPage = Math.min(currentProductPage, totalProductPages);
+  const paginatedProducts = matchedProducts.slice(
+    (safeCurrentProductPage - 1) * productsPerPage,
+    safeCurrentProductPage * productsPerPage,
+  );
   const activeProductCount = activeSection
     ? productCountByCategory[activeSection.key] ?? 0
     : products.length;
@@ -545,39 +534,6 @@ export function ProductCenterExplorer({
         </section>
       ) : null}
 
-      {isHomeCustomizationSection ? (
-        <section className="space-y-4">
-          <div>
-            <p className="text-sm font-medium text-[#123e67]">
-              {locale === "en" ? "Household Goods Gallery" : "家居用品图册"}
-            </p>
-            <h3 className="mt-2 text-[32px] font-semibold text-[#222222]">
-              {locale === "en"
-                ? "Home Household Goods Showcase"
-                : "家居定制用品展示"}
-            </h3>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {filteredHomeCustomizationShowcaseImages.map((item) => (
-              <article
-                key={item.image}
-                className="overflow-hidden border border-[#e2e8ef] bg-white"
-              >
-                <div className="relative aspect-[4/3] bg-[#f7f7f7]">
-                  <Image
-                    src={getAssetPath(item.image)}
-                    alt={getLocalizedText(item.alt, locale)}
-                    fill
-                    className="object-cover transition-transform duration-500 hover:scale-[1.04]"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                  />
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      ) : null}
-
       <section className="space-y-4">
         <div className="flex items-end justify-between gap-4">
           <div>
@@ -595,80 +551,74 @@ export function ProductCenterExplorer({
             </h3>
           </div>
         </div>
-        {matchedProducts.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-3">
-            {paginatedProducts.map((item) => (
-              <ProductCard
-                key={`${item.category}-${item.productLine}-${item.model}`}
-                item={item}
-              />
-            ))}
-          </div>
-        ) : isHomeCustomizationSection ? (
-          <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
-            {locale === "en"
-              ? "The home customization series is currently presented through a household goods gallery. Additional product combinations can be aligned through business communication."
-              : "家居定制系列当前以家居用品图册展示为主，更多产品组合可通过商务沟通进一步对接。"}
-          </div>
-        ) : (
-          <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
-            {locale === "en"
-              ? "No featured products are currently available under this filter. Full materials can be obtained through business communication."
-              : "当前筛选条件下暂无代表产品，完整资料可通过商务沟通进一步获取。"}
-          </div>
-        )}
-        {matchedProducts.length > productsPerPage ? (
-          <div className="flex flex-wrap items-center justify-between gap-4 border border-[#ececec] bg-white px-5 py-4">
-            <p className="text-sm text-[#666666]">
-              {locale === "en"
-                ? `Page ${safeCurrentProductPage} of ${totalProductPages}, ${matchedProducts.length} products total`
-                : `第 ${safeCurrentProductPage} / ${totalProductPages} 页，共 ${matchedProducts.length} 款产品`}
-            </p>
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                type="button"
-                onClick={() =>
-                  setCurrentProductPage((page) => Math.max(1, page - 1))
-                }
-                disabled={safeCurrentProductPage === 1}
-                className="border border-[#d7e6f2] bg-white px-3 py-2 text-sm text-[#123e67] transition-colors disabled:cursor-not-allowed disabled:text-[#9aa8b4]"
-              >
-                {locale === "en" ? "Previous" : "上一页"}
-              </button>
-              {Array.from({ length: totalProductPages }, (_, index) => {
-                const pageNumber = index + 1;
-                const isActivePage = pageNumber === safeCurrentProductPage;
-
-                return (
-                  <button
-                    key={`product-page-${pageNumber}`}
-                    type="button"
-                    onClick={() => setCurrentProductPage(pageNumber)}
-                    className={`min-w-9 border px-3 py-2 text-sm transition-colors ${
-                      isActivePage
-                        ? "border-[#123e67] bg-[#123e67] text-white"
-                        : "border-[#d7e6f2] bg-white text-[#123e67] hover:bg-[#f5f9fc]"
-                    }`}
-                  >
-                    {pageNumber}
-                  </button>
-                );
-              })}
-              <button
-                type="button"
-                onClick={() =>
-                  setCurrentProductPage((page) =>
-                    Math.min(totalProductPages, page + 1),
-                  )
-                }
-                disabled={safeCurrentProductPage === totalProductPages}
-                className="border border-[#d7e6f2] bg-white px-3 py-2 text-sm text-[#123e67] transition-colors disabled:cursor-not-allowed disabled:text-[#9aa8b4]"
-              >
-                {locale === "en" ? "Next" : "下一页"}
-              </button>
+          {matchedProducts.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-3">
+              {paginatedProducts.map((item) => (
+                <ProductCard
+                  key={`${item.category}-${item.productLine}-${item.model}`}
+                  item={item}
+                />
+              ))}
             </div>
-          </div>
-        ) : null}
+          ) : (
+            <div className="border border-[#ececec] bg-[#fafafa] px-6 py-10 text-[15px] text-[#666666]">
+              {locale === "en"
+                ? "No featured products are currently available under this filter. Full materials can be obtained through business communication."
+                : "当前筛选条件下暂无代表产品，完整资料可通过商务沟通进一步获取。"}
+            </div>
+          )}
+          {matchedProducts.length > productsPerPage ? (
+            <div className="flex flex-wrap items-center justify-between gap-4 border border-[#ececec] bg-white px-5 py-4">
+              <p className="text-sm text-[#666666]">
+                {locale === "en"
+                  ? `Page ${safeCurrentProductPage} of ${totalProductPages}, ${matchedProducts.length} products total`
+                  : `第 ${safeCurrentProductPage} / ${totalProductPages} 页，共 ${matchedProducts.length} 款产品`}
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setCurrentProductPage((page) => Math.max(1, page - 1))
+                  }
+                  disabled={safeCurrentProductPage === 1}
+                  className="border border-[#d7e6f2] bg-white px-3 py-2 text-sm text-[#123e67] transition-colors disabled:cursor-not-allowed disabled:text-[#9aa8b4]"
+                >
+                  {locale === "en" ? "Previous" : "上一页"}
+                </button>
+                {Array.from({ length: totalProductPages }, (_, index) => {
+                  const pageNumber = index + 1;
+                  const isActivePage = pageNumber === safeCurrentProductPage;
+
+                  return (
+                    <button
+                      key={`product-page-${pageNumber}`}
+                      type="button"
+                      onClick={() => setCurrentProductPage(pageNumber)}
+                      className={`min-w-9 border px-3 py-2 text-sm transition-colors ${
+                        isActivePage
+                          ? "border-[#123e67] bg-[#123e67] text-white"
+                          : "border-[#d7e6f2] bg-white text-[#123e67] hover:bg-[#f5f9fc]"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  );
+                })}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setCurrentProductPage((page) =>
+                      Math.min(totalProductPages, page + 1),
+                    )
+                  }
+                  disabled={safeCurrentProductPage === totalProductPages}
+                  className="border border-[#d7e6f2] bg-white px-3 py-2 text-sm text-[#123e67] transition-colors disabled:cursor-not-allowed disabled:text-[#9aa8b4]"
+                >
+                  {locale === "en" ? "Next" : "下一页"}
+                </button>
+              </div>
+            </div>
+          ) : null}
       </section>
     </div>
   );

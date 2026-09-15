@@ -227,7 +227,7 @@ export default function HomePage(): React.JSX.Element {
           </div>
           <div className="relative min-h-[24rem] overflow-hidden">
             <Image
-              src={getAssetPath("/images/brand/global-map.jpg")}
+              src={getAssetPath("/images/brand/global-map.webp")}
               alt={
                 locale === "en"
                   ? "CUMULUS global market coverage"

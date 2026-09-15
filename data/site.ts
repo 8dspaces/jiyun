@@ -74,6 +74,10 @@ export interface ShowcaseImageItem {
   image: string;
   alt: LocalizedText;
   productLine?: string;
+  name?: LocalizedText;
+  model?: string;
+  summary?: LocalizedText;
+  features?: LocalizedText[];
 }
 
 interface CatalogProductBatch {
@@ -114,10 +118,6 @@ export const footerGroups: FooterGroup[] = [
         label: t("Air Treatment", "风处理系列"),
       },
       {
-        href: "/products#commercial-airflow",
-        label: t("Air Curtains", "风幕系列"),
-      },
-      {
         href: "/products#smart-cleaning",
         label: t("Smart Cleaning", "智能清洁系列"),
       },
@@ -155,7 +155,7 @@ export const companyProfile = {
   ),
   englishName: "CUMULUS SMART HOME APPLIANCE CO., LTD",
   heroTitle: t(
-    "Industrial design driven. Manufacturing aligned. Ready for custom development.",
+    "Driven by industrial design, aligned with manufacturing, built for custom development",
     "工业设计驱动，制造协同交付，支持客户化开发。",
   ),
   heroDescription: t(
@@ -177,7 +177,7 @@ export const companyProfile = {
 
 export const statistics: StatisticItem[] = [
   {
-    value: t("6 Core Products", "6 大主打产品"),
+    value: t("5 Core Series", "5 大主打品类"),
     label: t("Product catalog structure", "官网产品品类目录"),
   },
   {
@@ -203,7 +203,7 @@ export const capabilities: CapabilityItem[] = [
     ),
   },
   {
-    title: t("Six Product Series", "六大品类"),
+    title: t("Five Product Series", "五大品类"),
     description: t(
       "A clear catalog structure for efficient browsing and selection.",
       "目录清晰，便于快速浏览。",
@@ -245,31 +245,18 @@ export const seriesItems: SeriesItem[] = [
   {
     id: "air-treatment",
     title: t("Air Treatment", "风处理系列"),
-    description: t("Fans and air coolers.", "风扇与冷风机产品。"),
+    description: t(
+      "Fans, air coolers, and air curtain equipment.",
+      "风扇、冷风机与风幕机产品。",
+    ),
     highlights: [
       t("Rechargeable Fans", "蓄电风扇"),
-      t("Air Circulation", "循环送风"),
+      t("Air Curtains", "风幕机"),
       t("Air Coolers", "冷风机"),
     ],
     image: "/images/series/001.jpg",
     alt: t("Cumulus air treatment category image", "积云家居风处理系列品类图"),
     icon: "wind",
-  },
-  {
-    id: "commercial-airflow",
-    title: t("Air Curtains", "风幕系列"),
-    description: t(
-      "Air curtain and commercial airflow equipment.",
-      "风幕与商用空气设备。",
-    ),
-    highlights: [
-      t("Air Curtains", "风幕机"),
-      t("Commercial Entrances", "商用入口"),
-      t("High-Efficiency Motors", "高效电机"),
-    ],
-    image: "/images/series/002.jpg",
-    alt: t("Cumulus air curtain category image", "积云家居风幕系列品类图"),
-    icon: "building",
   },
   {
     id: "smart-cleaning",
@@ -360,10 +347,7 @@ function createCatalogProducts(batch: CatalogProductBatch): ProductItem[] {
     const serial = String(index + 1).padStart(2, "0");
 
     return {
-      name: t(
-        `${batch.englishBaseName} ${serial}`,
-        `${batch.chineseBaseName} ${serial}`,
-      ),
+      name: t(batch.englishBaseName, batch.chineseBaseName),
       model: `${batch.modelPrefix}-${serial}`,
       image: `/images/products/catalog/${imageName}`,
       alt: t(
@@ -426,7 +410,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Classic Pedestal Fan", "经典落地风扇"),
     model: "CHFS40-4ADC0301",
-    image: "/images/products/fan-standard-a.jpg",
+    image: "/images/products/fan-standard.jpg",
     alt: t("Cumulus classic pedestal fan", "积云家居经典落地风扇"),
     summary: t(
       "Covers standard residential airflow needs with optional battery and inverter configurations in 16-inch and 18-inch sizes.",
@@ -437,26 +421,6 @@ const coreFeaturedProducts: ProductItem[] = [
       t("6-7 hour runtime", "6-7 小时续航"),
       t("3 speed levels", "3 档风速"),
       t("16/18 inch options", "16/18 寸可选"),
-    ],
-    category: "风处理系列",
-    categoryLabel: t("Air Treatment", "风处理系列"),
-    productLine: "落地风扇",
-    productLineLabel: t("Pedestal Fans", "落地风扇"),
-  },
-  {
-    name: t("Multi-Size Pedestal Fan", "多规格落地风扇"),
-    model: "CHFS45-4D0201",
-    image: "/images/products/fan-standard-b.jpg",
-    alt: t("Cumulus multi-size pedestal fan", "积云家居多规格落地风扇"),
-    summary: t(
-      "Supports multiple sizes, control modes, and blade configurations for everyday cooling across different spaces.",
-      "通过多尺寸、多控制方式与多风叶配置，满足不同空间的常规送风需求。",
-    ),
-    features: [
-      t("3 or 4 blade options", "3/4 风叶可选"),
-      t("3 or 6 speed levels", "3/6 档风速"),
-      t("Button, mechanical, or remote control", "按键/机械/遥控"),
-      t("16/18/20 inch options", "16/18/20 寸可选"),
     ],
     category: "风处理系列",
     categoryLabel: t("Air Treatment", "风处理系列"),
@@ -517,8 +481,8 @@ const coreFeaturedProducts: ProductItem[] = [
       t("16m/s air speed", "16m/s 风速"),
       t("2.5-3m installation height", "2.5-3m 安装高度"),
     ],
-    category: "风幕系列",
-    categoryLabel: t("Air Curtains", "风幕系列"),
+    category: "风处理系列",
+    categoryLabel: t("Air Treatment", "风处理系列"),
     productLine: "离心风幕机",
     productLineLabel: t("Centrifugal Air Curtains", "离心风幕机"),
   },
@@ -537,8 +501,8 @@ const coreFeaturedProducts: ProductItem[] = [
       t("Remote and button control", "遥控/按键可控"),
       t("2.5-3m installation height", "2.5-3m 安装高度"),
     ],
-    category: "风幕系列",
-    categoryLabel: t("Air Curtains", "风幕系列"),
+    category: "风处理系列",
+    categoryLabel: t("Air Treatment", "风处理系列"),
     productLine: "贯流风幕机",
     productLineLabel: t("Crossflow Air Curtains", "贯流风幕机"),
   },
@@ -564,7 +528,7 @@ const coreFeaturedProducts: ProductItem[] = [
   {
     name: t("Entry Robot Vacuum Mop", "扫拖机器人基础款"),
     model: "JY-RD100",
-    image: "/images/products/robot-basic.jpg",
+    image: "/images/products/robot-vacuum-visual-03.jpg",
     alt: t("Cumulus entry robot vacuum", "积云家居扫拖机器人基础款"),
     summary: t(
       "Focused on everyday floor cleaning with vacuum-and-mop operation, automatic charging, and low-noise performance.",
@@ -745,38 +709,38 @@ const coreFeaturedProducts: ProductItem[] = [
 ];
 
 const additionalCatalogProductBatches: CatalogProductBatch[] = [
-  {
-    englishBaseName: "Air Cooler",
-    chineseBaseName: "冷风机",
-    modelPrefix: "ACC",
-    imageNames: [
-      "air-cooler-visual-01.jpg",
-      "air-cooler-visual-02.jpg",
-      "air-cooler-visual-03.jpg",
-      "air-cooler-visual-04.jpg",
-      "air-cooler-visual-05.jpg",
-      "air-cooler-visual-06.jpg",
-    ],
-    category: "风处理系列",
-    categoryLabel: t("Air Treatment", "风处理系列"),
-    productLine: "冷风机",
-    productLineLabel: t("Air Coolers", "冷风机"),
-    summary: t(
-      "An expanded air cooler selection focused on space cooling and flexible airflow coverage.",
-      "面向场景降温与灵活送风覆盖的冷风机扩展产品图款。",
-    ),
-    features: [
-      { en: "Evaporative cooling", zh: "蒸发降温" },
-      { en: "Large-area airflow", zh: "大范围送风" },
-      { en: "Mobile cooling scenes", zh: "移动降温场景" },
-    ],
-  },
+  // {
+  //   englishBaseName: "Air Cooler",
+  //   chineseBaseName: "冷风机",
+  //   modelPrefix: "ACC",
+  //   imageNames: [
+  //     "air-cooler-visual-01.jpg",
+  //     "air-cooler-visual-02.jpg",
+  //     "air-cooler-visual-03.jpg",
+  //     "air-cooler-visual-04.jpg",
+  //     "air-cooler-visual-05.jpg",
+  //     "air-cooler-visual-06.jpg",
+  //   ],
+  //   category: "风处理系列",
+  //   categoryLabel: t("Air Treatment", "风处理系列"),
+  //   productLine: "冷风机",
+  //   productLineLabel: t("Air Coolers", "冷风机"),
+  //   summary: t(
+  //     "An expanded air cooler selection focused on space cooling and flexible airflow coverage.",
+  //     "面向场景降温与灵活送风覆盖的冷风机扩展产品图款。",
+  //   ),
+  //   features: [
+  //     { en: "Evaporative cooling", zh: "蒸发降温" },
+  //     { en: "Large-area airflow", zh: "大范围送风" },
+  //     { en: "Mobile cooling scenes", zh: "移动降温场景" },
+  //   ],
+  // },
   {
     englishBaseName: "Robot Vacuum Mop",
     chineseBaseName: "扫拖机器人",
     modelPrefix: "RVE",
     imageNames: [
-      "robot-vacuum-visual-01.jpg",
+      // "robot-vacuum-visual-01.jpg",
       "robot-vacuum-visual-02.jpg",
     ],
     category: "智能清洁系列",
@@ -798,8 +762,8 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
     chineseBaseName: "进阶扫拖机器人",
     modelPrefix: "RVA",
     imageNames: [
-      "robot-vacuum-visual-03.jpg",
-      "robot-vacuum-visual-04.jpg",
+      // "robot-vacuum-visual-03.jpg",
+      // "robot-vacuum-visual-04.jpg",
       "robot-vacuum-visual-05.jpg",
     ],
     category: "智能清洁系列",
@@ -816,116 +780,116 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
       { en: "Integrated dock solutions", zh: "集成基站方案" },
     ],
   },
-  {
-    englishBaseName: "Industrial Wall Fan",
-    chineseBaseName: "工业挂壁扇",
-    modelPrefix: "IWF",
-    imageNames: ["wall-fan-visual-01.jpg"],
-    category: "风处理系列",
-    categoryLabel: t("Air Treatment", "风处理系列"),
-    productLine: "工业挂壁扇",
-    productLineLabel: t("Industrial Wall Fans", "工业挂壁扇"),
-    summary: t(
-      "Wall-mounted airflow equipment suited to industrial and large-space ventilation scenarios.",
-      "适用于工业与大空间通风送风场景的挂壁扇扩展图款。",
-    ),
-    features: [
-      { en: "Wall-mounted structure", zh: "挂壁结构" },
-      { en: "Directional airflow", zh: "定向送风" },
-      { en: "Large-space use", zh: "适配大空间" },
-    ],
-  },
-  {
-    englishBaseName: "Pedestal Fan",
-    chineseBaseName: "落地风扇",
-    modelPrefix: "PFS",
-    imageNames: [
-      "electric-fan-visual-01.jpg",
-      "pedestal-fan-visual-01.jpg",
-      "pedestal-fan-visual-02.jpg",
-      "pedestal-fan-visual-03.jpg",
-    ],
-    category: "风处理系列",
-    categoryLabel: t("Air Treatment", "风处理系列"),
-    productLine: "落地风扇",
-    productLineLabel: t("Pedestal Fans", "落地风扇"),
-    summary: t(
-      "A broader pedestal fan selection for residential and light commercial airflow scenarios.",
-      "面向家用与轻商用送风场景的落地风扇扩展图款。",
-    ),
-    features: [
-      { en: "Multiple blade options", zh: "多风叶方案" },
-      { en: "Flexible control types", zh: "多控制方式" },
-      { en: "Household cooling scenes", zh: "家用送风场景" },
-    ],
-  },
-  {
-    englishBaseName: "Retro Metal Fan",
-    chineseBaseName: "复古金属风扇",
-    modelPrefix: "RMF",
-    imageNames: [
-      "retro-metal-fan-visual-01.jpg",
-      "retro-metal-fan-visual-02.jpg",
-      "retro-metal-fan-visual-03.jpg",
-    ],
-    category: "风处理系列",
-    categoryLabel: t("Air Treatment", "风处理系列"),
-    productLine: "复古金属风扇",
-    productLineLabel: t("Retro Metal Fans", "复古金属风扇"),
-    summary: t(
-      "Retro metal fan visuals emphasizing appearance, texture, and desktop-to-floor versatility.",
-      "强调外观质感与多场景摆放适配的复古金属风扇扩展图款。",
-    ),
-    features: [
-      { en: "Metal body finish", zh: "金属机身质感" },
-      { en: "Retro styling", zh: "复古外观" },
-      { en: "Decorative airflow solution", zh: "兼顾装饰与送风" },
-    ],
-  },
-  {
-    englishBaseName: "Centrifugal Air Curtain",
-    chineseBaseName: "离心风幕机",
-    modelPrefix: "CAC",
-    imageNames: [
-      "air-curtain-visual-01.jpg",
-      "air-curtain-visual-02.jpg",
-    ],
-    category: "风幕系列",
-    categoryLabel: t("Air Curtains", "风幕系列"),
-    productLine: "离心风幕机",
-    productLineLabel: t("Centrifugal Air Curtains", "离心风幕机"),
-    summary: t(
-      "An expanded centrifugal air curtain range for commercial entry and airflow isolation projects.",
-      "面向商用入口与空气隔离项目的离心风幕机扩展图款。",
-    ),
-    features: [
-      { en: "Commercial entrance use", zh: "商用入口应用" },
-      { en: "Stable airflow curtain", zh: "稳定风幕覆盖" },
-      { en: "Multiple installation spans", zh: "多安装跨度" },
-    ],
-  },
-  {
-    englishBaseName: "Crossflow Air Curtain",
-    chineseBaseName: "贯流风幕机",
-    modelPrefix: "XAC",
-    imageNames: [
-      "air-curtain-visual-03.jpg",
-      "air-curtain-visual-04.jpg",
-    ],
-    category: "风幕系列",
-    categoryLabel: t("Air Curtains", "风幕系列"),
-    productLine: "贯流风幕机",
-    productLineLabel: t("Crossflow Air Curtains", "贯流风幕机"),
-    summary: t(
-      "Crossflow air curtain visuals balancing quiet operation and continuous doorway coverage.",
-      "兼顾连续入口覆盖与更平稳运行表现的贯流风幕机扩展图款。",
-    ),
-    features: [
-      { en: "Crossflow structure", zh: "贯流结构" },
-      { en: "Continuous doorway coverage", zh: "连续入口覆盖" },
-      { en: "Smooth running noise", zh: "平稳运行噪声" },
-    ],
-  },
+  // {
+  //   englishBaseName: "Industrial Wall Fan",
+  //   chineseBaseName: "工业挂壁扇",
+  //   modelPrefix: "IWF",
+  //   imageNames: ["wall-fan-visual-01.jpg"],
+  //   category: "风处理系列",
+  //   categoryLabel: t("Air Treatment", "风处理系列"),
+  //   productLine: "工业挂壁扇",
+  //   productLineLabel: t("Industrial Wall Fans", "工业挂壁扇"),
+  //   summary: t(
+  //     "Wall-mounted airflow equipment suited to industrial and large-space ventilation scenarios.",
+  //     "适用于工业与大空间通风送风场景的挂壁扇扩展图款。",
+  //   ),
+  //   features: [
+  //     { en: "Wall-mounted structure", zh: "挂壁结构" },
+  //     { en: "Directional airflow", zh: "定向送风" },
+  //     { en: "Large-space use", zh: "适配大空间" },
+  //   ],
+  // },
+  // {
+  //   englishBaseName: "Pedestal Fan",
+  //   chineseBaseName: "落地风扇",
+  //   modelPrefix: "PFS",
+  //   imageNames: [
+  //     "electric-fan-visual-01.jpg",
+  //     "pedestal-fan-visual-01.jpg",
+  //     "pedestal-fan-visual-02.jpg",
+  //     "pedestal-fan-visual-03.jpg",
+  //   ],
+  //   category: "风处理系列",
+  //   categoryLabel: t("Air Treatment", "风处理系列"),
+  //   productLine: "落地风扇",
+  //   productLineLabel: t("Pedestal Fans", "落地风扇"),
+  //   summary: t(
+  //     "A broader pedestal fan selection for residential and light commercial airflow scenarios.",
+  //     "面向家用与轻商用送风场景的落地风扇扩展图款。",
+  //   ),
+  //   features: [
+  //     { en: "Multiple blade options", zh: "多风叶方案" },
+  //     { en: "Flexible control types", zh: "多控制方式" },
+  //     { en: "Household cooling scenes", zh: "家用送风场景" },
+  //   ],
+  // },
+  // {
+  //   englishBaseName: "Retro Metal Fan",
+  //   chineseBaseName: "复古金属风扇",
+  //   modelPrefix: "RMF",
+  //   imageNames: [
+  //     "retro-metal-fan-visual-01.jpg",
+  //     "retro-metal-fan-visual-02.jpg",
+  //     "retro-metal-fan-visual-03.jpg",
+  //   ],
+  //   category: "风处理系列",
+  //   categoryLabel: t("Air Treatment", "风处理系列"),
+  //   productLine: "复古金属风扇",
+  //   productLineLabel: t("Retro Metal Fans", "复古金属风扇"),
+  //   summary: t(
+  //     "Retro metal fan visuals emphasizing appearance, texture, and desktop-to-floor versatility.",
+  //     "强调外观质感与多场景摆放适配的复古金属风扇扩展图款。",
+  //   ),
+  //   features: [
+  //     { en: "Metal body finish", zh: "金属机身质感" },
+  //     { en: "Retro styling", zh: "复古外观" },
+  //     { en: "Decorative airflow solution", zh: "兼顾装饰与送风" },
+  //   ],
+  // },
+  // {
+  //   englishBaseName: "Centrifugal Air Curtain",
+  //   chineseBaseName: "离心风幕机",
+  //   modelPrefix: "CAC",
+  //   imageNames: [
+  //     "air-curtain-visual-01.jpg",
+  //     "air-curtain-visual-02.jpg",
+  //   ],
+  //   category: "风幕系列",
+  //   categoryLabel: t("Air Curtains", "风幕系列"),
+  //   productLine: "离心风幕机",
+  //   productLineLabel: t("Centrifugal Air Curtains", "离心风幕机"),
+  //   summary: t(
+  //     "An expanded centrifugal air curtain range for commercial entry and airflow isolation projects.",
+  //     "面向商用入口与空气隔离项目的离心风幕机扩展图款。",
+  //   ),
+  //   features: [
+  //     { en: "Commercial entrance use", zh: "商用入口应用" },
+  //     { en: "Stable airflow curtain", zh: "稳定风幕覆盖" },
+  //     { en: "Multiple installation spans", zh: "多安装跨度" },
+  //   ],
+  // },
+  // {
+  //   englishBaseName: "Crossflow Air Curtain",
+  //   chineseBaseName: "贯流风幕机",
+  //   modelPrefix: "XAC",
+  //   imageNames: [
+  //     "air-curtain-visual-03.jpg",
+  //     "air-curtain-visual-04.jpg",
+  //   ],
+  //   category: "风幕系列",
+  //   categoryLabel: t("Air Curtains", "风幕系列"),
+  //   productLine: "贯流风幕机",
+  //   productLineLabel: t("Crossflow Air Curtains", "贯流风幕机"),
+  //   summary: t(
+  //     "Crossflow air curtain visuals balancing quiet operation and continuous doorway coverage.",
+  //     "兼顾连续入口覆盖与更平稳运行表现的贯流风幕机扩展图款。",
+  //   ),
+  //   features: [
+  //     { en: "Crossflow structure", zh: "贯流结构" },
+  //     { en: "Continuous doorway coverage", zh: "连续入口覆盖" },
+  //     { en: "Smooth running noise", zh: "平稳运行噪声" },
+  //   ],
+  // },
   {
     englishBaseName: "Air Fryer",
     chineseBaseName: "空气炸锅",
@@ -1064,24 +1028,20 @@ const additionalCatalogProductBatches: CatalogProductBatch[] = [
 const additionalCatalogProducts: ProductItem[] =
   additionalCatalogProductBatches.flatMap(createCatalogProducts);
 
-export const featuredProducts: ProductItem[] = [
-  ...coreFeaturedProducts,
-  ...additionalCatalogProducts,
-];
-
 export const catalogSections: CatalogSection[] = [
   {
     id: "air-treatment",
     key: "风处理系列",
     title: t("Air Treatment", "风处理系列"),
     description: t(
-      "A product range built around airflow, circulation, and space cooling needs.",
-      "围绕送风、循环送风与场景降温需求打造的产品系列。",
+      "A product range built around airflow, air curtains, circulation, and space cooling needs.",
+      "围绕送风、风幕隔离、循环送风与场景降温需求打造的产品系列。",
     ),
     image: "/images/series/001.jpg",
     alt: t("Cumulus air treatment catalog image", "积云家居风处理系列目录图"),
     highlights: [
       t("Air circulation", "循环送风"),
+      t("Commercial entrances", "商用入口"),
       t("Battery-powered applications", "蓄电应用"),
       t("Space cooling", "场景降温"),
     ],
@@ -1126,24 +1086,6 @@ export const catalogSections: CatalogSection[] = [
           "兼顾降温、送风与大空间空气循环表现。",
         ),
       },
-    ],
-  },
-  {
-    id: "commercial-airflow",
-    key: "风幕系列",
-    title: t("Air Curtains", "风幕系列"),
-    description: t(
-      "A product range for commercial spaces and public-area airflow control.",
-      "面向商用空间与公共区域空气流动需求的产品系列。",
-    ),
-    image: "/images/series/002.jpg",
-    alt: t("Cumulus air curtain catalog image", "积云家居风幕系列目录图"),
-    highlights: [
-      t("Commercial spaces", "商用空间"),
-      t("Stable airflow", "稳定送风"),
-      t("Metal housing", "金属机身"),
-    ],
-    productLines: [
       {
         name: "离心风幕机",
         label: t("Centrifugal Air Curtains", "离心风幕机"),
@@ -1158,22 +1100,6 @@ export const catalogSections: CatalogSection[] = [
         summary: t(
           "Balancing airflow coverage with smoother operating noise performance.",
           "兼顾风量覆盖与更平稳的运行噪声表现。",
-        ),
-      },
-      {
-        name: "高静压方案",
-        label: t("High Static Pressure Solutions", "高静压方案"),
-        summary: t(
-          "Designed for more demanding entrance environments and higher airflow requirements.",
-          "面向更复杂入口环境与更高风量需求。",
-        ),
-      },
-      {
-        name: "多规格长度",
-        label: t("Multiple Length Options", "多规格长度"),
-        summary: t(
-          "Covers varying doorway widths and installation scales.",
-          "覆盖不同门宽与安装尺度的项目需求。",
         ),
       },
     ],
@@ -1405,67 +1331,258 @@ export const homeCustomizationShowcaseImages: ShowcaseImageItem[] = [
     image: "/images/customization/storage-box-01.jpg",
     alt: t("Cumulus storage box product", "积云家居储存箱产品图"),
     productLine: "储存箱",
+    name: t("Storage Box", "储存箱"),
+    model: "HC-SB-01",
+    summary: t(
+      "Storage box design for home sorting, categorized placement, and efficient daily organization.",
+      "面向家庭分类收纳、分区摆放与日常高效整理场景的储存箱产品。",
+    ),
+    features: [
+      t("Storage organization", "分类收纳"),
+      t("Household use", "家居使用"),
+      t("Lightweight structure", "轻量结构"),
+    ],
   },
   {
     image: "/images/customization/storage-rack-01.jpg",
     alt: t("Cumulus storage rack product", "积云家居储物架产品图"),
     productLine: "储物架",
+    name: t("Storage Rack", "储物架"),
+    model: "HC-SR-01",
+    summary: t(
+      "Storage rack solution for countertop organization and improved everyday space efficiency.",
+      "适用于台面置物、分层整理与提升日常空间利用率的储物架产品。",
+    ),
+    features: [
+      t("Layered storage", "分层置物"),
+      t("Daily organization", "日常整理"),
+      t("Space efficiency", "空间利用"),
+    ],
   },
   {
     image: "/images/customization/trash-bin-01.jpg",
     alt: t("Cumulus trash bin product 01", "积云家居垃圾桶产品图 01"),
     productLine: "垃圾桶",
+    name: t("Open-Top Trash Bin", "开口垃圾桶"),
+    model: "HC-TB-01",
+    summary: t(
+      "Open-top trash bin designed for convenient waste disposal in daily household cleaning scenes.",
+      "适合家庭日常清洁与便捷取放垃圾场景的开口式垃圾桶产品。",
+    ),
+    features: [
+      t("Easy disposal", "便捷投放"),
+      t("Household cleaning", "家庭清洁"),
+      t("Neat appearance", "整洁外观"),
+    ],
   },
-  {
-    image: "/images/customization/trash-bin-02.jpg",
-    alt: t("Cumulus trash bin product 02", "积云家居垃圾桶产品图 02"),
-    productLine: "垃圾桶",
-  },
-  {
-    image: "/images/customization/plastic-brush-01.jpg",
-    alt: t("Cumulus plastic brush product 01", "积云家居塑料刷产品图 01"),
-    productLine: "塑料刷",
-  },
+  // {
+  //   image: "/images/customization/trash-bin-02.jpg",
+  //   alt: t("Cumulus trash bin product 02", "积云家居垃圾桶产品图 02"),
+  //   productLine: "垃圾桶",
+  //   name: t("Lidded Trash Bin", "带盖垃圾桶"),
+  //   model: "HC-TB-02",
+  //   summary: t(
+  //     "Lidded trash bin for more enclosed waste management and cleaner tabletop or floor placement.",
+  //     "适合更封闭垃圾收纳与台面、地面整洁摆放需求的带盖垃圾桶产品。",
+  //   ),
+  //   features: [
+  //     t("Lidded structure", "带盖结构"),
+  //     t("Cleaner placement", "整洁摆放"),
+  //     t("Daily waste sorting", "日常垃圾整理"),
+  //   ],
+  // },
+  // {
+  //   image: "/images/customization/plastic-brush-01.jpg",
+  //   alt: t("Cumulus plastic brush product 01", "积云家居塑料刷产品图 01"),
+  //   productLine: "塑料刷",
+  //   name: t("Compact Plastic Brush", "紧凑塑料刷"),
+  //   model: "HC-PB-01",
+  //   summary: t(
+  //     "Compact plastic brush for routine cleaning and targeted scrubbing in everyday household use.",
+  //     "适用于日常清洁与局部刷洗需求的紧凑型塑料刷产品。",
+  //   ),
+  //   features: [
+  //     t("Routine cleaning", "日常清洁"),
+  //     t("Compact grip", "紧凑手持"),
+  //     t("Targeted scrubbing", "局部刷洗"),
+  //   ],
+  // },
   {
     image: "/images/customization/plastic-brush-02.jpg",
     alt: t("Cumulus plastic brush product 02", "积云家居塑料刷产品图 02"),
     productLine: "塑料刷",
+    name: t("Long-Handle Plastic Brush", "长柄塑料刷"),
+    model: "HC-PB-02",
+    summary: t(
+      "Long-handle plastic brush suited to extended reach and more efficient household cleaning tasks.",
+      "适合更长触达距离与高频家务清洁场景的长柄塑料刷产品。",
+    ),
+    features: [
+      t("Extended reach", "长距离触达"),
+      t("Cleaning efficiency", "清洁效率"),
+      t("Household scenes", "家务场景"),
+    ],
   },
   {
     image: "/images/customization/plastic-clip-01.jpg",
     alt: t("Cumulus plastic clip product 01", "积云家居塑料夹产品图 01"),
     productLine: "塑料夹",
+    name: t("Utility Plastic Clip", "多用塑料夹"),
+    model: "HC-PC-01",
+    summary: t(
+      "Utility plastic clip for fastening, sealing, and lightweight home organization tasks.",
+      "适用于固定、封口与轻量居家整理需求的多用塑料夹产品。",
+    ),
+    features: [
+      t("Fastening support", "固定支撑"),
+      t("Lightweight use", "轻量使用"),
+      t("Daily organization", "日常整理"),
+    ],
   },
   {
     image: "/images/customization/plastic-clip-02.jpg",
     alt: t("Cumulus plastic clip product 02", "积云家居塑料夹产品图 02"),
     productLine: "塑料夹",
+    name: t("Laundry Plastic Clip", "晾晒塑料夹"),
+    model: "HC-PC-02",
+    summary: t(
+      "Plastic clip format oriented toward clothes drying, temporary hanging, and simple home fixation.",
+      "面向衣物晾晒、临时悬挂与基础居家固定需求的塑料夹产品。",
+    ),
+    features: [
+      t("Laundry support", "晾晒支持"),
+      t("Simple fixation", "基础固定"),
+      t("Home utility", "家居实用"),
+    ],
   },
   {
     image: "/images/customization/plastic-hook-01.jpg",
     alt: t("Cumulus plastic hook product", "积云家居塑料挂钩产品图"),
     productLine: "塑料挂钩",
+    name: t("Plastic Wall Hook", "塑料挂钩"),
+    model: "HC-PH-01",
+    summary: t(
+      "Plastic wall hook for easy hanging, daily access, and light household storage support.",
+      "适用于悬挂收纳、便捷取用与轻量家居整理的塑料挂钩产品。",
+    ),
+    features: [
+      t("Wall hanging", "墙面悬挂"),
+      t("Easy access", "便捷取用"),
+      t("Light storage", "轻量收纳"),
+    ],
   },
   {
     image: "/images/customization/plastic-hanger-01.jpg",
     alt: t("Cumulus plastic hanger product 01", "积云家居塑料衣架产品图 01"),
     productLine: "塑料衣架",
+    name: t("Slim Plastic Hanger", "轻型塑料衣架"),
+    model: "HC-PHGR-01",
+    summary: t(
+      "Slim plastic hanger for daily garment hanging, wardrobe organization, and lightweight display.",
+      "适用于日常衣物悬挂、衣柜整理与轻量展示需求的塑料衣架产品。",
+    ),
+    features: [
+      t("Garment hanging", "衣物悬挂"),
+      t("Wardrobe organization", "衣柜整理"),
+      t("Lightweight design", "轻型设计"),
+    ],
   },
-  {
-    image: "/images/customization/plastic-hanger-02.jpg",
-    alt: t("Cumulus plastic hanger product 02", "积云家居塑料衣架产品图 02"),
-    productLine: "塑料衣架",
-  },
+  // {
+  //   image: "/images/customization/plastic-hanger-02.jpg",
+  //   alt: t("Cumulus plastic hanger product 02", "积云家居塑料衣架产品图 02"),
+  //   productLine: "塑料衣架",
+  //   name: t("Wide-Shoulder Plastic Hanger", "宽肩塑料衣架"),
+  //   model: "HC-PHGR-02",
+  //   summary: t(
+  //     "Wide-shoulder hanger variant designed to support more stable clothing display and organization.",
+  //     "面向更稳定衣物支撑与整齐陈列需求的宽肩塑料衣架产品。",
+  //   ),
+  //   features: [
+  //     t("Stable support", "稳定支撑"),
+  //     t("Clothing display", "衣物陈列"),
+  //     t("Everyday organization", "日常整理"),
+  //   ],
+  // },
   {
     image: "/images/customization/tissue-box-01.jpg",
     alt: t("Cumulus tissue box product 01", "积云家居纸巾盒产品图 01"),
     productLine: "纸巾盒",
+    name: t("Rectangular Tissue Box", "方形纸巾盒"),
+    model: "HC-TS-01",
+    summary: t(
+      "Rectangular tissue box for cleaner tabletop organization and convenient everyday paper access.",
+      "适用于台面整洁摆放与日常便捷取纸需求的方形纸巾盒产品。",
+    ),
+    features: [
+      t("Tabletop organization", "台面整理"),
+      t("Convenient access", "便捷取纸"),
+      t("Clean appearance", "整洁外观"),
+    ],
   },
   {
     image: "/images/customization/tissue-box-02.jpg",
     alt: t("Cumulus tissue box product 02", "积云家居纸巾盒产品图 02"),
     productLine: "纸巾盒",
+    name: t("Compact Tissue Box", "紧凑纸巾盒"),
+    model: "HC-TS-02",
+    summary: t(
+      "Compact tissue box format for smaller spaces and more flexible household placement.",
+      "适合小空间摆放与灵活家居配置需求的紧凑型纸巾盒产品。",
+    ),
+    features: [
+      t("Compact footprint", "紧凑占位"),
+      t("Flexible placement", "灵活摆放"),
+      t("Household use", "居家使用"),
+    ],
   },
+];
+
+/**
+ * 将家居定制图片数据转换为正式产品卡数据，确保其与其他系列共用同一套展示链路。
+ *
+ * @param items 家居定制图片与补充说明数据。
+ * @returns 返回可直接用于代表产品区的家居定制产品列表。
+ */
+function createHomeCustomizationProducts(
+  items: ShowcaseImageItem[],
+): ProductItem[] {
+  return items.map((item) => ({
+    name:
+      item.name ?? {
+        en: "Home Customization Product",
+        zh: "家居定制产品",
+      },
+    model: item.model ?? "",
+    image: item.image,
+    alt: item.alt,
+    summary:
+      item.summary ?? {
+        en: "Household goods product information is being organized.",
+        zh: "家居用品产品资料正在整理中。",
+      },
+    features:
+      item.features ?? [
+        t("Household use", "家居使用"),
+        t("Daily organization", "日常整理"),
+        t("Custom support", "定制支持"),
+      ],
+    category: "家居定制系列",
+    categoryLabel: t("Home Customization", "家居定制系列"),
+    productLine: item.productLine ?? "",
+    productLineLabel: item.name ?? {
+      en: "Household Goods",
+      zh: "家居用品",
+    },
+  }));
+}
+
+const homeCustomizationFeaturedProducts: ProductItem[] =
+  createHomeCustomizationProducts(homeCustomizationShowcaseImages);
+
+export const featuredProducts: ProductItem[] = [
+  ...coreFeaturedProducts,
+  ...additionalCatalogProducts,
+  ...homeCustomizationFeaturedProducts,
 ];
 
 export const contactItems: ContactItem[] = [
