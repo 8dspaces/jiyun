@@ -205,8 +205,8 @@ export const capabilities: CapabilityItem[] = [
   {
     title: t("Five Product Series", "五大品类"),
     description: t(
-      "A clear catalog structure for efficient browsing and selection.",
-      "目录清晰，便于快速浏览。",
+      "Covering air treatment, smart cleaning, kitchen appliances, healthy home, and household goods solutions.",
+      "覆盖风处理、智能清洁、厨房家电、健康家居与家居用品解决方案。",
     ),
   },
   {
