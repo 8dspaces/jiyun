@@ -167,7 +167,7 @@ export const companyProfile = {
   ),
   englishName: "CUMULUS SMART HOME APPLIANCE CO., LTD",
   heroTitle: t(
-    "Driven by industrial design, aligned with manufacturing, built for custom development",
+    "Driven by industrial design, aligned with manufacturing, built for customized development",
     "工业设计驱动，制造协同交付，支持客户化开发。",
   ),
   heroDescription: t(
