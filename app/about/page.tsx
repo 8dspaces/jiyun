@@ -44,8 +44,8 @@ export default function AboutPage(): React.JSX.Element {
                 </p>
                 <p className="mt-4 text-[18px] leading-8 text-[#444444]">
                   {locale === "en"
-                    ? "Based in Shunde, CUMULUS continues to strengthen its R&D and delivery foundation around brand cooperation, product development, and supply chain coordination."
-                    : "积云家居立足顺德，围绕品牌合作、产品开发与供应链协同，持续夯实研发与交付基础。"}
+                    ? "Based in Guangdong, CUMULUS continues to strengthen its R&D and delivery foundation around brand cooperation, product development, and supply chain coordination."
+                    : "积云家居立足广东，围绕品牌合作、产品开发与供应链协同，持续夯实研发与交付基础。"}
                 </p>
               </article>
               <article className="border border-[#ececec] bg-white px-8 py-8">

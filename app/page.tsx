@@ -163,8 +163,8 @@ export default function HomePage(): React.JSX.Element {
                 </h2>
                 <p className="text-[15px] leading-8 text-[#666666]">
                   {locale === "en"
-                    ? `${getLocalizedText(companyProfile.fullName, locale)} is based in Shunde, building stable support for brand cooperation and product programs through design, R&D, manufacturing synergy, and custom development capability.`
-                    : `${getLocalizedText(companyProfile.fullName, locale)}立足广东顺德，围绕设计研发、制造协同与客户化开发能力，为品牌合作与产品项目提供稳定支撑。`}
+                    ? `${getLocalizedText(companyProfile.fullName, locale)} is based in Guangdong, building stable support for brand cooperation and product programs through design, R&D, manufacturing synergy, and custom development capability.`
+                    : `${getLocalizedText(companyProfile.fullName, locale)}立足广东，围绕设计研发、制造协同与客户化开发能力，为品牌合作与产品项目提供稳定支撑。`}
                 </p>
                 <div className="grid gap-4 border-t border-[#ededed] pt-5 sm:grid-cols-2">
                   <div className="border border-[#ececec] bg-[#fafafa] px-5 py-5">
@@ -173,8 +173,8 @@ export default function HomePage(): React.JSX.Element {
                     </p>
                     <p className="mt-3 text-[17px] leading-8 text-[#444444]">
                       {locale === "en"
-                        ? "Based in Shunde with a stable foundation for product collaboration and long-term project delivery."
-                        : "立足顺德，具备稳定的产品协作与长期项目交付基础。"}
+                        ? "Based in Guangzhou with a stable foundation for product collaboration and long-term project delivery."
+                        : "立足广东，具备稳定的产品协作与长期项目交付基础。"}
                     </p>
                   </div>
                   <div className="border border-[#ececec] bg-[#fafafa] px-5 py-5">

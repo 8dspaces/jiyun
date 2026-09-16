@@ -175,8 +175,8 @@ export const companyProfile = {
     "专注风处理与水处理相关家电设计研发，面向品牌合作、产品定制与渠道合作提供更稳定的产品解决能力。",
   ),
   introduction: t(
-    "Based in Shunde, with teams across design, research and development, supply chain coordination, and business support.",
-    "位于广东顺德，拥有设计、研发、供应链与商务团队。",
+    "Based in Guangdong  with a stable foundation for product collaboration and long-term project delivery.",
+    "位于广东，拥有设计、研发、供应链与商务团队。",
   ),
   values: [
     t("Industrial Design", "工业设计驱动"),
