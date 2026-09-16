@@ -24,6 +24,7 @@ import { getLocalizedText } from "@/lib/locale";
 export default function HomePage(): React.JSX.Element {
   const { locale } = useLocale();
   const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
+  const currentSlide = homeSlides[activeSlideIndex] ?? homeSlides[0];
 
   useEffect(() => {
     const timer = window.setInterval(() => {
@@ -50,19 +51,15 @@ export default function HomePage(): React.JSX.Element {
     <div className="bg-white">
       <section className="relative overflow-hidden">
         <div className="relative min-h-[28rem] md:min-h-[32rem]">
-          {homeSlides.map((slide, index) => (
-            <Image
-              key={slide.image}
-              src={getAssetPath(slide.image)}
-              alt={getLocalizedText(slide.alt, locale)}
-              fill
-              priority={index === 0}
-              sizes="100vw"
-              className={`pointer-events-none object-cover transition-opacity duration-700 ${
-                index === activeSlideIndex ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))}
+          <Image
+            key={currentSlide.image}
+            src={getAssetPath(currentSlide.image)}
+            alt={getLocalizedText(currentSlide.alt, locale)}
+            fill
+            priority
+            sizes="100vw"
+            className="pointer-events-none object-cover transition-opacity duration-500"
+          />
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(20,20,20,0.78)_0%,rgba(20,20,20,0.55)_38%,rgba(20,20,20,0.16)_72%,rgba(20,20,20,0.05)_100%)]" />
           <div className="container-shell relative z-10 flex min-h-[28rem] items-center py-8 md:min-h-[32rem] md:py-10">
             <div className="max-w-2xl space-y-4 text-white">

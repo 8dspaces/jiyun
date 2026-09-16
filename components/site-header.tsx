@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 import { useLocale } from "@/components/locale-provider";
@@ -18,6 +18,7 @@ import { getLocalizedText } from "@/lib/locale";
  */
 export function SiteHeader(): React.JSX.Element {
   const pathname = usePathname();
+  const router = useRouter();
   const { locale, setLocale } = useLocale();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const mobileNavigationItems = navigationItems.map((item) =>
@@ -31,6 +32,48 @@ export function SiteHeader(): React.JSX.Element {
         }
       : item,
   );
+
+  useEffect(() => {
+    const routesToPrefetch = Array.from(
+      new Set([...navigationItems.map((item) => item.href), "/contact"]),
+    );
+
+    const prefetchRoutes = (): void => {
+      routesToPrefetch.forEach((href) => {
+        router.prefetch(href);
+      });
+    };
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    let idleCallbackId: number | undefined;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    if (typeof window.requestIdleCallback === "function") {
+      idleCallbackId = window.requestIdleCallback(() => {
+        prefetchRoutes();
+      });
+    } else {
+      timer = setTimeout(() => {
+        prefetchRoutes();
+      }, 250);
+    }
+
+    return () => {
+      if (
+        typeof idleCallbackId === "number" &&
+        typeof window.cancelIdleCallback === "function"
+      ) {
+        window.cancelIdleCallback(idleCallbackId);
+      }
+
+      if (typeof timer !== "undefined") {
+        clearTimeout(timer);
+      }
+    };
+  }, [router]);
 
   return (
     <header className="sticky top-0 z-[70] isolate border-b border-[#ececec] bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
@@ -54,6 +97,7 @@ export function SiteHeader(): React.JSX.Element {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch
                 className={`relative pb-3 text-[15px] transition-colors ${
                   isActive
                     ? "text-[#123e67] after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-full after:bg-[#123e67] after:content-['']"
@@ -69,6 +113,7 @@ export function SiteHeader(): React.JSX.Element {
           <div className="hidden md:block">
             <Link
               href="/contact"
+              prefetch
               className={buttonVariants({
                 className:
                   "min-w-[11.5rem] justify-center rounded-full bg-[#123e67] px-5 !text-white hover:bg-[#0f3354] hover:!text-white",
@@ -129,6 +174,7 @@ export function SiteHeader(): React.JSX.Element {
                 <Link
                   key={`mobile-${item.href}`}
                   href={item.href}
+                  prefetch
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`rounded-xl border px-4 py-3 text-[14px] font-medium transition-colors ${
                     isActive
