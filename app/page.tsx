@@ -173,7 +173,7 @@ export default function HomePage(): React.JSX.Element {
                     </p>
                     <p className="mt-3 text-[17px] leading-8 text-[#444444]">
                       {locale === "en"
-                        ? "Based in Guangzhou with a stable foundation for product collaboration and long-term project delivery."
+                        ? "Based in Guangdong with a stable foundation for product collaboration and long-term project delivery."
                         : "立足广东，具备稳定的产品协作与长期项目交付基础。"}
                     </p>
                   </div>
