@@ -152,91 +152,135 @@ export default function HomePage(): React.JSX.Element {
       </section>
 
       <section className="bg-[#f7f7f7]">
-        <div className="container-shell grid gap-0 py-16 md:py-20 lg:grid-cols-[1.02fr_0.98fr]">
-          <div className="relative min-h-[24rem] overflow-hidden">
-            <Image
-              src={getAssetPath("/images/brand/campus.jpg")}
-              alt={
-                locale === "en"
-                  ? "CUMULUS campus view"
-                  : "积云家居园区实景"
-              }
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 52vw"
-            />
-          </div>
-          <div className="flex items-center bg-white px-8 py-10 md:px-12">
-            <div className="max-w-xl space-y-5">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-[#123e67]">
-                {locale === "en" ? "Brand Profile" : "品牌介绍"}
-              </p>
-              <h2 className="text-balance text-[34px] font-semibold leading-tight text-[#222222] md:text-[46px]">
-                {locale === "en"
-                  ? "Focused on air treatment and related home appliance design and development."
-                  : "专注风处理与水处理相关家电设计研发。"}
-              </h2>
-              <p className="text-[15px] leading-8 text-[#666666]">
-                {locale === "en"
-                  ? `${getLocalizedText(companyProfile.fullName, locale)} is based in Shunde, building stable support for brand cooperation and product programs through design, R&D, manufacturing synergy, and custom development capability.`
-                  : `${getLocalizedText(companyProfile.fullName, locale)}立足广东顺德，围绕设计研发、制造协同与客户化开发能力，为品牌合作与产品项目提供稳定支撑。`}
-              </p>
-              <Link
-                href="/about"
-                className={buttonVariants({
-                  variant: "secondary",
-                  className:
-                    "mt-2 inline-flex rounded-md border-[#d9d9d9] px-6 text-[#222222] hover:border-[#123e67] hover:text-[#123e67]",
-                })}
-              >
-                {locale === "en" ? "MORE" : "更多"}
-              </Link>
+        <div className="container-shell py-16 md:py-20">
+          <div className="grid gap-6 lg:grid-cols-[1.12fr_0.88fr]">
+            <div className="bg-white px-8 py-10 md:px-12">
+              <div className="max-w-2xl space-y-5">
+                <p className="text-[11px] uppercase tracking-[0.28em] text-[#123e67]">
+                  {locale === "en" ? "Brand Profile" : "品牌介绍"}
+                </p>
+                <h2 className="text-balance text-[34px] font-semibold leading-tight text-[#222222] md:text-[46px]">
+                  {locale === "en"
+                    ? "Focused on air treatment and related home appliance design and development."
+                    : "专注风处理与水处理相关家电设计研发。"}
+                </h2>
+                <p className="text-[15px] leading-8 text-[#666666]">
+                  {locale === "en"
+                    ? `${getLocalizedText(companyProfile.fullName, locale)} is based in Shunde, building stable support for brand cooperation and product programs through design, R&D, manufacturing synergy, and custom development capability.`
+                    : `${getLocalizedText(companyProfile.fullName, locale)}立足广东顺德，围绕设计研发、制造协同与客户化开发能力，为品牌合作与产品项目提供稳定支撑。`}
+                </p>
+                <div className="grid gap-4 border-t border-[#ededed] pt-5 sm:grid-cols-2">
+                  <div className="border border-[#ececec] bg-[#fafafa] px-5 py-5">
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-[#123e67]">
+                      {locale === "en" ? "Location" : "区域基础"}
+                    </p>
+                    <p className="mt-3 text-[17px] leading-8 text-[#444444]">
+                      {locale === "en"
+                        ? "Based in Shunde with a stable foundation for product collaboration and long-term project delivery."
+                        : "立足顺德，具备稳定的产品协作与长期项目交付基础。"}
+                    </p>
+                  </div>
+                  <div className="border border-[#ececec] bg-[#fafafa] px-5 py-5">
+                    <p className="text-[11px] uppercase tracking-[0.2em] text-[#123e67]">
+                      {locale === "en" ? "Execution" : "执行能力"}
+                    </p>
+                    <p className="mt-3 text-[17px] leading-8 text-[#444444]">
+                      {locale === "en"
+                        ? "Supporting brand programs through coordinated design, development, and manufacturing resources."
+                        : "通过设计、研发与制造协同资源，为品牌项目提供持续支撑。"}
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="/about"
+                  className={buttonVariants({
+                    variant: "secondary",
+                    className:
+                      "mt-2 inline-flex rounded-md border-[#d9d9d9] px-6 text-[#222222] hover:border-[#123e67] hover:text-[#123e67]",
+                  })}
+                >
+                  {locale === "en" ? "MORE" : "更多"}
+                </Link>
+              </div>
+            </div>
+            <div className="grid gap-4">
+              <article className="bg-[#123e67] px-8 py-8 text-white md:px-10">
+                <p className="text-[11px] uppercase tracking-[0.24em] text-white/70">
+                  {locale === "en" ? "Partnership Focus" : "合作方向"}
+                </p>
+                <p className="mt-4 text-[22px] font-semibold leading-9 md:text-[28px]">
+                  {locale === "en"
+                    ? "Brand cooperation, product programs, and custom development with a cleaner, more direct presentation."
+                    : "围绕品牌合作、产品项目与客户化开发，提供稳定高效的合作支撑。"}
+                </p>
+              </article>
+              <article className="border border-[#ececec] bg-white px-8 py-8 md:px-10">
+                <p className="text-[11px] uppercase tracking-[0.24em] text-[#123e67]">
+                  {locale === "en" ? "Support Base" : "合作基础"}
+                </p>
+                <p className="mt-4 text-[18px] leading-8 text-[#444444]">
+                  {locale === "en"
+                    ? "A stronger coordination base across design, development, and supply resources keeps product programs moving with clearer execution."
+                    : "围绕设计、研发与供应资源协同，形成更清晰稳定的产品项目执行基础。"}
+                </p>
+              </article>
             </div>
           </div>
         </div>
       </section>
 
       <section className="bg-[#f7f7f7]">
-        <div className="container-shell grid gap-0 py-16 md:py-20 lg:grid-cols-[0.98fr_1.02fr]">
-          <div className="flex items-center bg-white px-8 py-10 md:px-12">
-            <div className="max-w-xl space-y-5">
-              <p className="text-[11px] uppercase tracking-[0.28em] text-[#123e67]">
-                {locale === "en" ? "Core Strengths" : "核心优势"}
-              </p>
-              <h2 className="text-balance text-[34px] font-semibold leading-tight text-[#222222] md:text-[46px]">
-                {locale === "en"
-                  ? "Design, manufacturing synergy, and custom development moving in parallel."
-                  : "设计研发、制造协同与客户化开发并行推进。"}
-              </h2>
-              <div className="grid gap-4">
-                {capabilities.map((item) => (
-                  <div
-                    key={getLocalizedText(item.title, locale)}
-                    className="border-b border-[#ededed] pb-4 last:border-b-0"
-                  >
-                    <p className="text-[12px] uppercase tracking-[0.2em] text-[#123e67]">
-                      {getLocalizedText(item.title, locale)}
-                    </p>
-                    <p className="mt-2 text-[17px] leading-8 text-[#444444]">
-                      {getLocalizedText(item.description, locale)}
-                    </p>
-                  </div>
-                ))}
+        <div className="container-shell py-16 md:py-20">
+          <div className="grid gap-6 lg:grid-cols-[0.98fr_1.02fr]">
+            <div className="bg-white px-8 py-10 md:px-12">
+              <div className="max-w-xl space-y-5">
+                <p className="text-[11px] uppercase tracking-[0.28em] text-[#123e67]">
+                  {locale === "en" ? "Core Strengths" : "核心优势"}
+                </p>
+                <h2 className="text-balance text-[34px] font-semibold leading-tight text-[#222222] md:text-[46px]">
+                  {locale === "en"
+                    ? "Design, manufacturing synergy, and custom development moving in parallel."
+                    : "设计研发、制造协同与客户化开发并行推进。"}
+                </h2>
+                <div className="grid gap-4">
+                  {capabilities.map((item) => (
+                    <div
+                      key={getLocalizedText(item.title, locale)}
+                      className="border-b border-[#ededed] pb-4 last:border-b-0"
+                    >
+                      <p className="text-[12px] uppercase tracking-[0.2em] text-[#123e67]">
+                        {getLocalizedText(item.title, locale)}
+                      </p>
+                      <p className="mt-2 text-[17px] leading-8 text-[#444444]">
+                        {getLocalizedText(item.description, locale)}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="relative min-h-[24rem] overflow-hidden">
-            <Image
-              src={getAssetPath("/images/brand/global-map.webp")}
-              alt={
-                locale === "en"
-                  ? "CUMULUS global market coverage"
-                  : "积云家居全球业务覆盖示意图"
-              }
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 52vw"
-            />
+            <div className="grid gap-4">
+              <article className="border border-[#ececec] bg-white px-8 py-8 md:px-10">
+                <p className="text-[11px] uppercase tracking-[0.24em] text-[#123e67]">
+                  {locale === "en" ? "Service Scope" : "服务范围"}
+                </p>
+                <p className="mt-4 text-[22px] font-semibold leading-9 text-[#222222] md:text-[28px]">
+                  {locale === "en"
+                    ? "Supporting product definition, design execution, manufacturing coordination, and project delivery in one line."
+                    : "覆盖产品定义、设计执行、制造协同与项目交付的一体化协作链路。"}
+                </p>
+              </article>
+              <article className="border border-[#ececec] bg-[#123e67] px-8 py-8 text-white md:px-10">
+                <p className="text-[11px] uppercase tracking-[0.24em] text-white/72">
+                  {locale === "en" ? "Project Delivery" : "项目交付"}
+                </p>
+                <p className="mt-4 text-[18px] leading-8 text-white/88">
+                  {locale === "en"
+                    ? "From product definition to coordinated manufacturing follow-through, CUMULUS keeps delivery progress visible and collaboration links tighter."
+                    : "从产品定义到制造协同落地，积云家居持续保持更清晰的交付节奏与更紧密的协作链路。"}
+                </p>
+              </article>
+            </div>
           </div>
         </div>
       </section>
